@@ -7,7 +7,8 @@ function App() {
     function handleClick() {
         axios
             .get("http://0.0.0.0:5000/users")
-            .then((res) => console.log(res.data));
+            .then((res) => console.log(res.data))
+            .catch((err) => console.log(err));
     }
     return (
         <div className="App">
