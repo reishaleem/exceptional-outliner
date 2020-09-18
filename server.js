@@ -17,7 +17,7 @@ connectionPool.once("open", () => {
     console.log("MongoDB connection pool established");
 });
 
-const userRouter = require("./routes/UserRouter");
+const userRouter = require("./server/routes/UserRouter");
 
 app.use("/users", userRouter);
 

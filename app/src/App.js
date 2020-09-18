@@ -6,7 +6,7 @@ import axios from "axios";
 function App() {
     function handleClick() {
         axios
-            .get("https://localhost:5000/users")
+            .get("http://localhost:5000/users")
             .then((res) => console.log(res.data));
     }
     return (
