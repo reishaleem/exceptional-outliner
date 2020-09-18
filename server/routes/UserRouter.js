@@ -2,10 +2,10 @@ const router = require("express").Router();
 let user = require("../models/User");
 
 router.route("/").get((req, res) => {
-    // user.find()
-    //     .then((users) => res.json(users))
-    //     .catch((err) => res.status(400).json("Error test " + err));
-    res.send({ message: "Mongo issues..." });
+    user.find()
+        .then((users) => res.json(users))
+        .catch((err) => res.status(200).json("Error test " + err));
+    //res.send({ message: "Mongo issues..." });
 });
 
 router.route("/add").post((req, res) => {
