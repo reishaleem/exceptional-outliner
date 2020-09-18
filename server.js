@@ -24,9 +24,7 @@ const userRouter = require("./server/routes/UserRouter");
 
 app.use("/users", userRouter);
 
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "app/build", "index.html"));
-});
+app.use(express.static("app/public"));
 
 app.listen(port, () => {
     console.log("server is running on port", port);
