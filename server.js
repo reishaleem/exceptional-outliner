@@ -24,7 +24,7 @@ const userRouter = require("./server/routes/UserRouter");
 
 app.use("/users", userRouter);
 
-app.get("/", (req, res) => {
+app.get("/health", (req, res) => {
     res.send({ message: "Server is running" });
 });
 
