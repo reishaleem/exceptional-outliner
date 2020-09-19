@@ -7,11 +7,15 @@ import {
     Card,
     CardContent,
     Typography,
+    CardMedia,
 } from "@material-ui/core";
 import PublicIcon from "@material-ui/icons/Public";
 import BuildIcon from "@material-ui/icons/Build";
 import CreateIcon from "@material-ui/icons/Create";
 import Jumbotron from "../../../atoms/Jumbotron/Jumbotron";
+
+import img from "../../../../images/notebook-pen-desk.jpg";
+import OverlayImage from "../../../atoms/OverlayImage/OverlayImage";
 
 const useStyles = makeStyles((theme) => ({
     pad: {
@@ -138,6 +142,9 @@ export default () => {
                             </Grid>
                         </Container>
                     </Grid>
+                </Grid>
+                <Grid item md={12}>
+                    Insert image overlay and paragraph later
                 </Grid>
             </Grid>
         </>
