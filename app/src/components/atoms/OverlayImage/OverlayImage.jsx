@@ -6,18 +6,22 @@ import CardMedia from "@material-ui/core/CardMedia";
 const useStyles = makeStyles({
     media: {
         height: 0,
-        width: "100%",
         paddingTop: "56.25%", // 16:9
+        objectFit: "cover",
+        filter: "brightness(50%)",
     },
     card: {
+        width: "100%",
+        maxHeight: "45vh",
         position: "relative",
     },
     overlay: {
         position: "absolute",
         top: "20px",
         left: "20px",
-        color: "black",
-        backgroundColor: "white",
+        color: "white",
+        width: "100%",
+        paddingTop: "3em",
     },
 });
 export default (props) => {
@@ -25,14 +29,8 @@ export default (props) => {
 
     return (
         <Card className={classes.card}>
-            <CardMedia
-                image={props.image}
-                height="140"
-                className={classes.media}
-            />
-            <div className={classes.overlay}>
-                this text should overlay the image
-            </div>
+            <CardMedia image={props.image} className={classes.media} />
+            <div className={classes.overlay}>{props.children}</div>
         </Card>
     );
 };

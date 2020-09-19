@@ -5,6 +5,7 @@ import HomePage from "./components/pages/public/HomePage/HomePage";
 
 import "./App.css";
 import "fontsource-roboto";
+import AboutPage from "./components/pages/public/AboutPage/AboutPage";
 
 function App() {
     function handleClick1() {
@@ -25,7 +26,7 @@ function App() {
             <button onClick={handleClick1}>Hi</button>
             <button onClick={handleClick2}>Hi2</button>
 
-            <HomePage />
+            <AboutPage />
         </div>
     );
 }
