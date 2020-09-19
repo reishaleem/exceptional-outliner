@@ -13,11 +13,16 @@ app.use(express.static(path.join(__dirname, "app", "build")));
 app.use(cors());
 app.use(express.json());
 
-const uri = process.env.DB_URI;
+const azureUri = process.env.DB_URI;
 const dbUser = process.env.DB_USERNAME;
 const dbPassword = process.env.DB_PASSWORD;
-mongoose.connect(uri, {
-    auth: { user: dbUser, password: dbPassword },
+// mongoose.connect(uri, {
+//     auth: { user: dbUser, password: dbPassword },
+//     useNewUrlParser: true,
+//     useCreateIndex: true,
+// });
+const atlasURI = process.env.ATLAS_URI;
+mongoose.connect(atlasURI, {
     useNewUrlParser: true,
     useCreateIndex: true,
 });
