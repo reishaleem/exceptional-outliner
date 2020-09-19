@@ -13,8 +13,14 @@ app.use(express.static(path.join(__dirname, "app", "build")));
 app.use(cors());
 app.use(express.json());
 
-const uri = process.env.ATLAS_URI;
-mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true });
+const uri = process.env.DB_URI;
+const dbUser = process.env.DB_USERNAME;
+const dbPassword = process.env.DB_PASSWORD;
+mongoose.connect(uri, {
+    auth: { user: dbUser, password: dbPassword },
+    useNewUrlParser: true,
+    useCreateIndex: true,
+});
 const connectionPool = mongoose.connection;
 connectionPool.once("open", () => {
     console.log("MongoDB connection pool established");
@@ -26,6 +32,10 @@ app.use("/api/users", userRouter);
 
 app.get("/api/health", (req, res) => {
     res.send({ message: "Server is running" });
+});
+
+app.get("/*", (req, res) => {
+    res.sendFile("index.html", { root: path.join(__dirname, "app", "build") });
 });
 
 app.listen(port, () => {
