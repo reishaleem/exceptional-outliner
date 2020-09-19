@@ -6,14 +6,14 @@ import axios from "axios";
 function App() {
     function handleClick1() {
         axios
-            .get("http://0.0.0.0:5000/users")
+            .get("https://0.0.0.0:5000/users")
             .then((res) => console.log(res.data))
             .catch((err) => console.log(err));
     }
 
     function handleClick2() {
         axios
-            .get("http://0.0.0.0:5000/health")
+            .get("https://0.0.0.0:5000/health")
             .then((res) => console.log(res.data))
             .catch((err) => console.log(err));
     }
