@@ -34,6 +34,10 @@ app.get("/api/health", (req, res) => {
     res.send({ message: "Server is running" });
 });
 
+app.get("/*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "app", "build", "index.html"));
+});
+
 app.listen(port, () => {
     console.log("server is running on port", port);
 });
