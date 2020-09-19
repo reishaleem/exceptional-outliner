@@ -1,7 +1,10 @@
 import React from "react";
 import logo from "./logo.svg";
-import "./App.css";
 import axios from "axios";
+import HomePage from "./components/pages/public/HomePage/HomePage";
+
+import "./App.css";
+import "fontsource-roboto";
 
 function App() {
     function handleClick1() {
@@ -19,10 +22,10 @@ function App() {
     }
     return (
         <div className="App">
-            <header className="App-header">
-                <button onClick={handleClick1}>Hi</button>
-                <button onClick={handleClick2}>Hi2</button>
-            </header>
+            <button onClick={handleClick1}>Hi</button>
+            <button onClick={handleClick2}>Hi2</button>
+
+            <HomePage />
         </div>
     );
 }
