@@ -20,7 +20,7 @@ function App() {
     return (
         <div className="App">
             <header className="App-header">
-                <button onClick={handleClick1}>Hi</button>
+                <button onClick={handleClick1}>Hi1</button>
                 <button onClick={handleClick2}>Hi2</button>
             </header>
         </div>
