@@ -35,9 +35,15 @@ const Navbar = () => {
         <AppBar position="static" elevation={0}>
             <Container>
                 <Toolbar>
-                    <Typography variant="h6" className={classes.title}>
-                        The Exceptional Outliner
-                    </Typography>
+                    <NavLink
+                        to="/"
+                        exact
+                        className={`${classes.link} ${classes.title}`}
+                    >
+                        <Typography variant="h6">
+                            The Exceptional Outliner
+                        </Typography>
+                    </NavLink>
                     <NavLink
                         to="/about"
                         exact
