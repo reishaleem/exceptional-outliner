@@ -198,6 +198,7 @@ export default () => {
                                                         className={
                                                             classes.button
                                                         }
+                                                        disableElevation
                                                     >
                                                         Cancel
                                                     </Button>
@@ -206,6 +207,7 @@ export default () => {
                                                         color="primary"
                                                         disabled={isSubmitting}
                                                         onClick={submitForm}
+                                                        disableElevation
                                                     >
                                                         Create
                                                     </Button>

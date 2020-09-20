@@ -7,7 +7,6 @@ import {
     Card,
     CardContent,
     Typography,
-    makeStyles,
     Divider,
     Button,
     List,
@@ -15,7 +14,13 @@ import {
     ListItemText,
     InputLabel,
     FormControlLabel,
+    InputBase,
+    MenuItem,
 } from "@material-ui/core";
+import { fade, makeStyles } from "@material-ui/core/styles";
+
+import SearchIcon from "@material-ui/icons/Search";
+
 import { Formik, Form, Field } from "formik";
 import { TextField, Checkbox as FormCheckBox } from "formik-material-ui";
 import { Link, useHistory } from "react-router-dom";
@@ -61,6 +66,39 @@ const useStyles = makeStyles((theme) => ({
     button: {
         margin: theme.spacing(1),
     },
+    search: {
+        position: "relative",
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: fade(theme.palette.common.white, 0.15),
+        "&:hover": {
+            backgroundColor: fade(theme.palette.common.white, 0.25),
+        },
+        // marginRight: theme.spacing(2),
+        marginLeft: 0,
+        width: "100%",
+        [theme.breakpoints.up("sm")]: {
+            width: "auto",
+        },
+    },
+    searchIcon: {
+        //padding: theme.spacing(0, 2),
+        height: "100%",
+        position: "absolute",
+        pointerEvents: "none",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    inputRoot: {
+        color: "inherit",
+    },
+    inputInput: {
+        padding: theme.spacing(1, 1, 1, 0),
+        // vertical padding + font size from searchIcon
+        paddingLeft: `calc(1em + ${theme.spacing(2)}px)`,
+        transition: theme.transitions.create("width"),
+        width: "100%",
+    },
 }));
 
 export default () => {
@@ -104,112 +142,140 @@ export default () => {
                 <Grid container spacing={3}>
                     <Container>
                         <Grid container item md={12} spacing={3}>
-                            <Grid item md={3}>
-                                <p>Search stuff</p>
-                            </Grid>
-                            <Grid item md={9}>
-                                <p>Map user universes below</p>
-                                <Formik
-                                    initialValues={{
-                                        name: "",
-                                        description: "",
-                                    }}
-                                    validate={(values) => {
-                                        const errors = {};
+                            <Grid container item md={3} direction="column">
+                                <Grid item md={12}>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        disableElevation
+                                        fullWidth
+                                    >
+                                        Create Universe
+                                    </Button>
+                                    <br />
+                                    <br />
+                                    <Formik
+                                        initialValues={{
+                                            name: "",
+                                        }}
+                                        validate={(values) => {
+                                            const errors = {};
 
-                                        // doing an if else so that only one shows up
-                                        if (!values.name) {
-                                            errors.name = "Required";
-                                        } else if (!values.description) {
-                                            errors.description = "Required";
-                                        }
-
-                                        return errors;
-                                    }}
-                                    onSubmit={(values, { setSubmitting }) => {
-                                        handleSubmit(values, setSubmitting);
-                                    }}
-                                >
-                                    {({
-                                        submitForm,
-                                        isSubmitting,
-                                        touched,
-                                        errors,
-                                    }) => (
-                                        <Form>
-                                            <Grid
-                                                container
-                                                item
-                                                md={12}
-                                                spacing={2}
-                                            >
-                                                <Grid item md={12}>
+                                            return errors;
+                                        }}
+                                        onSubmit={(
+                                            values,
+                                            { setSubmitting }
+                                        ) => {
+                                            handleSubmit(values, setSubmitting);
+                                        }}
+                                    >
+                                        {({
+                                            submitForm,
+                                            isSubmitting,
+                                            touched,
+                                            errors,
+                                        }) => (
+                                            <Form>
+                                                <div className={classes.search}>
+                                                    <div
+                                                        className={
+                                                            classes.searchIcon
+                                                        }
+                                                    >
+                                                        <SearchIcon />
+                                                    </div>
                                                     <Field
                                                         component={TextField}
                                                         name="name"
                                                         id="name"
                                                         type="text"
-                                                        label="Name"
-                                                        placeholder="What is your universe's name?"
-                                                        helperText="If you are not sure of a name now, this
-                                                        can be changed later. Feel free to check
-                                                        out the GENERATOR for ideas!"
-                                                        style={{
-                                                            width: "100%",
+                                                        placeholder="Search..."
+                                                        fullWidth
+                                                        classes={{
+                                                            root:
+                                                                classes.inputRoot,
                                                         }}
-                                                        InputLabelProps={{
-                                                            shrink: true,
+                                                        inputProps={{
+                                                            "aria-label":
+                                                                "search",
+                                                            className: `${classes.inputInput}`,
                                                         }}
                                                     />
-                                                </Grid>
+                                                </div>
+                                            </Form>
+                                        )}
+                                    </Formik>
 
-                                                <Grid item md={12}>
-                                                    <Field
-                                                        component={TextField}
-                                                        name="description"
-                                                        id="description"
-                                                        type="text"
-                                                        style={{
-                                                            width: "100%",
-                                                        }}
-                                                        multiline
-                                                        rows={4}
-                                                        variant="outlined"
-                                                        InputLabelProps={{
-                                                            shrink: true,
-                                                        }}
-                                                        label="Description"
-                                                        placeholder="Write a short paragraph that evokes the wonderful or not so wonderful aspects of your world. A teaser of what is to come"
-                                                    />
-                                                </Grid>
+                                    <Formik
+                                        initialValues={{
+                                            name: "",
+                                        }}
+                                        validate={(values) => {
+                                            const errors = {};
 
-                                                <Grid item md={12} align="end">
-                                                    <Button
-                                                        variant="contained"
-                                                        color="primary"
-                                                        disabled={isSubmitting}
-                                                        onClick={() =>
-                                                            history.goBack()
-                                                        }
-                                                        className={
-                                                            classes.button
-                                                        }
-                                                    >
-                                                        Cancel
-                                                    </Button>
-                                                    <Button
-                                                        variant="contained"
-                                                        color="primary"
-                                                        disabled={isSubmitting}
-                                                        onClick={submitForm}
-                                                    >
-                                                        Create
-                                                    </Button>
-                                                </Grid>
-                                            </Grid>
-                                        </Form>
-                                    )}
-                                </Formik>
+                                            return errors;
+                                        }}
+                                        onSubmit={(
+                                            values,
+                                            { setSubmitting }
+                                        ) => {
+                                            handleSubmit(values, setSubmitting);
+                                        }}
+                                    >
+                                        {({
+                                            submitForm,
+                                            isSubmitting,
+                                            touched,
+                                            errors,
+                                        }) => (
+                                            <Form>
+                                                <Field
+                                                    component={TextField}
+                                                    name="sortBy"
+                                                    id="sortBy"
+                                                    type="text"
+                                                    select
+                                                    fullWidth
+                                                    margin="normal"
+                                                    label="Sort by"
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
+                                                    variant="standard"
+                                                    defaultValue="Most recent"
+                                                >
+                                                    {[
+                                                        "Most recent",
+                                                        "Name (A-Z)",
+                                                        "Name (Z-A)",
+                                                        "Newest",
+                                                    ].map((option) => (
+                                                        <MenuItem
+                                                            key={option}
+                                                            value={option}
+                                                        >
+                                                            {option}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Field>
+                                            </Form>
+                                        )}
+                                    </Formik>
+                                    <br />
+                                    <br />
+                                </Grid>
+                            </Grid>
+                            <Grid container item md={9} direction="column">
+                                <Grid container item md={12} direction="row">
+                                    <Grid item md={12}>
+                                        <h1>Universes</h1>
+                                        <hr />
+                                    </Grid>
+                                    <Grid item md={12}>
+                                        Card
+                                    </Grid>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </Container>
