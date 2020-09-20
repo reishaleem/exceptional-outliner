@@ -1,22 +1,12 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Navbar from "../../../atoms/PublicNavbar/Navbar";
-import {
-    Container,
-    Grid,
-    Card,
-    CardContent,
-    Typography,
-    CardMedia,
-} from "@material-ui/core";
-import PublicIcon from "@material-ui/icons/Public";
-import BuildIcon from "@material-ui/icons/Build";
-import CreateIcon from "@material-ui/icons/Create";
+import { Container, Grid, Typography } from "@material-ui/core";
 import Typewriter from "typewriter-effect";
+import OverlayImage from "../../../atoms/OverlayImage/OverlayImage";
 
 import img from "../../../../images/notebook-pen-desk.jpg";
 import OnePiece from "../../../../images/onepieceworld.jpg";
-import OverlayImage from "../../../atoms/OverlayImage/OverlayImage";
 
 const useStyles = makeStyles((theme) => ({
     pad: {
@@ -141,6 +131,7 @@ export default () => {
                             <img
                                 src={OnePiece}
                                 className={classes.fluidImage}
+                                alt="Fantasy world"
                             />
                         </Grid>
                     </Grid>

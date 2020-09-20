@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, withStyles, fade } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Navbar from "../../../atoms/PublicNavbar/Navbar";
 import {
     Container,
@@ -7,23 +7,12 @@ import {
     Card,
     CardContent,
     Typography,
-    CardMedia,
-    Box,
     InputLabel,
     Button,
 } from "@material-ui/core";
 import { Formik, Form, Field } from "formik";
-import {
-    TextField,
-    InputBase,
-    fieldToTextField,
-    fieldToInputBase,
-} from "formik-material-ui";
+import { TextField } from "formik-material-ui";
 import UserService from "../../../../services/user.service";
-
-import img from "../../../../images/notebook-pen-desk.jpg";
-import OnePiece from "../../../../images/onepieceworld.jpg";
-import OverlayImage from "../../../atoms/OverlayImage/OverlayImage";
 
 const useStyles = makeStyles((theme) => ({
     pad: {
@@ -64,40 +53,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const BootstrapInput = withStyles((theme) => ({
-    root: {
-        "label + &": {
-            marginTop: theme.spacing(3),
-        },
-    },
-    input: {
-        borderRadius: 4,
-        position: "relative",
-        backgroundColor: theme.palette.common.white,
-        border: "1px solid #ced4da",
-        fontSize: 16,
-        padding: "10px 12px",
-        transition: theme.transitions.create(["border-color", "box-shadow"]),
-        // Use the system font instead of the default Roboto font.
-        fontFamily: [
-            "-apple-system",
-            "BlinkMacSystemFont",
-            '"Segoe UI"',
-            "Roboto",
-            '"Helvetica Neue"',
-            "Arial",
-            "sans-serif",
-            '"Apple Color Emoji"',
-            '"Segoe UI Emoji"',
-            '"Segoe UI Symbol"',
-        ].join(","),
-        "&:focus": {
-            boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
-            borderColor: theme.palette.primary.main,
-        },
-    },
-}))(InputBase);
-
 function handleSubmit(values, setSubmitting) {
     UserService.addUser(
         values.name,
@@ -114,12 +69,12 @@ function handleSubmit(values, setSubmitting) {
             console.log(response);
         },
         (error) => {
-            const resMessage =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString();
+            // const resMessage =
+            //     (error.response &&
+            //         error.response.data &&
+            //         error.response.data.message) ||
+            //     error.message ||
+            //     error.toString();
 
             console.log(error);
         }
@@ -205,7 +160,7 @@ export default () => {
                                                 }
 
                                                 if (
-                                                    values.password !=
+                                                    values.password !==
                                                     values.confirmPassword
                                                 ) {
                                                     errors.confirmPassword =
@@ -269,7 +224,6 @@ export default () => {
                                                                 <Typography
                                                                     variant="body1"
                                                                     align="right"
-                                                                    dense
                                                                     className={
                                                                         classes.formLabel
                                                                     }
@@ -297,7 +251,6 @@ export default () => {
                                                                 <Typography
                                                                     variant="body1"
                                                                     align="right"
-                                                                    dense
                                                                     className={
                                                                         classes.formLabel
                                                                     }
@@ -326,7 +279,6 @@ export default () => {
                                                                 <Typography
                                                                     variant="body1"
                                                                     align="right"
-                                                                    dense
                                                                     className={
                                                                         classes.formLabel
                                                                     }
@@ -354,7 +306,6 @@ export default () => {
                                                                 <Typography
                                                                     variant="body1"
                                                                     align="right"
-                                                                    dense
                                                                     className={
                                                                         classes.formLabel
                                                                     }
@@ -383,7 +334,6 @@ export default () => {
                                                             item
                                                             md={12}
                                                             align="end"
-                                                            direction="row"
                                                         >
                                                             <Button
                                                                 variant="contained"

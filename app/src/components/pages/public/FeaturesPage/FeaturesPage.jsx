@@ -7,20 +7,11 @@ import {
     Card,
     CardContent,
     Typography,
-    CardMedia,
     Button,
-    GridList,
-    GridListTile,
-    CardHeader,
 } from "@material-ui/core";
-import PublicIcon from "@material-ui/icons/Public";
-import BuildIcon from "@material-ui/icons/Build";
-import CreateIcon from "@material-ui/icons/Create";
-import Typewriter from "typewriter-effect";
-
-import img from "../../../../images/notebook-pen-desk.jpg";
-import FeatureImage from "../../../../images/story-to-life.jpg";
 import OverlayImage from "../../../atoms/OverlayImage/OverlayImage";
+
+import FeatureImage from "../../../../images/story-to-life.jpg";
 
 const useStyles = makeStyles((theme) => ({
     pad: {
