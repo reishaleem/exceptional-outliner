@@ -7,6 +7,7 @@ import "./App.css";
 import "fontsource-roboto";
 import AboutPage from "./components/pages/public/AboutPage/AboutPage";
 import { Switch, Route } from "react-router-dom";
+import FeaturesPage from "./components/pages/public/FeaturesPage/FeaturesPage";
 
 function App() {
     function handleClick1() {
@@ -29,6 +30,7 @@ function App() {
             <Switch>
                 <Route path="/" component={HomePage} exact />
                 <Route path="/about" component={AboutPage} exact />
+                <Route path="/features" component={FeaturesPage} exact />
             </Switch>
         </div>
     );
