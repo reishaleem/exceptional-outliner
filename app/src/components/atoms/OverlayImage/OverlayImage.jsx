@@ -14,14 +14,7 @@ const useStyles = makeStyles({
         width: "100%",
         maxHeight: "45vh",
         position: "relative",
-    },
-    overlay: {
-        position: "absolute",
-        top: "20px",
-        left: "20px",
-        color: "white",
-        width: "100%",
-        paddingTop: "3em",
+        borderRadius: "0",
     },
 });
 export default (props) => {
@@ -30,7 +23,7 @@ export default (props) => {
     return (
         <Card className={classes.card}>
             <CardMedia image={props.image} className={classes.media} />
-            <div className={classes.overlay}>{props.children}</div>
+            {props.children}
         </Card>
     );
 };

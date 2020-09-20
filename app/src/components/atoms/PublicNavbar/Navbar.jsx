@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Container } from "@material-ui/core";
+import { withRouter, NavLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -18,9 +19,16 @@ const useStyles = makeStyles((theme) => ({
     title: {
         flexGrow: 1,
     },
+    link: {
+        color: "#fff",
+        display: "block",
+
+        textDecoration: "none",
+        backgroundColor: "transparent",
+    },
 }));
 
-export default () => {
+const Navbar = () => {
     const classes = useStyles();
 
     return (
@@ -30,12 +38,42 @@ export default () => {
                     <Typography variant="h6" className={classes.title}>
                         The Exceptional Outliner
                     </Typography>
-                    <Button color="inherit">About</Button>
-                    <Button color="inherit">Features</Button>
-                    <Button color="inherit">Sign Up</Button>
-                    <Button color="inherit">Login</Button>
+                    <NavLink
+                        to="/about"
+                        exact
+                        className={classes.link}
+                        activeStyle={{ color: "rgba(255,255,255,.5)" }}
+                    >
+                        <Button color="inherit">About</Button>
+                    </NavLink>
+                    <NavLink
+                        to="/features"
+                        exact
+                        className={classes.link}
+                        activeStyle={{ color: "rgba(255,255,255,.5)" }}
+                    >
+                        <Button color="inherit">Features</Button>
+                    </NavLink>
+                    <NavLink
+                        to="/register"
+                        exact
+                        className={classes.link}
+                        activeStyle={{ color: "rgba(255,255,255,.5)" }}
+                    >
+                        <Button color="inherit">Sign Up</Button>
+                    </NavLink>
+                    <NavLink
+                        to="/login"
+                        exact
+                        className={classes.link}
+                        activeStyle={{ color: "rgba(255,255,255,.5)" }}
+                    >
+                        <Button color="inherit">Login</Button>
+                    </NavLink>
                 </Toolbar>
             </Container>
         </AppBar>
     );
 };
+
+export default withRouter(Navbar);

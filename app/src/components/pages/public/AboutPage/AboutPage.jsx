@@ -37,6 +37,14 @@ const useStyles = makeStyles((theme) => ({
     aboutDesc: {
         padding: "5rem",
     },
+    overlay: {
+        position: "absolute",
+        top: "20px",
+        left: "20px",
+        color: "white",
+        width: "100%",
+        paddingTop: "3em",
+    },
 }));
 
 export default () => {
@@ -51,20 +59,25 @@ export default () => {
                     style={{ maxHeight: "45vh", textAlign: "center" }}
                 >
                     <OverlayImage image={img}>
-                        <Typography variant="h4" className={classes.typewriter}>
-                            <Typewriter
-                                options={{
-                                    strings: [
-                                        "Worldbuilding",
-                                        "Writing",
-                                        "Storytelling",
-                                    ],
-                                    autoStart: true,
-                                    loop: true,
-                                }}
-                            />
-                        </Typography>
-                        <p>We love it</p>
+                        <div className={classes.overlay}>
+                            <Typography
+                                variant="h4"
+                                className={classes.typewriter}
+                            >
+                                <Typewriter
+                                    options={{
+                                        strings: [
+                                            "Worldbuilding",
+                                            "Writing",
+                                            "Storytelling",
+                                        ],
+                                        autoStart: true,
+                                        loop: true,
+                                    }}
+                                />
+                            </Typography>
+                            <p>We love it</p>
+                        </div>
                     </OverlayImage>
                 </Grid>
                 <Container>
@@ -116,7 +129,7 @@ export default () => {
                                     provide a nice combination of world
                                     building, outlining, and writing. Check out
                                     the{" "}
-                                    <a href="https://github.com/reishaleem/exceptional-wiki-front-end">
+                                    <a href="https://github.com/reishaleem/exceptional-outliner">
                                         repository
                                     </a>{" "}
                                     on GitHub to see more information on how
