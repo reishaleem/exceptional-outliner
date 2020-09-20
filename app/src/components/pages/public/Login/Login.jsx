@@ -11,6 +11,8 @@ import {
     Box,
     InputLabel,
     Button,
+    FormControlLabel,
+    Checkbox,
 } from "@material-ui/core";
 import { Formik, Form, Field } from "formik";
 import {
@@ -18,6 +20,8 @@ import {
     InputBase,
     fieldToTextField,
     fieldToInputBase,
+    CheckboxWithLabel,
+    Checkbox as FormCheckBox,
 } from "formik-material-ui";
 import UserService from "../../../../services/user.service";
 
@@ -99,10 +103,9 @@ const BootstrapInput = withStyles((theme) => ({
 }))(InputBase);
 
 function handleSubmit(values, setSubmitting) {
-    UserService.addUser(
-        values.name,
+    UserService.login(
         values.username,
-        values.email,
+
         values.password
     ).then(
         (response) => {
@@ -145,71 +148,35 @@ export default () => {
                         className={classes.aboutDesc}
                     >
                         <Grid container item md={7}>
-                            <Grid container item md={12}>
+                            <Grid item md={12}>
+                                <Typography
+                                    variant="h5"
+                                    align="center"
+                                    gutterBottom
+                                >
+                                    Login
+                                </Typography>
                                 <Card
                                     variant="outlined"
                                     style={{ width: "100%" }}
                                 >
-                                    <div className={classes.cardHeader}>
-                                        Create your account
-                                    </div>
                                     <CardContent>
                                         <Formik
                                             initialValues={{
-                                                name: "",
                                                 username: "",
-                                                email: "",
                                                 password: "",
-                                                confirmPassword: "",
+                                                rememberMe: false,
                                             }}
                                             validate={(values) => {
                                                 const errors = {};
-                                                if (!values.name) {
-                                                    errors.name = "Required";
-                                                } else if (
-                                                    values.name.length > 30
-                                                ) {
-                                                    errors.name =
-                                                        "Name must be shorter than 30 characters";
-                                                }
 
+                                                // doing an if else so that only one shows up
                                                 if (!values.username) {
                                                     errors.username =
                                                         "Required";
-                                                } else if (
-                                                    values.username.length > 20
-                                                ) {
-                                                    errors.username =
-                                                        "Username must be shorter than 20 characters";
-                                                }
-
-                                                if (!values.email) {
-                                                    errors.email = "Required";
-                                                } else if (
-                                                    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
-                                                        values.email
-                                                    )
-                                                ) {
-                                                    errors.email =
-                                                        "Enter a valid email address";
-                                                }
-
-                                                if (!values.password) {
+                                                } else if (!values.password) {
                                                     errors.password =
                                                         "Required";
-                                                } else if (
-                                                    values.password.length < 6
-                                                ) {
-                                                    errors.password =
-                                                        "Password must be at least 6 characters";
-                                                }
-
-                                                if (
-                                                    values.password !=
-                                                    values.confirmPassword
-                                                ) {
-                                                    errors.confirmPassword =
-                                                        "Password does not match";
                                                 }
 
                                                 return errors;
@@ -238,38 +205,10 @@ export default () => {
                                                         spacing={2}
                                                     >
                                                         <Grid item md={4}>
-                                                            <InputLabel htmlFor="name">
-                                                                <Typography
-                                                                    variant="body1"
-                                                                    align="right"
-                                                                    className={
-                                                                        classes.formLabel
-                                                                    }
-                                                                >
-                                                                    Name
-                                                                </Typography>
-                                                            </InputLabel>
-                                                        </Grid>
-                                                        <Grid item md={8}>
-                                                            <Field
-                                                                component={
-                                                                    TextField
-                                                                }
-                                                                name="name"
-                                                                id="name"
-                                                                type="text"
-                                                                style={{
-                                                                    width:
-                                                                        "100%",
-                                                                }}
-                                                            />
-                                                        </Grid>
-                                                        <Grid item md={4}>
                                                             <InputLabel htmlFor="username">
                                                                 <Typography
                                                                     variant="body1"
                                                                     align="right"
-                                                                    dense
                                                                     className={
                                                                         classes.formLabel
                                                                     }
@@ -292,41 +231,12 @@ export default () => {
                                                                 }}
                                                             />
                                                         </Grid>
-                                                        <Grid item md={4}>
-                                                            <InputLabel htmlFor="email">
-                                                                <Typography
-                                                                    variant="body1"
-                                                                    align="right"
-                                                                    dense
-                                                                    className={
-                                                                        classes.formLabel
-                                                                    }
-                                                                >
-                                                                    Email
-                                                                    address
-                                                                </Typography>
-                                                            </InputLabel>
-                                                        </Grid>
-                                                        <Grid item md={8}>
-                                                            <Field
-                                                                component={
-                                                                    TextField
-                                                                }
-                                                                name="email"
-                                                                id="email"
-                                                                type="email"
-                                                                style={{
-                                                                    width:
-                                                                        "100%",
-                                                                }}
-                                                            />
-                                                        </Grid>
+
                                                         <Grid item md={4}>
                                                             <InputLabel htmlFor="password">
                                                                 <Typography
                                                                     variant="body1"
                                                                     align="right"
-                                                                    dense
                                                                     className={
                                                                         classes.formLabel
                                                                     }
@@ -349,41 +259,37 @@ export default () => {
                                                                 }}
                                                             />
                                                         </Grid>
-                                                        <Grid item md={4}>
-                                                            <InputLabel htmlFor="confirmPassword">
-                                                                <Typography
-                                                                    variant="body1"
-                                                                    align="right"
-                                                                    dense
-                                                                    className={
-                                                                        classes.formLabel
-                                                                    }
-                                                                >
-                                                                    Re-enter
-                                                                    Password
-                                                                </Typography>
-                                                            </InputLabel>
-                                                        </Grid>
-                                                        <Grid item md={8}>
-                                                            <Field
-                                                                component={
-                                                                    TextField
-                                                                }
-                                                                name="confirmPassword"
-                                                                id="confirmPassword"
-                                                                type="password"
-                                                                style={{
-                                                                    width:
-                                                                        "100%",
-                                                                }}
-                                                            />
-                                                        </Grid>
-
                                                         <Grid
                                                             item
-                                                            md={12}
-                                                            align="end"
-                                                            direction="row"
+                                                            md={4}
+                                                        ></Grid>
+                                                        <Grid
+                                                            item
+                                                            md={8}
+                                                            align="start"
+                                                        >
+                                                            <FormControlLabel
+                                                                control={
+                                                                    <Field
+                                                                        component={
+                                                                            FormCheckBox
+                                                                        }
+                                                                        id="rememberMe"
+                                                                        name="rememberMe"
+                                                                        type="checkbox"
+                                                                    />
+                                                                }
+                                                                label="Remember me"
+                                                            />
+                                                        </Grid>
+                                                        <Grid
+                                                            item
+                                                            md={4}
+                                                        ></Grid>
+                                                        <Grid
+                                                            item
+                                                            md={8}
+                                                            align="start"
                                                         >
                                                             <Button
                                                                 variant="contained"
@@ -395,7 +301,7 @@ export default () => {
                                                                     submitForm
                                                                 }
                                                             >
-                                                                Submit
+                                                                Login
                                                             </Button>
                                                         </Grid>
                                                     </Grid>
@@ -409,11 +315,11 @@ export default () => {
                         <Grid container item md={5}>
                             <Grid item md={12}>
                                 <Typography
-                                    variant="h4"
+                                    variant="h5"
                                     align="center"
                                     gutterBottom
                                 >
-                                    Sign up with Social
+                                    Login with Social
                                 </Typography>
                             </Grid>
                         </Grid>

@@ -9,6 +9,7 @@ import AboutPage from "./components/pages/public/AboutPage/AboutPage";
 import { Switch, Route } from "react-router-dom";
 import FeaturesPage from "./components/pages/public/FeaturesPage/FeaturesPage";
 import SignUp from "./components/pages/public/SignUp/SignUp";
+import Login from "./components/pages/public/Login/Login";
 
 function App() {
     function handleClick1() {
@@ -33,6 +34,7 @@ function App() {
                 <Route path="/about" component={AboutPage} exact />
                 <Route path="/features" component={FeaturesPage} exact />
                 <Route path="/register" component={SignUp} exact />
+                <Route path="/login" component={Login} exact />
             </Switch>
         </div>
     );
