@@ -345,7 +345,7 @@ export default () => {
                                                                     submitForm
                                                                 }
                                                             >
-                                                                Submit
+                                                                Register
                                                             </Button>
                                                         </Grid>
                                                     </Grid>

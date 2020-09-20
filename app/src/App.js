@@ -9,6 +9,9 @@ import { Switch, Route } from "react-router-dom";
 import FeaturesPage from "./components/pages/public/FeaturesPage/FeaturesPage";
 import SignUp from "./components/pages/public/SignUp/SignUp";
 import Login from "./components/pages/public/Login/Login";
+import UserDashboard from "./components/pages/app/UserDashboard/UserDashboard";
+import NewUniverse from "./components/pages/app/Universe/NewUniverse/NewUniverse";
+import UserUniverseList from "./components/pages/app/UserUniverseList/UserUniverseList";
 
 function App() {
     function handleClick1() {
@@ -29,11 +32,25 @@ function App() {
             <button onClick={handleClick1}>Hi</button>
             <button onClick={handleClick2}>Hi2</button>
             <Switch>
+                {/* Public pages */}
                 <Route path="/" component={HomePage} exact />
                 <Route path="/about" component={AboutPage} exact />
                 <Route path="/features" component={FeaturesPage} exact />
                 <Route path="/register" component={SignUp} exact />
                 <Route path="/login" component={Login} exact />
+
+                {/* App pages */}
+                <Route path="/app" component={UserDashboard} exact />
+                <Route
+                    path="/app/universes"
+                    component={UserUniverseList}
+                    exact
+                />
+                <Route
+                    path="/app/universes/new"
+                    component={NewUniverse}
+                    exact
+                />
             </Switch>
         </div>
     );
