@@ -16,7 +16,12 @@ import {
     FormControlLabel,
     InputBase,
     MenuItem,
+    CardActions,
+    IconButton,
+    Tooltip,
 } from "@material-ui/core";
+import CreateIcon from "@material-ui/icons/Create";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { fade, makeStyles } from "@material-ui/core/styles";
 
 import SearchIcon from "@material-ui/icons/Search";
@@ -61,7 +66,11 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: "0",
         backgroundColor: "rgba(0,0,0,.03)",
         borderBottom: "1px solid rgba(0,0,0,.125)",
-        fontSize: "1rem",
+    },
+    cardFooter: {
+        marginTop: "0",
+        backgroundColor: "rgba(0,0,0,.03)",
+        borderTop: "1px solid rgba(0,0,0,.125)",
     },
     button: {
         margin: theme.spacing(1),
@@ -98,6 +107,9 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: `calc(1em + ${theme.spacing(2)}px)`,
         transition: theme.transitions.create("width"),
         width: "100%",
+    },
+    link: {
+        textDecoration: "none",
     },
 }));
 
@@ -142,16 +154,23 @@ export default () => {
                 <Grid container spacing={3}>
                     <Container>
                         <Grid container item md={12} spacing={3}>
-                            <Grid container item md={3} direction="column">
+                            <Grid container item md={3}>
+                                <Grid item md={12}></Grid>
+                                <Grid item md={12}></Grid>
                                 <Grid item md={12}>
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        disableElevation
-                                        fullWidth
+                                    <Link
+                                        to={"/app/universes/new"}
+                                        className={classes.link}
                                     >
-                                        Create Universe
-                                    </Button>
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            disableElevation
+                                            fullWidth
+                                        >
+                                            Create Universe
+                                        </Button>
+                                    </Link>
                                     <br />
                                     <br />
                                     <Formik
@@ -269,11 +288,72 @@ export default () => {
                             <Grid container item md={9} direction="column">
                                 <Grid container item md={12} direction="row">
                                     <Grid item md={12}>
-                                        <h1>Universes</h1>
-                                        <hr />
+                                        <Typography
+                                            gutterBottom
+                                            variant="h4"
+                                            component="h2"
+                                        >
+                                            Universes
+                                        </Typography>
                                     </Grid>
                                     <Grid item md={12}>
-                                        Card
+                                        <Divider
+                                            style={{ marginBottom: "10px" }}
+                                        />
+                                    </Grid>
+
+                                    <Grid item md={12}>
+                                        <Card
+                                            variant="outlined"
+                                            style={{ width: "100%" }}
+                                        >
+                                            <Typography
+                                                gutterBottom
+                                                variant="h5"
+                                                component="h2"
+                                                className={classes.cardHeader}
+                                            >
+                                                Universe name (link to Universe)
+                                            </Typography>
+
+                                            <CardContent>
+                                                <Typography
+                                                    variant="body1"
+                                                    component="p"
+                                                >
+                                                    Universe description, maybe
+                                                    tags, other stuff.
+                                                    <br />
+                                                    Stuff
+                                                </Typography>
+                                            </CardContent>
+                                            <CardActions
+                                                className={classes.cardFooter}
+                                            >
+                                                <Typography
+                                                    variant="body2"
+                                                    style={{ flexGrow: 1 }}
+                                                >
+                                                    Created and end dates
+                                                </Typography>
+                                                <Tooltip
+                                                    title="Edit"
+                                                    placement="top"
+                                                >
+                                                    <IconButton aria-label="edit">
+                                                        <CreateIcon fontSize="small" />
+                                                    </IconButton>
+                                                </Tooltip>
+                                                <Tooltip
+                                                    title="Delete"
+                                                    placement="top"
+                                                >
+                                                    <IconButton aria-label="delete">
+                                                        <DeleteIcon fontSize="small" />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            </CardActions>
+                                        </Card>
                                     </Grid>
                                 </Grid>
                             </Grid>
