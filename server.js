@@ -24,8 +24,10 @@ connectionPool.once("open", () => {
 });
 
 const userRouter = require("./server/routes/UserRouter");
+const universeRouter = require("./server/routes/UniverseRouter");
 
 app.use("/api/users", userRouter);
+app.use("/api/universes", universeRouter);
 
 app.get("/api/health", (req, res) => {
     res.send({ message: "Server is running" });
