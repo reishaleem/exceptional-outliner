@@ -1,56 +1,24 @@
 const router = require("express").Router();
+const userService = require("../services/UserService");
 let User = require("../models/UserSchema");
 
+// This is just for testing
 router.route("/").get((req, res) => {
     User.find()
         .then((users) => res.json(users))
         .catch((err) => res.status(400).json("Error " + err));
 });
 
-router.route("/add").post((req, res) => {
-    const username = req.body.username;
-    const email = req.body.email;
-    const name = req.body.name;
-    const bio = req.body.bio;
-
-    const newUser = User({
-        username,
-        email,
-        name,
-        bio,
-    });
-
-    newUser
-        .save()
-        .then(() => res.json("User added"))
-        .catch((err) => res.status(400).json("Error " + err));
+router.route("/create").post((req, res) => {
+    userService.createUser(req.body, res);
 });
 
 router.route("/:id/update").put((req, res) => {
-    const userId = req.params.id;
-    const username = req.body.username;
-    const email = req.body.email;
-    const name = req.body.name;
-    const bio = req.body.bio;
-
-    User.findByIdAndUpdate(userId, {
-        username: username,
-        email: email,
-        name: name,
-        bio: bio,
-    })
-        .then(() => res.json(`Updated user with username "${username}" !`))
-        .catch((err) => res.status(400).json("Error: " + err));
+    userService.updateUser(req.params.id, req.body, res);
 });
 
 router.route("/:id/delete").delete((req, res) => {
-    const userId = req.params.id;
-
-    User.findByIdAndDelete(userId)
-        .then((user) =>
-            res.json(`User with username "${user.username}" deleted!`)
-        )
-        .catch((err) => res.status(400).json("Error: " + err));
+    userService.deleteUser(req.params.id, res);
 });
 
 // just a get request for now
