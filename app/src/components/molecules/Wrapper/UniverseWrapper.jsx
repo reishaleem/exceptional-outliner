@@ -19,13 +19,24 @@ import ListItemText from "@material-ui/core/ListItemText";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import ExploreIcon from "@material-ui/icons/Explore";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import HomeIcon from "@material-ui/icons/Home";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
-import MailIcon from "@material-ui/icons/Mail";
+import ExploreIcon from "@material-ui/icons/Explore";
 import AnnouncementIcon from "@material-ui/icons/Announcement";
 import PublicIcon from "@material-ui/icons/Public";
+import CreateIcon from "@material-ui/icons/Create";
+import PermMediaIcon from "@material-ui/icons/PermMedia";
+import BrushIcon from "@material-ui/icons/Brush";
+import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
+import MapIcon from "@material-ui/icons/Map";
+import TimelineIcon from "@material-ui/icons/Timeline";
+import AccountTreeIcon from "@material-ui/icons/AccountTree";
+import SettingsIcon from "@material-ui/icons/Settings";
+import NotesIcon from "@material-ui/icons/Notes";
+import BuildIcon from "@material-ui/icons/Build";
+import NoteIcon from "@material-ui/icons/Note";
+import DescriptionIcon from "@material-ui/icons/Description";
 import Button from "@material-ui/core/Button";
 import { withRouter, NavLink, Link } from "react-router-dom";
 import ExpandLess from "@material-ui/icons/ExpandLess";
@@ -115,6 +126,10 @@ const AppWrapper = ({ children }) => {
     const theme = useTheme();
     const [open, setOpen] = React.useState(true);
     const [accountDropdownOpen, setAccountDropdownOpen] = React.useState(false);
+    const [universeDropdownOpen, setUniverseDropdownOpen] = React.useState(
+        false
+    );
+    const [studioDropdownOpen, setStudioDropdownOpen] = React.useState(false);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -126,6 +141,14 @@ const AppWrapper = ({ children }) => {
 
     const handleAccountDropdownClick = () => {
         setAccountDropdownOpen(!accountDropdownOpen);
+    };
+
+    const handleUniverseDropdownClick = () => {
+        setUniverseDropdownOpen(!universeDropdownOpen);
+    };
+
+    const handleStudioDropdownClick = () => {
+        setStudioDropdownOpen(!studioDropdownOpen);
     };
 
     return (
@@ -233,15 +256,140 @@ const AppWrapper = ({ children }) => {
                     </Collapse>
                 </List>
                 <Divider />
+
                 <List>
-                    <Link to={"/app/universes"} className={classes.sidebarLink}>
+                    <ListItem button onClick={handleUniverseDropdownClick}>
+                        <ListItemIcon>
+                            <PublicIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={"Universes"} />
+
+                        {universeDropdownOpen ? <ExpandLess /> : <ExpandMore />}
+                    </ListItem>
+                    <Collapse
+                        in={universeDropdownOpen}
+                        timeout="auto"
+                        unmountOnExit
+                    >
+                        <List component="div" disablePadding>
+                            <Link to="#" className={classes.sidebarLink}>
+                                <ListItem button className={classes.nested}>
+                                    <ListItemIcon>
+                                        <LibraryBooksIcon fontSize="small" />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Wikis" />
+                                </ListItem>
+                            </Link>
+                            <Link to="#" className={classes.sidebarLink}>
+                                <ListItem button className={classes.nested}>
+                                    <ListItemIcon>
+                                        <MapIcon fontSize="small" />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Maps" />
+                                </ListItem>
+                            </Link>
+                            <Link to="#" className={classes.sidebarLink}>
+                                <ListItem button className={classes.nested}>
+                                    <ListItemIcon>
+                                        <TimelineIcon fontSize="small" />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Timelines and Calendars" />
+                                </ListItem>
+                            </Link>
+                            <Link to="#" className={classes.sidebarLink}>
+                                <ListItem button className={classes.nested}>
+                                    <ListItemIcon>
+                                        <AccountTreeIcon fontSize="small" />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Charts and Trees" />
+                                </ListItem>
+                            </Link>
+                            <Link to="#" className={classes.sidebarLink}>
+                                <ListItem button className={classes.nested}>
+                                    <ListItemIcon>
+                                        <SettingsIcon fontSize="small" />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Settings" />
+                                </ListItem>
+                            </Link>
+                        </List>
+                    </Collapse>
+
+                    <Link to="#" className={classes.sidebarLink}>
                         <ListItem button>
                             <ListItemIcon>
-                                <PublicIcon />
+                                <CreateIcon />
                             </ListItemIcon>
-                            <ListItemText primary={"Universes"} />
+                            <ListItemText primary="Writing" />
                         </ListItem>
                     </Link>
+
+                    <Link to="#" className={classes.sidebarLink}>
+                        <ListItem button>
+                            <ListItemIcon>
+                                <PermMediaIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Images and Files" />
+                        </ListItem>
+                    </Link>
+
+                    <ListItem button onClick={handleStudioDropdownClick}>
+                        <ListItemIcon>
+                            <BrushIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={"Studio"} />
+
+                        {studioDropdownOpen ? <ExpandLess /> : <ExpandMore />}
+                    </ListItem>
+                    <Collapse
+                        in={studioDropdownOpen}
+                        timeout="auto"
+                        unmountOnExit
+                    >
+                        <List component="div" disablePadding>
+                            <Link to="#" className={classes.sidebarLink}>
+                                <ListItem button className={classes.nested}>
+                                    <ListItemIcon>
+                                        <DescriptionIcon fontSize="small" />
+                                    </ListItemIcon>
+                                    {/* (This is where you create
+                                    your own. Not where you start an article
+                                    from one) */}
+                                    <ListItemText primary="Wiki Templates " />
+                                </ListItem>
+                            </Link>
+                            <Link to="#" className={classes.sidebarLink}>
+                                <ListItem button className={classes.nested}>
+                                    <ListItemIcon>
+                                        <NotesIcon fontSize="small" />
+                                    </ListItemIcon>
+                                    {/* (Set this up almost like a mini
+                                    OneNote...) */}
+                                    <ListItemText primary="Notebook " />
+                                </ListItem>
+                            </Link>
+                            <Link to="#" className={classes.sidebarLink}>
+                                <ListItem button className={classes.nested}>
+                                    <ListItemIcon>
+                                        <BuildIcon fontSize="small" />
+                                    </ListItemIcon>
+                                    <ListItemText primary="The Generator" />
+                                </ListItem>
+                            </Link>
+                            <Link to="#" className={classes.sidebarLink}>
+                                <ListItem button className={classes.nested}>
+                                    <ListItemIcon>
+                                        <NoteIcon fontSize="small" />
+                                    </ListItemIcon>
+                                    {/* (this is like character sheets and
+                                    stuff. But not the actual article. We want
+                                    to be able to make characters without
+                                    putting all info into the article) */}
+                                    <ListItemText primary="Sheets" />
+                                </ListItem>
+                            </Link>
+                        </List>
+                    </Collapse>
                 </List>
                 <Divider variant="middle" />
                 <List>

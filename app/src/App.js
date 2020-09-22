@@ -12,6 +12,7 @@ import Login from "./components/pages/public/Login/Login";
 import UserDashboard from "./components/pages/app/UserDashboard/UserDashboard";
 import NewUniverse from "./components/pages/app/Universe/NewUniverse/NewUniverse";
 import UserUniverseList from "./components/pages/app/UserUniverseList/UserUniverseList";
+import UniverseDashboard from "./components/pages/app/Universe/Dashboard/UniverseDashboard";
 
 function App() {
     function handleClick1() {
@@ -44,6 +45,11 @@ function App() {
                 <Route
                     path="/app/universes"
                     component={UserUniverseList}
+                    exact
+                />
+                <Route
+                    path="/app/universes/:universeId"
+                    component={UniverseDashboard}
                     exact
                 />
                 <Route

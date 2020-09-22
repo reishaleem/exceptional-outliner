@@ -4,7 +4,7 @@ let user = require("../models/User");
 router.route("/").get((req, res) => {
     user.find()
         .then((users) => res.json(users))
-        .catch((err) => res.status(400).json("Error test " + err));
+        .catch((err) => res.status(400).json("Error " + err));
     //user.findById("5f63bf0bfa25ebaf3b4ee248").then((user) => res.send(user));
     //res.send({ message: "Mongo issues..." });
 });
@@ -26,6 +26,16 @@ router.route("/add").post((req, res) => {
         .save()
         .then(() => res.json("User added"))
         .catch((err) => res.status(400).json("Error " + err));
+});
+
+// just a get request for now
+router.route("/login").get((req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    user.findOne({ username: username })
+        .then((user) => res.json(user))
+        .catch((err) => res.status(400).json("Error: " + err));
 });
 
 module.exports = router;
