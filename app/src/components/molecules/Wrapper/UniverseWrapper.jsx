@@ -262,7 +262,7 @@ const AppWrapper = ({ children }) => {
                         <ListItemIcon>
                             <PublicIcon />
                         </ListItemIcon>
-                        <ListItemText primary={"Universes"} />
+                        <ListItemText primary={"Universe"} />
 
                         {universeDropdownOpen ? <ExpandLess /> : <ExpandMore />}
                     </ListItem>
@@ -277,7 +277,7 @@ const AppWrapper = ({ children }) => {
                                     <ListItemIcon>
                                         <LibraryBooksIcon fontSize="small" />
                                     </ListItemIcon>
-                                    <ListItemText primary="Wikis" />
+                                    <ListItemText primary="Wikis/Dashboard" />
                                 </ListItem>
                             </Link>
                             <Link to="#" className={classes.sidebarLink}>

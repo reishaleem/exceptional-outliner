@@ -13,6 +13,8 @@ import UserDashboard from "./components/pages/app/UserDashboard/UserDashboard";
 import NewUniverse from "./components/pages/app/Universe/NewUniverse/NewUniverse";
 import UserUniverseList from "./components/pages/app/UserUniverseList/UserUniverseList";
 import UniverseDashboard from "./components/pages/app/Universe/Dashboard/UniverseDashboard";
+import EditWiki from "./components/pages/app/Wiki/EditWiki/EditWiki";
+import NewWiki from "./components/pages/app/Wiki/NewWiki/NewWiki";
 
 function App() {
     function handleClick1() {
@@ -55,6 +57,16 @@ function App() {
                 <Route
                     path="/app/universes/new"
                     component={NewUniverse}
+                    exact
+                />
+                <Route
+                    path="/app/universes/:universeId/wikis/new"
+                    component={NewWiki}
+                    exact
+                />
+                <Route
+                    path="/app/universes/:universeId/wikis/edit"
+                    component={EditWiki}
                     exact
                 />
             </Switch>
