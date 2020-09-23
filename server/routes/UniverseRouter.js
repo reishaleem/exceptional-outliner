@@ -25,4 +25,8 @@ router.route("/:id/update/:universeId").put((req, res) => {
     );
 });
 
+router.route("/:id/delete/:universeId").delete((req, res) => {
+    universeService.deleteUniverse(req.params.id, req.params.universeId, res);
+});
+
 module.exports = router;
