@@ -68,6 +68,11 @@ export default () => {
     const classes = useStyles();
     const history = useHistory();
 
+    // need to first set up universe dashboard
+    // then add a new part of the form here that specifies the universe that the wiki will be in.
+    // and we want that form to start with a value, if the user clicked on create wiki from a universe, otherwise we just have it start blank
+    // we can use material ui auto complete for it, since it'll need to be picked from a list of available universes
+
     function handleSubmit(values, setSubmitting) {
         // UserService.login(
         //     values.username,

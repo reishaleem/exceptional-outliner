@@ -19,6 +19,7 @@ import {
 import { Formik, Form, Field } from "formik";
 import { TextField, Checkbox as FormCheckBox } from "formik-material-ui";
 import { Link, useHistory } from "react-router-dom";
+import UniverseService from "../../../../../services/universe.service";
 
 const useStyles = makeStyles((theme) => ({
     pad: {
@@ -67,31 +68,33 @@ export default () => {
     const classes = useStyles();
     const history = useHistory();
 
+    const currentUserId = "5f677f8e6014be496d08a054"; // needs to be changed when jwt is done
+
     function handleSubmit(values, setSubmitting) {
-        // UserService.login(
-        //     values.username,
+        UniverseService.createUniverse(
+            currentUserId,
+            values.name,
+            values.description
+        ).then(
+            (response) => {
+                // setMessage(response.data.message);
+                // setSuccessful(true);
+                // logIn();
+                //history.push("/about"); // for some reason...we aren't logged in at this point. It's like login isn't even being calleed...
+                //window.location.reload();
+                console.log(response);
+            },
+            (error) => {
+                // const resMessage =
+                //     (error.response &&
+                //         error.response.data &&
+                //         error.response.data.message) ||
+                //     error.message ||
+                //     error.toString();
 
-        //     values.password
-        // ).then(
-        //     (response) => {
-        //         // setMessage(response.data.message);
-        //         // setSuccessful(true);
-        //         // logIn();
-        //         //history.push("/about"); // for some reason...we aren't logged in at this point. It's like login isn't even being calleed...
-        //         //window.location.reload();
-        //         console.log(response);
-        //     },
-        //     (error) => {
-        //         // const resMessage =
-        //         //     (error.response &&
-        //         //         error.response.data &&
-        //         //         error.response.data.message) ||
-        //         //     error.message ||
-        //         //     error.toString();
-
-        //         console.log(error);
-        //     }
-        // );
+                console.log(error);
+            }
+        );
         setTimeout(() => {
             setSubmitting(false);
             alert(JSON.stringify(values, null, 2));
@@ -109,7 +112,7 @@ export default () => {
                                     Maybe a picture for the thumbnail of the
                                     universe, then underneath that, maybe a
                                     genre thing. Not sure if needed there. Can
-                                    instead do created date.
+                                    instead do created date
                                 </p>
                             </Grid>
                             <Grid item md={9}>
@@ -153,8 +156,8 @@ export default () => {
                                                         name="name"
                                                         id="name"
                                                         type="text"
-                                                        label="Name"
-                                                        placeholder="What is your universe's name?"
+                                                        label="What is your Universe's name?"
+                                                        placeholder="e.g. Middle Earth, Narnia, Earthland, World2"
                                                         helperText="If you are not sure of a name now, this
                                                         can be changed later. Feel free to check
                                                         out the GENERATOR for ideas!"
@@ -182,7 +185,7 @@ export default () => {
                                                         InputLabelProps={{
                                                             shrink: true,
                                                         }}
-                                                        label="Description"
+                                                        label="What is your Universe about? (Optional)"
                                                         placeholder="Write a short paragraph that evokes the wonderful or not so wonderful aspects of your world. A teaser of what is to come"
                                                     />
                                                 </Grid>

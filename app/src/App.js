@@ -50,15 +50,11 @@ function App() {
                     exact
                 />
                 <Route
-                    path="/app/universes/:universeId"
-                    component={UniverseDashboard}
-                    exact
-                />
-                <Route
                     path="/app/universes/new"
                     component={NewUniverse}
                     exact
                 />
+
                 <Route
                     path="/app/universes/:universeId/wikis/new"
                     component={NewWiki}
@@ -67,6 +63,11 @@ function App() {
                 <Route
                     path="/app/universes/:universeId/wikis/edit"
                     component={EditWiki}
+                    exact
+                />
+                <Route
+                    path="/app/universes/:universeId"
+                    component={UniverseDashboard}
                     exact
                 />
             </Switch>

@@ -19,6 +19,10 @@ router.route("/:id/get/:universeId").get((req, res) => {
     universeService.getUniverse(req.params.id, req.params.universeId, res);
 });
 
+router.route("/:id/getUniverses").get((req, res) => {
+    universeService.getUniverseList(req.params.id, res);
+});
+
 router.route("/:id/update/:universeId").put((req, res) => {
     universeService.updateUniverse(
         req.params.id,

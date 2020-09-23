@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AppWrapper from "../../../molecules/Wrapper/AppWrapper";
 import Grid from "@material-ui/core/Grid";
 import AddIcon from "@material-ui/icons/Add";
@@ -23,12 +23,14 @@ import {
 import CreateIcon from "@material-ui/icons/Create";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { fade, makeStyles } from "@material-ui/core/styles";
+import moment from "moment";
 
 import SearchIcon from "@material-ui/icons/Search";
 
 import { Formik, Form, Field } from "formik";
 import { TextField, Checkbox as FormCheckBox } from "formik-material-ui";
 import { Link, useHistory } from "react-router-dom";
+import UniverseService from "../../../../services/universe.service";
 
 const useStyles = makeStyles((theme) => ({
     pad: {
@@ -110,12 +112,27 @@ const useStyles = makeStyles((theme) => ({
     },
     link: {
         textDecoration: "none",
+        color: "inherit",
     },
 }));
 
 export default () => {
     const classes = useStyles();
     const history = useHistory();
+
+    const currentUserId = "5f677f8e6014be496d08a054"; // needs to be changed when jwt is done
+
+    const [universes, setUniverses] = useState([]);
+
+    const [universesLoaded, setUniversesLoaded] = useState(false);
+
+    useEffect(() => {
+        UniverseService.getUserUniverseList(currentUserId).then((response) => {
+            setUniverses(response.data);
+            setUniversesLoaded(true);
+        });
+    }, [currentUserId]);
+    console.log(universes);
 
     function handleSubmit(values, setSubmitting) {
         // UserService.login(
@@ -303,57 +320,115 @@ export default () => {
                                     </Grid>
 
                                     <Grid item md={12}>
-                                        <Card
-                                            variant="outlined"
-                                            style={{ width: "100%" }}
-                                        >
-                                            <Typography
-                                                gutterBottom
-                                                variant="h5"
-                                                component="h2"
-                                                className={classes.cardHeader}
-                                            >
-                                                Universe name (link to Universe)
-                                            </Typography>
+                                        {universesLoaded && (
+                                            <>
+                                                {universes.map(
+                                                    (universe, i) => {
+                                                        return (
+                                                            <Card
+                                                                variant="outlined"
+                                                                style={{
+                                                                    width:
+                                                                        "100%",
+                                                                    marginBottom:
+                                                                        "10px",
+                                                                }}
+                                                                key={i}
+                                                            >
+                                                                <Link
+                                                                    to={`/app/universes/${universe._id}`}
+                                                                    className={
+                                                                        classes.link
+                                                                    }
+                                                                >
+                                                                    <Typography
+                                                                        gutterBottom
+                                                                        variant="h5"
+                                                                        component="h2"
+                                                                        className={
+                                                                            classes.cardHeader
+                                                                        }
+                                                                    >
+                                                                        {
+                                                                            universe.name
+                                                                        }
+                                                                    </Typography>
+                                                                </Link>
 
-                                            <CardContent>
-                                                <Typography
-                                                    variant="body1"
-                                                    component="p"
-                                                >
-                                                    Universe description, maybe
-                                                    tags, other stuff.
-                                                    <br />
-                                                    Stuff
-                                                </Typography>
-                                            </CardContent>
-                                            <CardActions
-                                                className={classes.cardFooter}
-                                            >
-                                                <Typography
-                                                    variant="body2"
-                                                    style={{ flexGrow: 1 }}
-                                                >
-                                                    Created and end dates
-                                                </Typography>
-                                                <Tooltip
-                                                    title="Edit"
-                                                    placement="top"
-                                                >
-                                                    <IconButton aria-label="edit">
-                                                        <CreateIcon fontSize="small" />
-                                                    </IconButton>
-                                                </Tooltip>
-                                                <Tooltip
-                                                    title="Delete"
-                                                    placement="top"
-                                                >
-                                                    <IconButton aria-label="delete">
-                                                        <DeleteIcon fontSize="small" />
-                                                    </IconButton>
-                                                </Tooltip>
-                                            </CardActions>
-                                        </Card>
+                                                                <CardContent>
+                                                                    <Typography
+                                                                        variant="body1"
+                                                                        component="p"
+                                                                    >
+                                                                        {
+                                                                            universe.description
+                                                                        }
+                                                                        <br />
+                                                                        maybe
+                                                                        tags,
+                                                                        other
+                                                                        stuff.
+                                                                        <br />
+                                                                        Stuff
+                                                                    </Typography>
+                                                                </CardContent>
+                                                                <CardActions
+                                                                    className={
+                                                                        classes.cardFooter
+                                                                    }
+                                                                >
+                                                                    <Typography
+                                                                        variant="body2"
+                                                                        style={{
+                                                                            flexGrow: 1,
+                                                                        }}
+                                                                    >
+                                                                        Created
+                                                                        -{" "}
+                                                                        {moment(
+                                                                            universe.createdAt
+                                                                        ).format(
+                                                                            "h:mma [on] MMMM Do, YYYY"
+                                                                        )}{" "}
+                                                                        |
+                                                                        Updated
+                                                                        -{" "}
+                                                                        {moment(
+                                                                            universe.updatedAt
+                                                                        ).format(
+                                                                            "MMMM Do, YYYY"
+                                                                        )}
+                                                                    </Typography>
+                                                                    <Tooltip
+                                                                        title="Edit"
+                                                                        placement="top"
+                                                                    >
+                                                                        <Link
+                                                                            to={`/app/universes/${universe._id}`}
+                                                                            className={
+                                                                                classes.link
+                                                                            }
+                                                                        >
+                                                                            <IconButton aria-label="edit">
+                                                                                <CreateIcon fontSize="small" />
+                                                                            </IconButton>
+                                                                        </Link>
+                                                                    </Tooltip>
+                                                                    <Tooltip
+                                                                        title="Delete"
+                                                                        placement="top"
+                                                                    >
+                                                                        <IconButton aria-label="delete">
+                                                                            <DeleteIcon fontSize="small" />
+                                                                        </IconButton>
+                                                                    </Tooltip>
+                                                                </CardActions>
+                                                            </Card>
+                                                        );
+                                                    }
+                                                )}
+                                            </>
+                                        )}
                                     </Grid>
                                 </Grid>
                             </Grid>

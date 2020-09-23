@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import AppWrapper from "../../../../molecules/Wrapper/AppWrapper";
 import Grid from "@material-ui/core/Grid";
 import AddIcon from "@material-ui/icons/Add";
@@ -7,15 +7,30 @@ import {
     Card,
     CardContent,
     Typography,
-    makeStyles,
     Divider,
     Button,
     List,
     ListItem,
     ListItemText,
+    MenuItem,
+    CardActions,
+    IconButton,
+    Tooltip,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { Formik, Form, Field } from "formik";
+import { fade, makeStyles } from "@material-ui/core/styles";
+import moment from "moment";
+
+import SearchIcon from "@material-ui/icons/Search";
+import CreateIcon from "@material-ui/icons/Create";
+import DeleteIcon from "@material-ui/icons/Delete";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import DateRangeIcon from "@material-ui/icons/DateRange";
+import EditLocationIcon from "@material-ui/icons/EditLocation";
+import { TextField, Checkbox as FormCheckBox } from "formik-material-ui";
 import UniverseWrapper from "../../../../molecules/Wrapper/UniverseWrapper";
+import UniverseService from "../../../../../services/universe.service";
 
 const useStyles = makeStyles((theme) => ({
     pad: {
@@ -60,82 +75,384 @@ const useStyles = makeStyles((theme) => ({
     },
     link: {
         textDecoration: "none",
+        color: "inherit",
+    },
+    search: {
+        position: "relative",
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: fade(theme.palette.common.white, 0.15),
+        "&:hover": {
+            backgroundColor: fade(theme.palette.common.white, 0.25),
+        },
+        // marginRight: theme.spacing(2),
+        marginLeft: 0,
+        width: "100%",
+        [theme.breakpoints.up("sm")]: {
+            width: "auto",
+        },
+    },
+    searchIcon: {
+        //padding: theme.spacing(0, 2),
+        height: "100%",
+        position: "absolute",
+        pointerEvents: "none",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    inputRoot: {
+        color: "inherit",
+    },
+    inputInput: {
+        padding: theme.spacing(1, 1, 1, 0),
+        // vertical padding + font size from searchIcon
+        paddingLeft: `calc(1em + ${theme.spacing(2)}px)`,
+        transition: theme.transitions.create("width"),
+        width: "100%",
     },
 }));
 
 export default () => {
     const classes = useStyles();
+
+    const currentUserId = "5f6b9d1ad980b3346a4a329d"; // needs to be changed when jwt is done
+
+    const [universes, setUniverses] = useState([]);
+
+    const [universesLoaded, setUniversesLoaded] = useState(true);
+
+    useEffect(() => {
+        UniverseService.getUserUniverseList(currentUserId).then((response) => {
+            setUniverses(response.data);
+            setUniversesLoaded(true);
+        });
+    }, [currentUserId]);
+    console.log(universes);
+
+    function handleSubmit(values, setSubmitting) {
+        // UserService.login(
+        //     values.username,
+
+        //     values.password
+        // ).then(
+        //     (response) => {
+        //         // setMessage(response.data.message);
+        //         // setSuccessful(true);
+        //         // logIn();
+        //         //history.push("/about"); // for some reason...we aren't logged in at this point. It's like login isn't even being calleed...
+        //         //window.location.reload();
+        //         console.log(response);
+        //     },
+        //     (error) => {
+        //         // const resMessage =
+        //         //     (error.response &&
+        //         //         error.response.data &&
+        //         //         error.response.data.message) ||
+        //         //     error.message ||
+        //         //     error.toString();
+
+        //         console.log(error);
+        //     }
+        // );
+        setTimeout(() => {
+            setSubmitting(false);
+            alert(JSON.stringify(values, null, 2));
+        }, 500);
+    }
+
     return (
         <>
             <UniverseWrapper>
                 <Grid container spacing={3}>
                     <Container>
                         <Grid container item md={12} spacing={3}>
-                            <Grid item md={5}>
-                                <Card variant="outlined">
-                                    <CardContent>
-                                        <Typography
-                                            gutterBottom
-                                            variant="h4"
-                                            component="h2"
-                                            align="center"
-                                        >
-                                            Todo list
-                                        </Typography>
-                                        <Typography
-                                            gutterBottom
-                                            variant="h5"
-                                            component="h2"
-                                            align="center"
-                                        >
-                                            Expand your world
-                                        </Typography>
-                                        <Typography
-                                            variant="body1"
-                                            component="p"
-                                        >
-                                            T
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
+                            <Grid item md={2}>
+                                <Link
+                                    to={"/app/universes/new"}
+                                    className={classes.link}
+                                >
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        disableElevation
+                                        fullWidth
+                                    >
+                                        Create Universe
+                                    </Button>
+                                </Link>
+                                <br />
+                                <br />
+                                <Formik
+                                    initialValues={{
+                                        name: "",
+                                    }}
+                                    validate={(values) => {
+                                        const errors = {};
+
+                                        return errors;
+                                    }}
+                                    onSubmit={(values, { setSubmitting }) => {
+                                        handleSubmit(values, setSubmitting);
+                                    }}
+                                >
+                                    {({
+                                        submitForm,
+                                        isSubmitting,
+                                        touched,
+                                        errors,
+                                    }) => (
+                                        <Form>
+                                            <div className={classes.search}>
+                                                <div
+                                                    className={
+                                                        classes.searchIcon
+                                                    }
+                                                >
+                                                    <SearchIcon />
+                                                </div>
+                                                <Field
+                                                    component={TextField}
+                                                    name="name"
+                                                    id="name"
+                                                    type="text"
+                                                    placeholder="Search..."
+                                                    fullWidth
+                                                    classes={{
+                                                        root: classes.inputRoot,
+                                                    }}
+                                                    inputProps={{
+                                                        "aria-label": "search",
+                                                        className: `${classes.inputInput}`,
+                                                    }}
+                                                />
+                                            </div>
+                                        </Form>
+                                    )}
+                                </Formik>
+
+                                <Formik
+                                    initialValues={{
+                                        name: "",
+                                    }}
+                                    validate={(values) => {
+                                        const errors = {};
+
+                                        return errors;
+                                    }}
+                                    onSubmit={(values, { setSubmitting }) => {
+                                        handleSubmit(values, setSubmitting);
+                                    }}
+                                >
+                                    {({
+                                        submitForm,
+                                        isSubmitting,
+                                        touched,
+                                        errors,
+                                    }) => (
+                                        <Form>
+                                            <Field
+                                                component={TextField}
+                                                name="sortBy"
+                                                id="sortBy"
+                                                type="text"
+                                                select
+                                                fullWidth
+                                                margin="normal"
+                                                label="Sort by"
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
+                                                variant="standard"
+                                                defaultValue="Most recent"
+                                            >
+                                                {[
+                                                    "Most recent",
+                                                    "Name (A-Z)",
+                                                    "Name (Z-A)",
+                                                    "Newest",
+                                                ].map((option) => (
+                                                    <MenuItem
+                                                        key={option}
+                                                        value={option}
+                                                    >
+                                                        {option}
+                                                    </MenuItem>
+                                                ))}
+                                            </Field>
+                                        </Form>
+                                    )}
+                                </Formik>
+                                <br />
+                                <br />
                             </Grid>
-                            <Grid item md={7}>
-                                <Card variant="outlined">
-                                    <CardContent>
+                            <Grid container item md={6}>
+                                <Grid container item md={12}>
+                                    <Grid item md={12}>
                                         <Typography
                                             gutterBottom
                                             variant="h4"
                                             component="h2"
-                                            align="center"
                                         >
-                                            Statistics
+                                            Wikis
                                         </Typography>
-                                        <Typography
-                                            gutterBottom
-                                            variant="h5"
-                                            component="h2"
-                                            align="center"
-                                        >
-                                            Expand your world
-                                        </Typography>
-                                        <Typography
-                                            variant="body1"
-                                            component="p"
-                                        >
-                                            With wiki-like pages, create and
-                                            expand your one-of-a-kind world.
-                                            Build your characters, countries,
-                                            magic, and more from scratch, or use
-                                            the provided questionnaires to get
-                                            your brain working!
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
+                                    </Grid>
+                                    <Grid item md={12}>
+                                        <Divider
+                                            style={{ marginBottom: "10px" }}
+                                        />
+                                    </Grid>
+                                </Grid>
+                                <Grid item md={12}>
+                                    {universesLoaded && (
+                                        <>
+                                            {universes.map((universe, i) => {
+                                                return (
+                                                    <Card
+                                                        variant="outlined"
+                                                        style={{
+                                                            width: "100%",
+                                                            marginBottom:
+                                                                "10px",
+                                                        }}
+                                                        key={i}
+                                                    >
+                                                        <CardContent>
+                                                            <div
+                                                                style={{
+                                                                    display:
+                                                                        "flex",
+                                                                }}
+                                                            >
+                                                                <Typography
+                                                                    variant="h5"
+                                                                    component="h2"
+                                                                    style={{
+                                                                        flexGrow: 1,
+                                                                    }}
+                                                                >
+                                                                    {
+                                                                        universe.name
+                                                                    }
+                                                                </Typography>
+                                                                <Tooltip
+                                                                    title="View"
+                                                                    placement="top"
+                                                                >
+                                                                    <Link
+                                                                        to={`#`}
+                                                                        className={
+                                                                            classes.link
+                                                                        }
+                                                                    >
+                                                                        <IconButton aria-label="view">
+                                                                            <VisibilityIcon fontSize="small" />
+                                                                        </IconButton>
+                                                                    </Link>
+                                                                </Tooltip>
+                                                                <Tooltip
+                                                                    title="Edit"
+                                                                    placement="top"
+                                                                >
+                                                                    <Link
+                                                                        to={`/app/universes/${universe._id}`}
+                                                                        className={
+                                                                            classes.link
+                                                                        }
+                                                                    >
+                                                                        <IconButton aria-label="edit">
+                                                                            <CreateIcon fontSize="small" />
+                                                                        </IconButton>
+                                                                    </Link>
+                                                                </Tooltip>
+                                                                <Tooltip
+                                                                    title="Delete"
+                                                                    placement="top"
+                                                                >
+                                                                    <IconButton aria-label="delete">
+                                                                        <DeleteIcon fontSize="small" />
+                                                                    </IconButton>
+                                                                </Tooltip>
+                                                            </div>
+
+                                                            <Typography
+                                                                variant="body1"
+                                                                component="p"
+                                                            >
+                                                                Wiki category
+                                                                (character,
+                                                                magic, etc.)
+                                                            </Typography>
+                                                            <span
+                                                                style={{
+                                                                    display:
+                                                                        "flex",
+                                                                    marginBottom:
+                                                                        "5px",
+                                                                }}
+                                                            >
+                                                                <DateRangeIcon fontSize="small" />
+                                                                <Tooltip
+                                                                    title="Last modified"
+                                                                    placement="top"
+                                                                >
+                                                                    <Typography
+                                                                        variant="body2"
+                                                                        component="p"
+                                                                        style={{
+                                                                            marginRight:
+                                                                                "5px",
+                                                                            cursor:
+                                                                                "pointer",
+                                                                        }}
+                                                                    >
+                                                                        wiki.updatedAt
+                                                                    </Typography>
+                                                                </Tooltip>
+                                                                <EditLocationIcon fontSize="small" />
+                                                                <Tooltip
+                                                                    title="Word count"
+                                                                    placement="top"
+                                                                >
+                                                                    <Typography
+                                                                        variant="body2"
+                                                                        component="p"
+                                                                        style={{
+                                                                            marginRight:
+                                                                                "5px",
+                                                                            cursor:
+                                                                                "pointer",
+                                                                        }}
+                                                                    >
+                                                                        wiki.body.length
+                                                                    </Typography>
+                                                                </Tooltip>
+                                                            </span>
+                                                            <Typography
+                                                                variant="body2"
+                                                                component="p"
+                                                                style={{
+                                                                    marginRight:
+                                                                        "5px",
+                                                                    cursor:
+                                                                        "pointer",
+                                                                }}
+                                                            >
+                                                                Maybe some Wiki
+                                                                tags, like Work
+                                                                In Progress
+                                                            </Typography>
+                                                        </CardContent>
+                                                    </Card>
+                                                );
+                                            })}
+                                        </>
+                                    )}
+                                </Grid>
                             </Grid>
                             <Grid item md={4}>
                                 <Card variant="outlined">
                                     <div className={classes.cardHeader}>
-                                        Recently edited
+                                        Todo list
                                     </div>
 
                                     <div style={{ textAlign: "center" }}>
@@ -171,72 +488,6 @@ export default () => {
                                                 <ListItemText primary="Fetch edited stuff"></ListItemText>
                                             </ListItem>
                                         </List>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                            <Grid item md={4}>
-                                <Card variant="outlined">
-                                    <CardContent>
-                                        <Typography
-                                            gutterBottom
-                                            variant="h4"
-                                            component="h2"
-                                            align="center"
-                                        >
-                                            Something else
-                                        </Typography>
-                                        <Typography
-                                            gutterBottom
-                                            variant="h5"
-                                            component="h2"
-                                            align="center"
-                                        >
-                                            Expand your world
-                                        </Typography>
-                                        <Typography
-                                            variant="body1"
-                                            component="p"
-                                        >
-                                            With wiki-like pages, create and
-                                            expand your one-of-a-kind world.
-                                            Build your characters, countries,
-                                            magic, and more from scratch, or use
-                                            the provided questionnaires to get
-                                            your brain working!
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                            <Grid item md={4}>
-                                <Card variant="outlined">
-                                    <CardContent>
-                                        <Typography
-                                            gutterBottom
-                                            variant="h4"
-                                            component="h2"
-                                            align="center"
-                                        >
-                                            Something
-                                        </Typography>
-                                        <Typography
-                                            gutterBottom
-                                            variant="h5"
-                                            component="h2"
-                                            align="center"
-                                        >
-                                            Expand your world
-                                        </Typography>
-                                        <Typography
-                                            variant="body1"
-                                            component="p"
-                                        >
-                                            With wiki-like pages, create and
-                                            expand your one-of-a-kind world.
-                                            Build your characters, countries,
-                                            magic, and more from scratch, or use
-                                            the provided questionnaires to get
-                                            your brain working!
-                                        </Typography>
                                     </CardContent>
                                 </Card>
                             </Grid>
