@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const universeService = require("../services/UniverseService");
 let User = require("../models/UserSchema");
-const { route } = require("./UserRouter");
 
 router.route("/").get((req, res) => {
     User.find()
