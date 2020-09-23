@@ -13,4 +13,8 @@ const getUserUniverseList = (id) => {
     return axios.get(API_URL + `${id}/getUniverses`);
 };
 
-export default { createUniverse, getUserUniverseList };
+const deleteUniverse = (ownerId, universeId) => {
+    return axios.delete(API_URL + `${ownerId}/delete/${universeId}`);
+};
+
+export default { createUniverse, getUserUniverseList, deleteUniverse };

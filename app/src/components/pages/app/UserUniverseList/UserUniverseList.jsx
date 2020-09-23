@@ -31,6 +31,8 @@ import { Formik, Form, Field } from "formik";
 import { TextField, Checkbox as FormCheckBox } from "formik-material-ui";
 import { Link, useHistory } from "react-router-dom";
 import UniverseService from "../../../../services/universe.service";
+import ModalForm from "../../../molecules/ModalForm/DeleteUniverseModal";
+import DeleteUniverseModal from "../../../molecules/ModalForm/DeleteUniverseModal";
 
 const useStyles = makeStyles((theme) => ({
     pad: {
@@ -120,7 +122,7 @@ export default () => {
     const classes = useStyles();
     const history = useHistory();
 
-    const currentUserId = "5f677f8e6014be496d08a054"; // needs to be changed when jwt is done
+    const currentUserId = "5f6b9d1ad980b3346a4a329d"; // needs to be changed when jwt is done
 
     const [universes, setUniverses] = useState([]);
 
@@ -163,6 +165,30 @@ export default () => {
             setSubmitting(false);
             alert(JSON.stringify(values, null, 2));
         }, 500);
+    }
+
+    function handleUniverseDelete(ownerId, universeId) {
+        // UniverseService.deleteUniverse(ownerId, universeId).then(
+        //     (response) => {
+        //         // setMessage(response.data.message);
+        //         // setSuccessful(true);
+        //         // logIn();
+        //         //history.push("/about"); // for some reason...we aren't logged in at this point. It's like login isn't even being calleed...
+        //         //window.location.reload();
+        //         console.log(response);
+        //     },
+        //     (error) => {
+        //         // const resMessage =
+        //         //     (error.response &&
+        //         //         error.response.data &&
+        //         //         error.response.data.message) ||
+        //         //     error.message ||
+        //         //     error.toString();
+
+        //         console.log(error);
+        //     }
+        // );
+        console.log("works");
     }
 
     return (
@@ -404,7 +430,13 @@ export default () => {
                                                                         placement="top"
                                                                     >
                                                                         <Link
-                                                                            to={`/app/universes/${universe._id}`}
+                                                                            to={{
+                                                                                pathname: `/app/universes/${universe.name}`,
+                                                                                state: {
+                                                                                    universeId:
+                                                                                        universe._id,
+                                                                                },
+                                                                            }}
                                                                             className={
                                                                                 classes.link
                                                                             }
@@ -414,14 +446,21 @@ export default () => {
                                                                             </IconButton>
                                                                         </Link>
                                                                     </Tooltip>
-                                                                    <Tooltip
-                                                                        title="Delete"
-                                                                        placement="top"
-                                                                    >
-                                                                        <IconButton aria-label="delete">
-                                                                            <DeleteIcon fontSize="small" />
-                                                                        </IconButton>
-                                                                    </Tooltip>
+
+                                                                    <DeleteUniverseModal
+                                                                        universeName={
+                                                                            universe.name
+                                                                        }
+                                                                        ownerId={
+                                                                            currentUserId
+                                                                        }
+                                                                        universeId={
+                                                                            universe._id
+                                                                        }
+                                                                        handleSubmit={
+                                                                            handleUniverseDelete
+                                                                        }
+                                                                    />
                                                                 </CardActions>
                                                             </Card>
                                                         );

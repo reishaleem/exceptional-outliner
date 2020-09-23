@@ -37,6 +37,27 @@ async function getWiki(ownerId, universeId, wikiId, response) {
     response.json(wiki);
 }
 
+async function getWikisByUser(ownerId, response) {
+    const user = await User.findById(ownerId).exec();
+    if (user == null) {
+        response.status(400).json("Error: user id does not exist");
+        return;
+    }
+
+    let wikis = [];
+    user.universes.forEach((universe) =>
+        universe.wikis.forEach((wiki) =>
+            wikis.push({
+                wiki: wiki,
+                universeId: wiki.parent()._id,
+                universeName: wiki.parent().name,
+            })
+        )
+    );
+
+    response.json(wikis);
+}
+
 async function updateWiki(ownerId, universeId, wikiId, request, response) {
     const name = request.name;
     const body = request.body;
@@ -81,6 +102,7 @@ async function deleteWiki(ownerId, universeId, wikiId, response) {
 module.exports = {
     createWiki,
     getWiki,
+    getWikisByUser,
     updateWiki,
     deleteWiki,
 };

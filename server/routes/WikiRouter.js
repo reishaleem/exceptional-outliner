@@ -27,6 +27,10 @@ router.route("/:id/:universeId/get/:wikiId").get((req, res) => {
     );
 });
 
+router.route("/:id/getAllWikis").get((req, res) => {
+    wikiService.getWikisByUser(req.params.id, res);
+});
+
 router.route("/:id/:universeId/update/:wikiId").put((req, res) => {
     wikiService.updateWiki(
         req.params.id,

@@ -62,7 +62,7 @@ function App() {
                     exact
                 />
                 <Route
-                    path="/app/universes/:universeId"
+                    path="/app/universes/:universeName"
                     component={UniverseDashboard}
                     exact
                 />
