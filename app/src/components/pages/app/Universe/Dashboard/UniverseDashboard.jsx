@@ -168,7 +168,10 @@ export default () => {
                         <Grid container item md={12} spacing={3}>
                             <Grid item md={2}>
                                 <Link
-                                    to={"/app/universes/new"}
+                                    to={{
+                                        pathname: "/app/wikis/new",
+                                        state: { universe: "Narnia" }, // this will be the universe object itself
+                                    }}
                                     className={classes.link}
                                 >
                                     <Button

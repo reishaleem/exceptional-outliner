@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import AppWrapper from "../../../../molecules/Wrapper/AppWrapper";
 import Grid from "@material-ui/core/Grid";
 import AddIcon from "@material-ui/icons/Add";
@@ -16,10 +16,14 @@ import {
     InputLabel,
     FormControlLabel,
 } from "@material-ui/core";
+import { TextField as MuiTextField } from "@material-ui/core";
+import { Autocomplete } from "formik-material-ui-lab";
+
 import { Formik, Form, Field } from "formik";
 import { TextField, Checkbox as FormCheckBox } from "formik-material-ui";
 import { Link, useHistory } from "react-router-dom";
 import UniverseWrapper from "../../../../molecules/Wrapper/UniverseWrapper";
+import UniverseService from "../../../../../services/universe.service";
 
 const useStyles = makeStyles((theme) => ({
     pad: {
@@ -64,14 +68,26 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default () => {
+export default (props) => {
     const classes = useStyles();
     const history = useHistory();
 
-    // need to first set up universe dashboard
-    // then add a new part of the form here that specifies the universe that the wiki will be in.
-    // and we want that form to start with a value, if the user clicked on create wiki from a universe, otherwise we just have it start blank
-    // we can use material ui auto complete for it, since it'll need to be picked from a list of available universes
+    const currentUserId = "5f6b9d1ad980b3346a4a329d"; // needs to be changed when jwt is done
+
+    const [universes, setUniverses] = useState([]);
+
+    const [universesLoaded, setUniversesLoaded] = useState(false);
+
+    useEffect(() => {
+        UniverseService.getUserUniverseList(currentUserId).then((response) => {
+            setUniverses(response.data);
+            setUniversesLoaded(true);
+        });
+    }, [currentUserId]);
+    console.log(universes);
+
+    const name = props.location.state.universe;
+    console.log(name);
 
     function handleSubmit(values, setSubmitting) {
         // UserService.login(
@@ -100,9 +116,16 @@ export default () => {
         // );
         setTimeout(() => {
             setSubmitting(false);
-            alert(JSON.stringify(values, null, 2));
+            alert(JSON.stringify(values, null, 3));
         }, 500);
     }
+
+    const unis = [
+        { title: "The Shawshank Redemption", year: 1994 },
+        { title: "The Godfather", year: 1972 },
+        { title: "The Godfather: Part II", year: 1974 },
+        { title: "The Dark Knight", year: 2008 },
+    ];
 
     return (
         <>
@@ -121,6 +144,7 @@ export default () => {
                                 <Formik
                                     initialValues={{
                                         name: "",
+                                        // add for universes: the default universe. We will send it via state eventually (or it will just be {})
                                         body: "",
                                     }}
                                     validate={(values) => {
@@ -131,6 +155,8 @@ export default () => {
                                             errors.name = "Required";
                                         } else if (!values.body) {
                                             errors.body = "Required";
+                                        } else if (!values.universe) {
+                                            errors.universe = "Required";
                                         }
 
                                         return errors;
@@ -169,6 +195,81 @@ export default () => {
                                                         InputLabelProps={{
                                                             shrink: true,
                                                         }}
+                                                    />
+                                                </Grid>
+
+                                                <Grid item md={12}>
+                                                    {/* <Field
+                                                        name="autocomplete"
+                                                        multiple
+                                                        component={Autocomplete}
+                                                        options={unis}
+                                                        getOptionLabel={(
+                                                            option
+                                                        ) => option.title}
+                                                        style={{ width: 300 }}
+                                                        renderInput={(
+                                                            params
+                                                        ) => (
+                                                            <MuiTextField
+                                                                {...params}
+                                                                error={
+                                                                    touched[
+                                                                        "autocomplete"
+                                                                    ] &&
+                                                                    !!errors[
+                                                                        "autocomplete"
+                                                                    ]
+                                                                }
+                                                                helperText={
+                                                                    touched[
+                                                                        "autocomplete"
+                                                                    ] &&
+                                                                    errors[
+                                                                        "autocomplete"
+                                                                    ]
+                                                                }
+                                                                label="Autocomplete"
+                                                                variant="outlined"
+                                                            />
+                                                        )}
+                                                    /> */}
+                                                    <Field
+                                                        component={Autocomplete}
+                                                        name="universe"
+                                                        options={universes}
+                                                        getOptionLabel={(
+                                                            option
+                                                        ) => option.name}
+                                                        renderInput={(
+                                                            params
+                                                        ) => (
+                                                            <MuiTextField
+                                                                {...params}
+                                                                error={
+                                                                    touched[
+                                                                        "universe"
+                                                                    ] &&
+                                                                    !!errors[
+                                                                        "universe"
+                                                                    ]
+                                                                }
+                                                                helperText={
+                                                                    touched[
+                                                                        "universe"
+                                                                    ] &&
+                                                                    errors[
+                                                                        "universe"
+                                                                    ]
+                                                                }
+                                                                label="Universe"
+                                                                placeholder="Which universe is this wiki in?"
+                                                                helperText="You cannot change this once it is created"
+                                                                InputLabelProps={{
+                                                                    shrink: true,
+                                                                }}
+                                                            />
+                                                        )}
                                                     />
                                                 </Grid>
 
