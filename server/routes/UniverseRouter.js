@@ -16,6 +16,10 @@ router.route("/:id/create").post((req, res) => {
     universeService.createUniverse(req.params.id, req.body, res);
 });
 
+router.route("/:id/get/:universeId").get((req, res) => {
+    universeService.getUniverse(req.params.id, req.params.universeId, res);
+});
+
 router.route("/:id/update/:universeId").put((req, res) => {
     universeService.updateUniverse(
         req.params.id,

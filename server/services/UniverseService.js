@@ -23,6 +23,18 @@ async function createUniverse(ownerId, request, response) {
         .catch((err) => response.status(400).json("Error: " + err));
 }
 
+async function getUniverse(ownerId, universeId, response) {
+    const user = await User.findById(ownerId).exec();
+    if (user == null) {
+        response.status(400).json("Error: user id does not exist");
+        return;
+    }
+
+    const universe = user.universes.id(universeId);
+
+    response.json(universe);
+}
+
 async function updateUniverse(ownerId, universeId, request, response) {
     const name = request.name;
     const description = request.description;
@@ -66,6 +78,7 @@ async function deleteUniverse(ownerId, universeId, response) {
 
 module.exports = {
     createUniverse,
+    getUniverse,
     updateUniverse,
     deleteUniverse,
 };
