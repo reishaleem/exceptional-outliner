@@ -18,4 +18,23 @@ router.route("/:id/:universeId/create").post((req, res) => {
     wikiService.createWiki(req.params.id, req.params.universeId, req.body, res);
 });
 
+router.route("/:id/:universeId/get/:wikiId").get((req, res) => {
+    wikiService.getWiki(
+        req.params.id,
+        req.params.universeId,
+        req.params.wikiId,
+        res
+    );
+});
+
+router.route("/:id/:universeId/update/:wikiId").put((req, res) => {
+    wikiService.updateWiki(
+        req.params.id,
+        req.params.universeId,
+        req.params.wikiId,
+        req.body,
+        res
+    );
+});
+
 module.exports = router;
