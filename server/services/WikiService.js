@@ -60,8 +60,27 @@ async function updateWiki(ownerId, universeId, wikiId, request, response) {
         .catch((err) => response.status(400).json("Error: " + err));
 }
 
+async function deleteWiki(ownerId, universeId, wikiId, response) {
+    const user = await User.findById(ownerId).exec();
+    if (user == null) {
+        response.status(400).json("Error: user id does not exist");
+        return;
+    }
+
+    user.universes.id(universeId).wikis.id(wikiId).remove();
+
+    user.save()
+        .then(() =>
+            response.json(
+                `removed wiki for user with username username "${user.username}" !`
+            )
+        )
+        .catch((err) => response.status(400).json("Error: " + err));
+}
+
 module.exports = {
     createWiki,
     getWiki,
     updateWiki,
+    deleteWiki,
 };

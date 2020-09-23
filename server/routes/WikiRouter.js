@@ -37,4 +37,13 @@ router.route("/:id/:universeId/update/:wikiId").put((req, res) => {
     );
 });
 
+router.route("/:id/:universeId/delete/:wikiId").delete((req, res) => {
+    wikiService.deleteWiki(
+        req.params.id,
+        req.params.universeId,
+        req.params.wikiId,
+        res
+    );
+});
+
 module.exports = router;
