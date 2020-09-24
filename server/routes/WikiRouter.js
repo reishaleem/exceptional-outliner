@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const wikiService = require("../services/wikiService");
+const wikiService = require("../services/WikiService");
 let User = require("../models/UserSchema");
 
 router.route("/").get((req, res) => {
