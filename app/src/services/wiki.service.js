@@ -10,10 +10,10 @@ const API_URL = "/api/wikis/";
 // };
 
 const getWikisByUniverse = (ownerId, universeId) => {
-    return axios.get(API_URL + `${ownerId}/getUniverses`);
+    return axios.get(API_URL + `${ownerId}/${universeId}/getWikis`);
 };
 const getWikisByUser = (ownerId) => {
     return axios.get(API_URL + `${ownerId}/getAllWikis`);
 };
 
-export default { getWikisByUser };
+export default { getWikisByUniverse, getWikisByUser };

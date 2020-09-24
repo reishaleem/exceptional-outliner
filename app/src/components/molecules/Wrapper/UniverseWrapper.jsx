@@ -121,13 +121,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const AppWrapper = ({ children }) => {
+const AppWrapper = ({ universeDropdownStartOpen, children }) => {
     const classes = useStyles();
     const theme = useTheme();
     const [open, setOpen] = React.useState(true);
     const [accountDropdownOpen, setAccountDropdownOpen] = React.useState(false);
     const [universeDropdownOpen, setUniverseDropdownOpen] = React.useState(
-        false
+        universeDropdownStartOpen
     );
     const [studioDropdownOpen, setStudioDropdownOpen] = React.useState(false);
 

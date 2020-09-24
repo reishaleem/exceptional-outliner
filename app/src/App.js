@@ -57,12 +57,12 @@ function App() {
 
                 <Route path="/app/wikis/new" component={NewWiki} exact />
                 <Route
-                    path="/app/universes/:universeId/wikis/edit"
+                    path="/app/universes/:universeId/wikis/:wikiId/edit"
                     component={EditWiki}
                     exact
                 />
                 <Route
-                    path="/app/universes/:universeName"
+                    path="/app/universes/:universeId"
                     component={UniverseDashboard}
                     exact
                 />

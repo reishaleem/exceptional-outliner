@@ -1,4 +1,5 @@
 let User = require("../models/UserSchema");
+const { use } = require("../routes/UniverseRouter");
 
 async function createUniverse(ownerId, request, response) {
     const name = request.name;
@@ -15,10 +16,11 @@ async function createUniverse(ownerId, request, response) {
         description: description,
     });
     user.save()
-        .then(() =>
-            response.json(
-                `created universe for user with username username "${user.username}" !`
-            )
+        .then((universe) =>
+            response.json({
+                message: `created universe for user with username username "${user.username}" !`,
+                universe: user.universes[user.universes.length - 1],
+            })
         )
         .catch((err) => response.status(400).json("Error: " + err));
 }

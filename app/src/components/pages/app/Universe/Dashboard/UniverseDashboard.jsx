@@ -17,7 +17,7 @@ import {
     IconButton,
     Tooltip,
 } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import moment from "moment";
@@ -31,6 +31,8 @@ import EditLocationIcon from "@material-ui/icons/EditLocation";
 import { TextField, Checkbox as FormCheckBox } from "formik-material-ui";
 import UniverseWrapper from "../../../../molecules/Wrapper/UniverseWrapper";
 import UniverseService from "../../../../../services/universe.service";
+import WikiService from "../../../../../services/wiki.service";
+import DeleteWikiModal from "../../../../molecules/ModalForm/DeleteWikiModal";
 
 const useStyles = makeStyles((theme) => ({
     pad: {
@@ -112,22 +114,25 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default () => {
+export default (props) => {
     const classes = useStyles();
 
     const currentUserId = "5f6b9d1ad980b3346a4a329d"; // needs to be changed when jwt is done
+    const { universeId } = useParams();
 
-    const [universes, setUniverses] = useState([]);
+    const [wikis, setWikis] = useState([]);
 
-    const [universesLoaded, setUniversesLoaded] = useState(true);
+    const [wikisLoaded, setWikisLoaded] = useState(true);
 
     useEffect(() => {
-        UniverseService.getUserUniverseList(currentUserId).then((response) => {
-            setUniverses(response.data);
-            setUniversesLoaded(true);
-        });
-    }, [currentUserId]);
-    console.log(universes);
+        WikiService.getWikisByUniverse(currentUserId, universeId).then(
+            (response) => {
+                setWikis(response.data);
+                setWikisLoaded(true);
+            }
+        );
+    }, [currentUserId, universeId]);
+    console.log(wikis);
 
     function handleSubmit(values, setSubmitting) {
         // UserService.login(
@@ -160,9 +165,33 @@ export default () => {
         }, 500);
     }
 
+    function handleWikiDelete(ownerId, universeId, wikiId) {
+        // UniverseService.deleteUniverse(ownerId, universeId, wikiId).then(
+        //     (response) => {
+        //         // setMessage(response.data.message);
+        //         // setSuccessful(true);
+        //         // logIn();
+        //         //history.push("/about"); // for some reason...we aren't logged in at this point. It's like login isn't even being calleed...
+        //         //window.location.reload();
+        //         console.log(response);
+        //     },
+        //     (error) => {
+        //         // const resMessage =
+        //         //     (error.response &&
+        //         //         error.response.data &&
+        //         //         error.response.data.message) ||
+        //         //     error.message ||
+        //         //     error.toString();
+
+        //         console.log(error);
+        //     }
+        // );
+        console.log("Works");
+    }
+
     return (
         <>
-            <UniverseWrapper>
+            <UniverseWrapper universeDropdownStartOpen={true}>
                 <Grid container spacing={3}>
                     <Container>
                         <Grid container item md={12} spacing={3}>
@@ -180,7 +209,7 @@ export default () => {
                                         disableElevation
                                         fullWidth
                                     >
-                                        Create Universe
+                                        Create Wiki
                                     </Button>
                                 </Link>
                                 <br />
@@ -306,9 +335,9 @@ export default () => {
                                     </Grid>
                                 </Grid>
                                 <Grid item md={12}>
-                                    {universesLoaded && (
+                                    {wikisLoaded && (
                                         <>
-                                            {universes.map((universe, i) => {
+                                            {wikis.map((wiki, i) => {
                                                 return (
                                                     <Card
                                                         variant="outlined"
@@ -333,9 +362,7 @@ export default () => {
                                                                         flexGrow: 1,
                                                                     }}
                                                                 >
-                                                                    {
-                                                                        universe.name
-                                                                    }
+                                                                    {wiki.name}
                                                                 </Typography>
                                                                 <Tooltip
                                                                     title="View"
@@ -357,7 +384,7 @@ export default () => {
                                                                     placement="top"
                                                                 >
                                                                     <Link
-                                                                        to={`/app/universes/${universe._id}`}
+                                                                        to={`/app/universes/${universeId}/wikis/${wiki._id}/edit`}
                                                                         className={
                                                                             classes.link
                                                                         }
@@ -367,14 +394,24 @@ export default () => {
                                                                         </IconButton>
                                                                     </Link>
                                                                 </Tooltip>
-                                                                <Tooltip
-                                                                    title="Delete"
-                                                                    placement="top"
-                                                                >
-                                                                    <IconButton aria-label="delete">
-                                                                        <DeleteIcon fontSize="small" />
-                                                                    </IconButton>
-                                                                </Tooltip>
+
+                                                                <DeleteWikiModal
+                                                                    wikiName={
+                                                                        wiki.name
+                                                                    }
+                                                                    ownerId={
+                                                                        currentUserId
+                                                                    }
+                                                                    universeId={
+                                                                        universeId
+                                                                    }
+                                                                    wikiId={
+                                                                        wiki._id
+                                                                    }
+                                                                    handleSubmit={
+                                                                        handleWikiDelete
+                                                                    }
+                                                                />
                                                             </div>
 
                                                             <Typography

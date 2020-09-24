@@ -168,27 +168,26 @@ export default () => {
     }
 
     function handleUniverseDelete(ownerId, universeId) {
-        // UniverseService.deleteUniverse(ownerId, universeId).then(
-        //     (response) => {
-        //         // setMessage(response.data.message);
-        //         // setSuccessful(true);
-        //         // logIn();
-        //         //history.push("/about"); // for some reason...we aren't logged in at this point. It's like login isn't even being calleed...
-        //         //window.location.reload();
-        //         console.log(response);
-        //     },
-        //     (error) => {
-        //         // const resMessage =
-        //         //     (error.response &&
-        //         //         error.response.data &&
-        //         //         error.response.data.message) ||
-        //         //     error.message ||
-        //         //     error.toString();
+        UniverseService.deleteUniverse(ownerId, universeId).then(
+            (response) => {
+                // setMessage(response.data.message);
+                // setSuccessful(true);
+                // logIn();
+                //history.push("/about"); // for some reason...we aren't logged in at this point. It's like login isn't even being calleed...
+                //window.location.reload();
+                console.log(response);
+            },
+            (error) => {
+                // const resMessage =
+                //     (error.response &&
+                //         error.response.data &&
+                //         error.response.data.message) ||
+                //     error.message ||
+                //     error.toString();
 
-        //         console.log(error);
-        //     }
-        // );
-        console.log("works");
+                console.log(error);
+            }
+        );
     }
 
     return (
@@ -362,7 +361,13 @@ export default () => {
                                                                 key={i}
                                                             >
                                                                 <Link
-                                                                    to={`/app/universes/${universe._id}`}
+                                                                    to={{
+                                                                        pathname: `/app/universes/${universe._id}`,
+                                                                        state: {
+                                                                            universeId:
+                                                                                universe._id,
+                                                                        },
+                                                                    }}
                                                                     className={
                                                                         classes.link
                                                                     }
@@ -431,7 +436,7 @@ export default () => {
                                                                     >
                                                                         <Link
                                                                             to={{
-                                                                                pathname: `/app/universes/${universe.name}`,
+                                                                                pathname: `/app/universes/${universe._id}`,
                                                                                 state: {
                                                                                     universeId:
                                                                                         universe._id,

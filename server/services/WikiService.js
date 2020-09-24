@@ -37,6 +37,18 @@ async function getWiki(ownerId, universeId, wikiId, response) {
     response.json(wiki);
 }
 
+async function getWikisByUniverse(ownerId, universeId, response) {
+    const user = await User.findById(ownerId).exec();
+    if (user == null) {
+        response.status(400).json("Error: user id does not exist");
+        return;
+    }
+
+    const wikis = user.universes.id(universeId).wikis;
+
+    response.json(wikis);
+}
+
 async function getWikisByUser(ownerId, response) {
     const user = await User.findById(ownerId).exec();
     if (user == null) {
@@ -102,6 +114,7 @@ async function deleteWiki(ownerId, universeId, wikiId, response) {
 module.exports = {
     createWiki,
     getWiki,
+    getWikisByUniverse,
     getWikisByUser,
     updateWiki,
     deleteWiki,

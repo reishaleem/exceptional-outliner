@@ -68,7 +68,7 @@ export default () => {
     const classes = useStyles();
     const history = useHistory();
 
-    const currentUserId = "5f677f8e6014be496d08a054"; // needs to be changed when jwt is done
+    const currentUserId = "5f6b9d1ad980b3346a4a329d"; // needs to be changed when jwt is done
 
     function handleSubmit(values, setSubmitting) {
         UniverseService.createUniverse(
@@ -83,6 +83,10 @@ export default () => {
                 //history.push("/about"); // for some reason...we aren't logged in at this point. It's like login isn't even being calleed...
                 //window.location.reload();
                 console.log(response);
+                history.push({
+                    pathname: `/app/universes/${response.data.universe._id}`,
+                    state: { universeId: response.data.universe._id },
+                });
             },
             (error) => {
                 // const resMessage =
@@ -95,10 +99,6 @@ export default () => {
                 console.log(error);
             }
         );
-        setTimeout(() => {
-            setSubmitting(false);
-            alert(JSON.stringify(values, null, 2));
-        }, 500);
     }
 
     return (
