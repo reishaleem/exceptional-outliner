@@ -119,6 +119,7 @@ export default (props) => {
 
     const currentUserId = "5f6b9d1ad980b3346a4a329d"; // needs to be changed when jwt is done
     const { universeId } = useParams();
+    const [universe, setUniverse] = useState({});
 
     const [wikis, setWikis] = useState([]);
 
@@ -131,8 +132,14 @@ export default (props) => {
                 setWikisLoaded(true);
             }
         );
+        UniverseService.getUniverseById(currentUserId, universeId).then(
+            (response) => {
+                setUniverse(response.data);
+            }
+        );
     }, [currentUserId, universeId]);
     console.log(wikis);
+    console.log(universe);
 
     function handleSubmit(values, setSubmitting) {
         // UserService.login(
@@ -166,27 +173,29 @@ export default (props) => {
     }
 
     function handleWikiDelete(ownerId, universeId, wikiId) {
-        // UniverseService.deleteUniverse(ownerId, universeId, wikiId).then(
-        //     (response) => {
-        //         // setMessage(response.data.message);
-        //         // setSuccessful(true);
-        //         // logIn();
-        //         //history.push("/about"); // for some reason...we aren't logged in at this point. It's like login isn't even being calleed...
-        //         //window.location.reload();
-        //         console.log(response);
-        //     },
-        //     (error) => {
-        //         // const resMessage =
-        //         //     (error.response &&
-        //         //         error.response.data &&
-        //         //         error.response.data.message) ||
-        //         //     error.message ||
-        //         //     error.toString();
+        console.log(ownerId);
+        console.log(universeId);
+        console.log(wikiId);
+        WikiService.deleteWiki(ownerId, universeId, wikiId).then(
+            (response) => {
+                // setMessage(response.data.message);
+                // setSuccessful(true);
+                // logIn();
+                //history.push("/about");
+                //window.location.reload();
+                console.log(response);
+            },
+            (error) => {
+                // const resMessage =
+                //     (error.response &&
+                //         error.response.data &&
+                //         error.response.data.message) ||
+                //     error.message ||
+                //     error.toString();
 
-        //         console.log(error);
-        //     }
-        // );
-        console.log("Works");
+                console.log(error);
+            }
+        );
     }
 
     return (
@@ -199,7 +208,7 @@ export default (props) => {
                                 <Link
                                     to={{
                                         pathname: "/app/wikis/new",
-                                        state: { universe: "Narnia" }, // this will be the universe object itself
+                                        state: { universe: universe }, // this will be the universe object itself
                                     }}
                                     className={classes.link}
                                 >
@@ -463,7 +472,11 @@ export default (props) => {
                                                                                 "pointer",
                                                                         }}
                                                                     >
-                                                                        wiki.body.length
+                                                                        {
+                                                                            wiki
+                                                                                .body
+                                                                                .length
+                                                                        }
                                                                     </Typography>
                                                                 </Tooltip>
                                                             </span>

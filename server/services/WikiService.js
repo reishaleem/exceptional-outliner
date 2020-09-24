@@ -18,9 +18,11 @@ async function createWiki(ownerId, universeId, request, response) {
 
     user.save()
         .then(() =>
-            response.json(
-                `created wiki for user with username username "${user.username}" !`
-            )
+            response.json({
+                message: `created wiki for user with username username "${user.username}" !`,
+                wiki: universe.wikis[universe.wikis.length - 1],
+                universeId: universe._id,
+            })
         )
         .catch((err) => response.status(400).json("Error: " + err));
 }

@@ -77,7 +77,11 @@ export default function DeleteWikiModal(props) {
                             return errors;
                         }}
                         onSubmit={(values, { setSubmitting }) => {
-                            props.handleSubmit(props.ownerId, props.universeId);
+                            props.handleSubmit(
+                                props.ownerId,
+                                props.universeId,
+                                props.wikiId
+                            );
                         }}
                     >
                         {({ submitForm, isSubmitting, touched, errors }) => (

@@ -113,7 +113,19 @@ export default () => {
                 <Grid container spacing={3}>
                     <Container>
                         <Grid container item md={12} spacing={3}>
-                            <Grid item md={8}>
+                            <Grid container item md={8}>
+                                <Grid item md={12}>
+                                    <Typography
+                                        gutterBottom
+                                        variant="h4"
+                                        component="h2"
+                                    >
+                                        wiki.name
+                                    </Typography>
+                                </Grid>
+                                <Grid item md={12}>
+                                    <Divider style={{ marginBottom: "10px" }} />
+                                </Grid>
                                 <Formik
                                     innerRef={formRef}
                                     initialValues={{
@@ -210,7 +222,7 @@ export default () => {
                                                 className={classes.button}
                                                 disableElevation
                                             >
-                                                Cancel
+                                                Back to universe
                                             </Button>
                                             <Button
                                                 variant="contained"

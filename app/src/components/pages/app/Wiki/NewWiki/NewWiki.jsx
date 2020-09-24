@@ -24,6 +24,7 @@ import { TextField, Checkbox as FormCheckBox } from "formik-material-ui";
 import { Link, useHistory } from "react-router-dom";
 import UniverseWrapper from "../../../../molecules/Wrapper/UniverseWrapper";
 import UniverseService from "../../../../../services/universe.service";
+import WikiService from "../../../../../services/wiki.service";
 
 const useStyles = makeStyles((theme) => ({
     pad: {
@@ -76,6 +77,11 @@ export default (props) => {
 
     const [universes, setUniverses] = useState([]);
 
+    let defaultUniverse = {};
+    if (props.location.state.universe) {
+        defaultUniverse = props.location.state.universe;
+    }
+
     const [universesLoaded, setUniversesLoaded] = useState(false);
 
     useEffect(() => {
@@ -90,34 +96,35 @@ export default (props) => {
     console.log(name);
 
     function handleSubmit(values, setSubmitting) {
-        // UserService.login(
-        //     values.username,
+        WikiService.createWiki(
+            currentUserId,
+            values.universe._id,
+            values.name,
+            values.body
+        ).then(
+            (response) => {
+                // setMessage(response.data.message);
+                // setSuccessful(true);
+                // logIn();
+                //history.push("/about"); // for some reason...we aren't logged in at this point. It's like login isn't even being calleed...
+                //window.location.reload();
+                console.log(response);
+                history.push({
+                    pathname: `/app/universes/${response.data.universeId}/wikis/${response.data.wiki._id}/edit`,
+                    state: { wikiId: response.data.wiki._id },
+                });
+            },
+            (error) => {
+                // const resMessage =
+                //     (error.response &&
+                //         error.response.data &&
+                //         error.response.data.message) ||
+                //     error.message ||
+                //     error.toString();
 
-        //     values.password
-        // ).then(
-        //     (response) => {
-        //         // setMessage(response.data.message);
-        //         // setSuccessful(true);
-        //         // logIn();
-        //         //history.push("/about"); // for some reason...we aren't logged in at this point. It's like login isn't even being calleed...
-        //         //window.location.reload();
-        //         console.log(response);
-        //     },
-        //     (error) => {
-        //         // const resMessage =
-        //         //     (error.response &&
-        //         //         error.response.data &&
-        //         //         error.response.data.message) ||
-        //         //     error.message ||
-        //         //     error.toString();
-
-        //         console.log(error);
-        //     }
-        // );
-        setTimeout(() => {
-            setSubmitting(false);
-            alert(JSON.stringify(values, null, 3));
-        }, 500);
+                console.log(error);
+            }
+        );
     }
 
     const unis = [
@@ -145,6 +152,7 @@ export default (props) => {
                                     initialValues={{
                                         name: "",
                                         // add for universes: the default universe. We will send it via state eventually (or it will just be {})
+                                        universe: defaultUniverse,
                                         body: "",
                                     }}
                                     validate={(values) => {
