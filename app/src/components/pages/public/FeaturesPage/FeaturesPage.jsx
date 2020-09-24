@@ -12,6 +12,7 @@ import {
 import OverlayImage from "../../../atoms/OverlayImage/OverlayImage";
 
 import FeatureImage from "../../../../images/story-to-life.jpg";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     pad: {
@@ -50,6 +51,10 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "rgba(0,0,0,.03)",
         borderBottom: "1px solid rgba(0,0,0,.125)",
         fontSize: "1rem",
+    },
+    link: {
+        textDecoration: "none",
+        color: "inherit",
     },
 }));
 
@@ -123,13 +128,15 @@ export default () => {
                                     bring you an easy and fun experience.
                                 </p>
 
-                                <Button
-                                    color="secondary"
-                                    variant="contained"
-                                    disableElevation
-                                >
-                                    {" CREATE YOUR ACCOUNT"}
-                                </Button>
+                                <Link to={"/register"} className={classes.link}>
+                                    <Button
+                                        color="secondary"
+                                        variant="contained"
+                                        disableElevation
+                                    >
+                                        {" CREATE YOUR ACCOUNT"}
+                                    </Button>
+                                </Link>
                             </Grid>
                         </Grid>
                         <Grid container item md={9} spacing={3}>

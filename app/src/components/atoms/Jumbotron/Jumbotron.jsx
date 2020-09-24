@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, Typography, Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     fluid: {
@@ -14,6 +15,10 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: "2rem",
         backgroundColor: "#e9ecef",
     },
+    link: {
+        textDecoration: "none",
+        color: "inherit",
+    },
 }));
 
 export default () => {
@@ -25,9 +30,11 @@ export default () => {
                 <Typography variant="h4">Create your world.</Typography>
                 <Typography variant="h4">Plan your novel.</Typography>
                 <Typography variant="h4">Be Exceptional.</Typography>
-                <Button variant="contained" color="secondary">
-                    Create your free account
-                </Button>
+                <Link to={"/register"} className={classes.link}>
+                    <Button variant="contained" color="secondary">
+                        Create your free account
+                    </Button>
+                </Link>
             </Container>
         </div>
     );

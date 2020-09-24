@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import AppWrapper from "../../../../molecules/Wrapper/AppWrapper";
 import Grid from "@material-ui/core/Grid";
 import AddIcon from "@material-ui/icons/Add";
@@ -18,8 +18,11 @@ import {
 } from "@material-ui/core";
 import { Formik, Form, Field } from "formik";
 import { TextField, Checkbox as FormCheckBox } from "formik-material-ui";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import UniverseWrapper from "../../../../molecules/Wrapper/UniverseWrapper";
+import UniverseService from "../../../../../services/universe.service";
+import WikiService from "../../../../../services/wiki.service";
+import DeleteWikiModal from "../../../../molecules/ModalForm/DeleteWikiModal";
 
 const useStyles = makeStyles((theme) => ({
     pad: {
@@ -62,13 +65,34 @@ const useStyles = makeStyles((theme) => ({
     button: {
         margin: theme.spacing(1),
     },
+    link: {
+        textDecoration: "none",
+        color: "inherit",
+    },
 }));
 
 export default () => {
     const classes = useStyles();
     const history = useHistory();
 
+    const currentUserId = "5f6b9d1ad980b3346a4a329d";
+
     const formRef = useRef();
+    const { universeId, wikiId } = useParams();
+
+    const [wiki, setWiki] = useState({});
+    const [wikiLoaded, setWikiLoaded] = useState(false);
+
+    useEffect(() => {
+        WikiService.getWikiById(currentUserId, universeId, wikiId).then(
+            (response) => {
+                setWiki(response.data);
+                //setWikisLoaded(true);
+            }
+        );
+        setWikiLoaded(true);
+    }, [currentUserId, universeId, wikiId]);
+    console.log(wiki);
 
     function handleExternalSubmit() {
         if (formRef.current) {
@@ -77,34 +101,35 @@ export default () => {
     }
 
     function handleSubmit(values, setSubmitting) {
-        // UserService.login(
-        //     values.username,
+        setWikiLoaded(false);
 
-        //     values.password
-        // ).then(
-        //     (response) => {
-        //         // setMessage(response.data.message);
-        //         // setSuccessful(true);
-        //         // logIn();
-        //         //history.push("/about"); // for some reason...we aren't logged in at this point. It's like login isn't even being calleed...
-        //         //window.location.reload();
-        //         console.log(response);
-        //     },
-        //     (error) => {
-        //         // const resMessage =
-        //         //     (error.response &&
-        //         //         error.response.data &&
-        //         //         error.response.data.message) ||
-        //         //     error.message ||
-        //         //     error.toString();
+        WikiService.updateWiki(
+            currentUserId,
+            universeId,
+            wikiId,
+            values.name,
+            values.body
+        ).then(
+            (response) => {
+                // setMessage(response.data.message);
+                // setSuccessful(true);
+                // logIn();
+                //history.push("/about"); // for some reason...we aren't logged in at this point. It's like login isn't even being calleed...
+                window.location.reload();
+                console.log(response);
+                setWikiLoaded(true);
+            },
+            (error) => {
+                // const resMessage =
+                //     (error.response &&
+                //         error.response.data &&
+                //         error.response.data.message) ||
+                //     error.message ||
+                //     error.toString();
 
-        //         console.log(error);
-        //     }
-        // );
-        setTimeout(() => {
-            setSubmitting(false);
-            alert(JSON.stringify(values, null, 2));
-        }, 500);
+                console.log(error);
+            }
+        );
     }
 
     return (
@@ -120,110 +145,131 @@ export default () => {
                                         variant="h4"
                                         component="h2"
                                     >
-                                        wiki.name
+                                        Edit wiki
+                                        {wiki.name}
+                                        {wiki.body}
                                     </Typography>
                                 </Grid>
                                 <Grid item md={12}>
                                     <Divider style={{ marginBottom: "10px" }} />
                                 </Grid>
-                                <Formik
-                                    innerRef={formRef}
-                                    initialValues={{
-                                        name: "",
-                                        body: "",
-                                    }}
-                                    validate={(values) => {
-                                        const errors = {};
+                                {wikiLoaded && (
+                                    <Formik
+                                        innerRef={formRef}
+                                        initialValues={{
+                                            name: wiki.name,
+                                            body: wiki.body,
+                                        }}
+                                        validate={(values) => {
+                                            const errors = {};
 
-                                        // doing an if else so that only one shows up
-                                        if (!values.name) {
-                                            errors.name = "Required";
-                                        } else if (!values.body) {
-                                            errors.body = "Required";
-                                        }
+                                            // doing an if else so that only one shows up
+                                            if (!values.name) {
+                                                errors.name = "Required";
+                                            } else if (!values.body) {
+                                                errors.body = "Required";
+                                            }
 
-                                        return errors;
-                                    }}
-                                    onSubmit={(values, { setSubmitting }) => {
-                                        handleSubmit(values, setSubmitting);
-                                    }}
-                                >
-                                    {({
-                                        submitForm,
-                                        isSubmitting,
-                                        touched,
-                                        errors,
-                                    }) => (
-                                        <Form>
-                                            <Grid
-                                                container
-                                                item
-                                                md={12}
-                                                spacing={2}
-                                            >
-                                                <Grid item md={12}>
-                                                    <Field
-                                                        component={TextField}
-                                                        name="name"
-                                                        id="name"
-                                                        type="text"
-                                                        label="Name"
-                                                        placeholder="What is your wiki's name?"
-                                                        helperText="If you are not sure of a name now, this
-                                                        can be changed later. Feel free to check
-                                                        out the GENERATOR for ideas!"
-                                                        style={{
-                                                            width: "100%",
-                                                        }}
-                                                        InputLabelProps={{
-                                                            shrink: true,
-                                                        }}
-                                                    />
-                                                </Grid>
-
-                                                <Grid item md={12}>
-                                                    <Field
-                                                        component={TextField}
-                                                        name="body"
-                                                        id="body"
-                                                        type="text"
-                                                        style={{
-                                                            width: "100%",
-                                                        }}
-                                                        multiline
-                                                        rows={4}
-                                                        variant="outlined"
-                                                        InputLabelProps={{
-                                                            shrink: true,
-                                                        }}
-                                                        label="Body"
-                                                        placeholder="Right now it's just this body...so edit here! Make this rich"
-                                                    />
-                                                </Grid>
-
+                                            return errors;
+                                        }}
+                                        onSubmit={(
+                                            values,
+                                            { setSubmitting }
+                                        ) => {
+                                            handleSubmit(values, setSubmitting);
+                                        }}
+                                        enableReinitialize
+                                    >
+                                        {({
+                                            submitForm,
+                                            isSubmitting,
+                                            touched,
+                                            errors,
+                                        }) => (
+                                            <Form>
                                                 <Grid
+                                                    container
                                                     item
                                                     md={12}
-                                                    align="end"
-                                                ></Grid>
-                                            </Grid>
-                                        </Form>
-                                    )}
-                                </Formik>
+                                                    spacing={2}
+                                                >
+                                                    <Grid item md={12}>
+                                                        <Field
+                                                            component={
+                                                                TextField
+                                                            }
+                                                            name="name"
+                                                            id="name"
+                                                            type="text"
+                                                            label="Name"
+                                                            placeholder="What is your wiki's name?"
+                                                            helperText="If you are not sure of a name now, this
+                                                        can be changed later. Feel free to check
+                                                        out the GENERATOR for ideas!"
+                                                            style={{
+                                                                width: "100%",
+                                                            }}
+                                                            InputLabelProps={{
+                                                                shrink: true,
+                                                            }}
+                                                        />
+                                                    </Grid>
+
+                                                    <Grid item md={12}>
+                                                        <Field
+                                                            component={
+                                                                TextField
+                                                            }
+                                                            name="body"
+                                                            id="body"
+                                                            type="text"
+                                                            style={{
+                                                                width: "100%",
+                                                            }}
+                                                            multiline
+                                                            rows={4}
+                                                            variant="outlined"
+                                                            InputLabelProps={{
+                                                                shrink: true,
+                                                            }}
+                                                            label="Body"
+                                                            placeholder="Right now it's just this body...so edit here! Make this rich"
+                                                        />
+                                                    </Grid>
+
+                                                    <Grid
+                                                        item
+                                                        md={12}
+                                                        align="end"
+                                                    ></Grid>
+                                                </Grid>
+                                            </Form>
+                                        )}
+                                    </Formik>
+                                )}
                             </Grid>
                             <Grid container item md={4}>
                                 <Grid item md={12}>
                                     <Card>
                                         <CardContent align="center">
-                                            <Button
-                                                variant="contained"
-                                                color="primary"
-                                                onClick={() => history.goBack()}
-                                                className={classes.button}
-                                                disableElevation
+                                            <Link
+                                                to={{
+                                                    pathname: `/app/universes/${universeId}`,
+                                                    state: {
+                                                        universeId: universeId,
+                                                    },
+                                                }}
+                                                className={classes.link}
                                             >
-                                                Back to universe
-                                            </Button>
+                                                <Button
+                                                    variant="contained"
+                                                    color="primary"
+                                                    className={classes.button}
+                                                    disableElevation
+                                                >
+                                                    Back to universe
+                                                </Button>
+                                            </Link>
                                             <Button
                                                 variant="contained"
                                                 color="primary"
