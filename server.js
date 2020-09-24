@@ -13,9 +13,9 @@ app.use(express.static(path.join(__dirname, "app", "build")));
 app.use(cors());
 app.use(express.json());
 
-const atlasURI = process.env.ATLAS_URI;
-//const localURI = "mongodb://localhost:27017/exceptional-outliner_test";
-mongoose.connect(atlasURI, {
+//const atlasURI = process.env.ATLAS_URI;
+const localURI = "mongodb://localhost:27017/exceptional-outliner_test";
+mongoose.connect(localURI, {
     useNewUrlParser: true,
     useCreateIndex: true,
 });
@@ -27,10 +27,12 @@ connectionPool.once("open", () => {
 const userRouter = require("./server/routes/UserRouter");
 const universeRouter = require("./server/routes/UniverseRouter");
 const wikiRouter = require("./server/routes/WikiRouter");
+const authenticationRouter = require("./server/routes/AuthenticationRouter");
 
 app.use("/api/users", userRouter);
 app.use("/api/universes", universeRouter);
 app.use("/api/wikis", wikiRouter);
+app.use("/api/auth", authenticationRouter);
 
 app.get("/api/health", (req, res) => {
     res.send({ message: "Server is running" });

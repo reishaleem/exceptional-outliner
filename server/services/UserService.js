@@ -1,13 +1,17 @@
 let User = require("../models/UserSchema");
+const bcrypt = require("bcrypt");
 
-function createUser(request, response) {
+async function createUser(request, response) {
     const username = request.username;
     const email = request.email;
     const name = request.name;
     const bio = request.bio;
 
+    const password = await bcrypt.hash(request.password, 10);
+
     const newUser = User({
         username,
+        password,
         email,
         name,
         bio,
