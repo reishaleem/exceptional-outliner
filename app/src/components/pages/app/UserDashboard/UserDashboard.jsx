@@ -19,6 +19,7 @@ import {
 } from "@material-ui/core";
 import { Link, Redirect } from "react-router-dom";
 import ImageIcon from "@material-ui/icons/Image";
+import moment from "moment";
 
 import WikiService from "../../../../services/wiki.service";
 import AuthService from "../../../../services/auth.service";
@@ -239,11 +240,13 @@ export default () => {
                                                                             .wiki
                                                                             .name
                                                                     }
-                                                                    secondary={
+                                                                    secondary={moment(
                                                                         item
                                                                             .wiki
                                                                             .updatedAt
-                                                                    }
+                                                                    ).format(
+                                                                        "MMM Do, YYYY [at] h:mma"
+                                                                    )}
                                                                 />
                                                             </ListItem>
                                                         );

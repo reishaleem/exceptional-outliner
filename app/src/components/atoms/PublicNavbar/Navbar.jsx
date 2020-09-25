@@ -4,19 +4,14 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import { Container, Divider } from "@material-ui/core";
+import Container from "@material-ui/core/Container";
+import Divider from "@material-ui/core/Divider";
 import { withRouter, NavLink, Link } from "react-router-dom";
 import AuthService from "../../../services/auth.service";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-    },
-    menuButton: {
-        marginRight: theme.spacing(2),
-    },
     title: {
         flexGrow: 1,
     },
