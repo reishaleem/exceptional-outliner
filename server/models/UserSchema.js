@@ -30,7 +30,6 @@ const universeSchema = new Schema(
         },
         description: {
             type: String,
-            required: true,
             time: true,
             maxlength: 500,
         },

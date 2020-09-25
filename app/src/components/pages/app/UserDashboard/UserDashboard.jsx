@@ -16,6 +16,7 @@ import {
     ListItemText,
     ListItemAvatar,
     Avatar,
+    CircularProgress,
 } from "@material-ui/core";
 import { Link, Redirect } from "react-router-dom";
 import ImageIcon from "@material-ui/icons/Image";
@@ -79,6 +80,7 @@ export default () => {
     console.log(currentUser);
 
     const [recentlyEdited, setRecentlyEdited] = useState([]);
+    const [recentlyEditedLoaded, setRecentlyEditedLoaded] = useState(false);
 
     // later, edit the list of fetched things so that it returns all universes and wikis, then compares their updated dates. We can just send custom
     // objects from the back end to get it to work...then we can display them in the list and either have a universe icon or wiki icon, plus the details.
@@ -97,6 +99,7 @@ export default () => {
                 }
             });
             setRecentlyEdited(wikis);
+            setRecentlyEditedLoaded(true);
         });
     }, [currentUser.id]);
     console.log(recentlyEdited);
@@ -179,7 +182,12 @@ export default () => {
                                         Recently edited
                                     </div>
 
-                                    <div style={{ textAlign: "center" }}>
+                                    <div
+                                        style={{
+                                            textAlign: "center",
+                                            paddingTop: "5px",
+                                        }}
+                                    >
                                         <Link
                                             to={{
                                                 pathname: "/app/wikis/new",
@@ -216,26 +224,58 @@ export default () => {
                                     </div>
 
                                     <Divider variant="middle" />
-
-                                    <List>
-                                        {recentlyEdited.map((item, i) => {
-                                            return (
-                                                <ListItem button key={i}>
-                                                    <ListItemAvatar>
-                                                        <Avatar>
-                                                            <ImageIcon />
-                                                        </Avatar>
-                                                    </ListItemAvatar>
-                                                    <ListItemText
-                                                        primary={item.wiki.name}
-                                                        secondary={
-                                                            item.wiki.updatedAt
-                                                        }
-                                                    />
-                                                </ListItem>
-                                            );
-                                        })}
-                                    </List>
+                                    {recentlyEditedLoaded ? (
+                                        <List>
+                                            {recentlyEdited.length > 0 ? (
+                                                recentlyEdited.map(
+                                                    (item, i) => {
+                                                        return (
+                                                            <ListItem
+                                                                button
+                                                                key={i}
+                                                            >
+                                                                <ListItemAvatar>
+                                                                    <Avatar>
+                                                                        <ImageIcon />
+                                                                    </Avatar>
+                                                                </ListItemAvatar>
+                                                                <ListItemText
+                                                                    primary={
+                                                                        item
+                                                                            .wiki
+                                                                            .name
+                                                                    }
+                                                                    secondary={
+                                                                        item
+                                                                            .wiki
+                                                                            .updatedAt
+                                                                    }
+                                                                />
+                                                            </ListItem>
+                                                        );
+                                                    }
+                                                )
+                                            ) : (
+                                                <Typography
+                                                    variant="body2"
+                                                    component="p"
+                                                    align="center"
+                                                    style={{ padding: "10px" }}
+                                                >
+                                                    No items
+                                                </Typography>
+                                            )}
+                                        </List>
+                                    ) : (
+                                        <div
+                                            style={{
+                                                textAlign: "center",
+                                                paddingTop: "10px",
+                                            }}
+                                        >
+                                            <CircularProgress />
+                                        </div>
+                                    )}
                                 </Card>
                             </Grid>
                             <Grid item md={4}>

@@ -91,10 +91,10 @@ export default () => {
         WikiService.getWikiById(currentUser.id, universeId, wikiId).then(
             (response) => {
                 setWiki(response.data);
-                //setWikisLoaded(true);
+                setWikiLoaded(true);
             }
         );
-        setWikiLoaded(true);
+        //setWikiLoaded(true);
     }, [currentUser.id, universeId, wikiId]);
     console.log(wiki);
 
@@ -119,9 +119,16 @@ export default () => {
                 // setSuccessful(true);
                 // logIn();
                 //history.push("/about"); // for some reason...we aren't logged in at this point. It's like login isn't even being calleed...
-                window.location.reload();
+                WikiService.getWikiById(
+                    currentUser.id,
+                    universeId,
+                    wikiId
+                ).then((response) => {
+                    setWiki(response.data);
+                    setWikiLoaded(true);
+                });
+
                 console.log(response);
-                setWikiLoaded(true);
             },
             (error) => {
                 // const resMessage =
@@ -142,21 +149,15 @@ export default () => {
                 <Grid container spacing={3}>
                     <Container>
                         <Grid container item md={12} spacing={3}>
+                            <Grid item md={8}>
+                                <Typography variant="h4" component="h2">
+                                    Edit wiki
+                                </Typography>
+                                <Divider style={{}} />
+                            </Grid>
+                            <Grid item md={4}></Grid>
+
                             <Grid container item md={8}>
-                                <Grid item md={12}>
-                                    <Typography
-                                        gutterBottom
-                                        variant="h4"
-                                        component="h2"
-                                    >
-                                        Edit wiki
-                                        {wiki.name}
-                                        {wiki.body}
-                                    </Typography>
-                                </Grid>
-                                <Grid item md={12}>
-                                    <Divider style={{ marginBottom: "10px" }} />
-                                </Grid>
                                 {wikiLoaded && (
                                     <Formik
                                         innerRef={formRef}
@@ -270,6 +271,7 @@ export default () => {
                                                     color="primary"
                                                     className={classes.button}
                                                     disableElevation
+                                                    disabled={!wikiLoaded}
                                                 >
                                                     Back to universe
                                                 </Button>
@@ -280,6 +282,7 @@ export default () => {
                                                 // disabled={isSubmitting}
                                                 onClick={handleExternalSubmit}
                                                 disableElevation
+                                                disabled={!wikiLoaded}
                                             >
                                                 Save
                                             </Button>

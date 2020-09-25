@@ -15,6 +15,7 @@ import {
     ListItemText,
     InputLabel,
     FormControlLabel,
+    CircularProgress,
 } from "@material-ui/core";
 import { TextField as MuiTextField } from "@material-ui/core";
 import { Autocomplete } from "formik-material-ui-lab";
@@ -131,87 +132,86 @@ export default (props) => {
         );
     }
 
-    const unis = [
-        { title: "The Shawshank Redemption", year: 1994 },
-        { title: "The Godfather", year: 1972 },
-        { title: "The Godfather: Part II", year: 1974 },
-        { title: "The Dark Knight", year: 2008 },
-    ];
-
     return (
         <>
             <UniverseWrapper>
                 <Grid container spacing={3}>
                     <Container>
-                        <Grid container item md={12} spacing={3}>
-                            <Grid item md={3}>
-                                <p>
-                                    Maybe a picture for the thumbnail of the
-                                    wiki, then underneath that, maybe a
-                                    category.
-                                </p>
-                            </Grid>
-                            <Grid item md={9}>
-                                <Formik
-                                    initialValues={{
-                                        name: "",
-                                        // add for universes: the default universe. We will send it via state eventually (or it will just be {})
-                                        universe: defaultUniverse,
-                                        body: "",
-                                    }}
-                                    validate={(values) => {
-                                        const errors = {};
+                        {universesLoaded ? (
+                            <Grid container item md={12} spacing={3}>
+                                <Grid item md={3}>
+                                    <p>
+                                        Maybe a picture for the thumbnail of the
+                                        wiki, then underneath that, maybe a
+                                        category.
+                                    </p>
+                                </Grid>
+                                <Grid item md={9}>
+                                    <Formik
+                                        initialValues={{
+                                            name: "",
+                                            // add for universes: the default universe. We will send it via state eventually (or it will just be {})
+                                            universe: defaultUniverse,
+                                            body: "",
+                                        }}
+                                        validate={(values) => {
+                                            const errors = {};
 
-                                        // doing an if else so that only one shows up
-                                        if (!values.name) {
-                                            errors.name = "Required";
-                                        } else if (!values.body) {
-                                            errors.body = "Required";
-                                        } else if (!values.universe) {
-                                            errors.universe = "Required";
-                                        }
+                                            // doing an if else so that only one shows up
+                                            if (!values.name) {
+                                                errors.name = "Required";
+                                            } else if (!values.body) {
+                                                errors.body = "Required";
+                                            } else if (!values.universe) {
+                                                errors.universe = "Required";
+                                            }
 
-                                        return errors;
-                                    }}
-                                    onSubmit={(values, { setSubmitting }) => {
-                                        handleSubmit(values, setSubmitting);
-                                    }}
-                                >
-                                    {({
-                                        submitForm,
-                                        isSubmitting,
-                                        touched,
-                                        errors,
-                                    }) => (
-                                        <Form>
-                                            <Grid
-                                                container
-                                                item
-                                                md={12}
-                                                spacing={2}
-                                            >
-                                                <Grid item md={12}>
-                                                    <Field
-                                                        component={TextField}
-                                                        name="name"
-                                                        id="name"
-                                                        type="text"
-                                                        label="Name"
-                                                        placeholder="What is your wiki's name?"
-                                                        helperText="If you are not sure of a name now, this
+                                            return errors;
+                                        }}
+                                        onSubmit={(
+                                            values,
+                                            { setSubmitting }
+                                        ) => {
+                                            handleSubmit(values, setSubmitting);
+                                        }}
+                                    >
+                                        {({
+                                            submitForm,
+                                            isSubmitting,
+                                            touched,
+                                            errors,
+                                        }) => (
+                                            <Form>
+                                                <Grid
+                                                    container
+                                                    item
+                                                    md={12}
+                                                    spacing={2}
+                                                >
+                                                    <Grid item md={12}>
+                                                        <Field
+                                                            component={
+                                                                TextField
+                                                            }
+                                                            name="name"
+                                                            id="name"
+                                                            type="text"
+                                                            label="Name"
+                                                            placeholder="What is your wiki's name?"
+                                                            helperText="If you are not sure of a name now, this
                                                         can be changed later. Feel free to check
                                                         out the GENERATOR for ideas!"
-                                                        style={{
-                                                            width: "100%",
-                                                        }}
-                                                        InputLabelProps={{
-                                                            shrink: true,
-                                                        }}
-                                                    />
-                                                </Grid>
+                                                            style={{
+                                                                width: "100%",
+                                                            }}
+                                                            InputLabelProps={{
+                                                                shrink: true,
+                                                            }}
+                                                        />
+                                                    </Grid>
 
-                                                <Grid item md={12}>
-                                                    {/* <Field
+                                                    <Grid item md={12}>
+                                                        {/* <Field
                                                         name="autocomplete"
                                                         multiple
                                                         component={Autocomplete}
@@ -246,96 +246,118 @@ export default (props) => {
                                                             />
                                                         )}
                                                     /> */}
-                                                    <Field
-                                                        component={Autocomplete}
-                                                        name="universe"
-                                                        options={universes}
-                                                        getOptionLabel={(
-                                                            option
-                                                        ) => option.name}
-                                                        renderInput={(
-                                                            params
-                                                        ) => (
-                                                            <MuiTextField
-                                                                {...params}
-                                                                error={
-                                                                    touched[
-                                                                        "universe"
-                                                                    ] &&
-                                                                    !!errors[
-                                                                        "universe"
-                                                                    ]
-                                                                }
-                                                                helperText={
-                                                                    touched[
-                                                                        "universe"
-                                                                    ] &&
-                                                                    errors[
-                                                                        "universe"
-                                                                    ]
-                                                                }
-                                                                label="Universe"
-                                                                placeholder="Which universe is this wiki in?"
-                                                                helperText="You cannot change this once it is created"
-                                                                InputLabelProps={{
-                                                                    shrink: true,
-                                                                }}
-                                                            />
-                                                        )}
-                                                    />
-                                                </Grid>
+                                                        <Field
+                                                            component={
+                                                                Autocomplete
+                                                            }
+                                                            name="universe"
+                                                            options={universes}
+                                                            getOptionLabel={(
+                                                                option
+                                                            ) => option.name}
+                                                            renderInput={(
+                                                                params
+                                                            ) => (
+                                                                <MuiTextField
+                                                                    {...params}
+                                                                    error={
+                                                                        touched[
+                                                                            "universe"
+                                                                        ] &&
+                                                                        !!errors[
+                                                                            "universe"
+                                                                        ]
+                                                                    }
+                                                                    helperText={
+                                                                        touched[
+                                                                            "universe"
+                                                                        ] &&
+                                                                        errors[
+                                                                            "universe"
+                                                                        ]
+                                                                    }
+                                                                    label="Universe"
+                                                                    placeholder="Which universe is this wiki in?"
+                                                                    helperText="You cannot change this once it is created"
+                                                                    InputLabelProps={{
+                                                                        shrink: true,
+                                                                    }}
+                                                                />
+                                                            )}
+                                                        />
+                                                    </Grid>
 
-                                                <Grid item md={12}>
-                                                    <Field
-                                                        component={TextField}
-                                                        name="body"
-                                                        id="body"
-                                                        type="text"
-                                                        style={{
-                                                            width: "100%",
-                                                        }}
-                                                        multiline
-                                                        rows={4}
-                                                        variant="outlined"
-                                                        InputLabelProps={{
-                                                            shrink: true,
-                                                        }}
-                                                        label="Body"
-                                                        placeholder="We actually won't even have this body here. We're just gonna have stuff to choose categories and whatnot, then put the body in the actual edit page"
-                                                    />
-                                                </Grid>
+                                                    <Grid item md={12}>
+                                                        <Field
+                                                            component={
+                                                                TextField
+                                                            }
+                                                            name="body"
+                                                            id="body"
+                                                            type="text"
+                                                            style={{
+                                                                width: "100%",
+                                                            }}
+                                                            multiline
+                                                            rows={4}
+                                                            variant="outlined"
+                                                            InputLabelProps={{
+                                                                shrink: true,
+                                                            }}
+                                                            label="Body"
+                                                            placeholder="We actually won't even have this body here. We're just gonna have stuff to choose categories and whatnot, then put the body in the actual edit page"
+                                                        />
+                                                    </Grid>
 
-                                                <Grid item md={12} align="end">
-                                                    <Button
-                                                        variant="contained"
-                                                        color="primary"
-                                                        disabled={isSubmitting}
-                                                        onClick={() =>
-                                                            history.goBack()
-                                                        }
-                                                        className={
-                                                            classes.button
-                                                        }
-                                                        disableElevation
+                                                    <Grid
+                                                        item
+                                                        md={12}
+                                                        align="end"
                                                     >
-                                                        Cancel
-                                                    </Button>
-                                                    <Button
-                                                        variant="contained"
-                                                        color="primary"
-                                                        disabled={isSubmitting}
-                                                        onClick={submitForm}
-                                                        disableElevation
-                                                    >
-                                                        Create
-                                                    </Button>
+                                                        <Button
+                                                            variant="contained"
+                                                            color="primary"
+                                                            disabled={
+                                                                isSubmitting
+                                                            }
+                                                            onClick={() =>
+                                                                history.goBack()
+                                                            }
+                                                            className={
+                                                                classes.button
+                                                            }
+                                                            disableElevation
+                                                        >
+                                                            Cancel
+                                                        </Button>
+                                                        <Button
+                                                            variant="contained"
+                                                            color="primary"
+                                                            disabled={
+                                                                isSubmitting
+                                                            }
+                                                            onClick={submitForm}
+                                                            disableElevation
+                                                        >
+                                                            Create
+                                                        </Button>
+                                                    </Grid>
                                                 </Grid>
-                                            </Grid>
-                                        </Form>
-                                    )}
-                                </Formik>
+                                            </Form>
+                                        )}
+                                    </Formik>
+                                </Grid>
                             </Grid>
-                        </Grid>
+                        ) : (
+                            <div
+                                style={{
+                                    textAlign: "center",
+                                    paddingTop: "10px",
+                                }}
+                            >
+                                <CircularProgress />
+                            </div>
+                        )}
                     </Container>
                 </Grid>
             </UniverseWrapper>

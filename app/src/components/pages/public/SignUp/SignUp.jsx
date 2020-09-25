@@ -14,7 +14,7 @@ import { Formik, Form, Field } from "formik";
 import { TextField } from "formik-material-ui";
 import UserService from "../../../../services/user.service";
 import AuthService from "../../../../services/auth.service";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     pad: {
@@ -55,44 +55,45 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function handleSubmit(values, setSubmitting) {
-    UserService.addUser(
-        values.name,
-        values.username,
-        values.email,
-        values.password
-    ).then(
-        (response) => {
-            // setMessage(response.data.message);
-            // setSuccessful(true);
-            // logIn();
-            //history.push("/about"); // for some reason...we aren't logged in at this point. It's like login isn't even being calleed...
-            //window.location.reload();
-            console.log(response);
-        },
-        (error) => {
-            // const resMessage =
-            //     (error.response &&
-            //         error.response.data &&
-            //         error.response.data.message) ||
-            //     error.message ||
-            //     error.toString();
-
-            console.log(error);
-        }
-    );
-    setTimeout(() => {
-        setSubmitting(false);
-        alert(JSON.stringify(values, null, 2));
-    }, 500);
-}
-
 export default () => {
     const classes = useStyles();
+    const history = useHistory();
 
     const currentUser = AuthService.getCurrentUser();
     if (currentUser !== null) {
         return <Redirect to="/app" />;
+    }
+
+    function handleSubmit(values, setSubmitting) {
+        UserService.addUser(
+            values.name,
+            values.username,
+            values.email,
+            values.password
+        ).then(
+            (response) => {
+                // setMessage(response.data.message);
+                // setSuccessful(true);
+                // logIn();
+                //history.push("/about"); // for some reason...we aren't logged in at this point. It's like login isn't even being calleed...
+                //window.location.reload();
+                AuthService.login(values.username, values.password).then(() => {
+                    history.push("/app");
+                });
+
+                console.log(response);
+            },
+            (error) => {
+                // const resMessage =
+                //     (error.response &&
+                //         error.response.data &&
+                //         error.response.data.message) ||
+                //     error.message ||
+                //     error.toString();
+
+                console.log(error);
+            }
+        );
     }
 
     return (

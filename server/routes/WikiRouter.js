@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const wikiService = require("../services/WikiService");
+const authService = require("../services/AuthenticationService");
 let User = require("../models/UserSchema");
+
+router.use(authService.authenticateToken);
 
 router.route("/").get((req, res) => {
     User.find()

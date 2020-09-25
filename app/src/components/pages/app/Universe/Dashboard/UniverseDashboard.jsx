@@ -16,6 +16,7 @@ import {
     CardActions,
     IconButton,
     Tooltip,
+    CircularProgress,
 } from "@material-ui/core";
 import { Link, useParams, Redirect } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
@@ -177,9 +178,7 @@ export default (props) => {
     }
 
     function handleWikiDelete(ownerId, universeId, wikiId) {
-        console.log(ownerId);
-        console.log(universeId);
-        console.log(wikiId);
+        setWikisLoaded(false);
         WikiService.deleteWiki(ownerId, universeId, wikiId).then(
             (response) => {
                 // setMessage(response.data.message);
@@ -187,6 +186,9 @@ export default (props) => {
                 // logIn();
                 //history.push("/about");
                 //window.location.reload();
+                setWikis(wikis.filter((wiki) => wikiId != wiki._id));
+
+                setWikisLoaded(true);
                 console.log(response);
             },
             (error) => {
@@ -348,161 +350,187 @@ export default (props) => {
                                     </Grid>
                                 </Grid>
                                 <Grid item md={12}>
-                                    {wikisLoaded && (
+                                    {wikisLoaded ? (
                                         <>
-                                            {wikis.map((wiki, i) => {
-                                                return (
-                                                    <Card
-                                                        variant="outlined"
-                                                        style={{
-                                                            width: "100%",
-                                                            marginBottom:
-                                                                "10px",
-                                                        }}
-                                                        key={i}
-                                                    >
-                                                        <CardContent>
-                                                            <div
-                                                                style={{
-                                                                    display:
-                                                                        "flex",
-                                                                }}
-                                                            >
-                                                                <Typography
-                                                                    variant="h5"
-                                                                    component="h2"
+                                            {wikis.length > 0 ? (
+                                                wikis.map((wiki, i) => {
+                                                    return (
+                                                        <Card
+                                                            variant="outlined"
+                                                            style={{
+                                                                width: "100%",
+                                                                marginBottom:
+                                                                    "10px",
+                                                            }}
+                                                            key={i}
+                                                        >
+                                                            <CardContent>
+                                                                <div
                                                                     style={{
-                                                                        flexGrow: 1,
+                                                                        display:
+                                                                            "flex",
                                                                     }}
                                                                 >
-                                                                    {wiki.name}
-                                                                </Typography>
-                                                                <Tooltip
-                                                                    title="View"
-                                                                    placement="top"
-                                                                >
-                                                                    <Link
-                                                                        to={`#`}
-                                                                        className={
-                                                                            classes.link
-                                                                        }
-                                                                    >
-                                                                        <IconButton aria-label="view">
-                                                                            <VisibilityIcon fontSize="small" />
-                                                                        </IconButton>
-                                                                    </Link>
-                                                                </Tooltip>
-                                                                <Tooltip
-                                                                    title="Edit"
-                                                                    placement="top"
-                                                                >
-                                                                    <Link
-                                                                        to={`/app/universes/${universeId}/wikis/${wiki._id}/edit`}
-                                                                        className={
-                                                                            classes.link
-                                                                        }
-                                                                    >
-                                                                        <IconButton aria-label="edit">
-                                                                            <CreateIcon fontSize="small" />
-                                                                        </IconButton>
-                                                                    </Link>
-                                                                </Tooltip>
-
-                                                                <DeleteWikiModal
-                                                                    wikiName={
-                                                                        wiki.name
-                                                                    }
-                                                                    ownerId={
-                                                                        currentUser.id
-                                                                    }
-                                                                    universeId={
-                                                                        universeId
-                                                                    }
-                                                                    wikiId={
-                                                                        wiki._id
-                                                                    }
-                                                                    handleSubmit={
-                                                                        handleWikiDelete
-                                                                    }
-                                                                />
-                                                            </div>
-
-                                                            <Typography
-                                                                variant="body1"
-                                                                component="p"
-                                                            >
-                                                                Wiki category
-                                                                (character,
-                                                                magic, etc.)
-                                                            </Typography>
-                                                            <span
-                                                                style={{
-                                                                    display:
-                                                                        "flex",
-                                                                    marginBottom:
-                                                                        "5px",
-                                                                }}
-                                                            >
-                                                                <DateRangeIcon fontSize="small" />
-                                                                <Tooltip
-                                                                    title="Last modified"
-                                                                    placement="top"
-                                                                >
                                                                     <Typography
-                                                                        variant="body2"
-                                                                        component="p"
+                                                                        variant="h5"
+                                                                        component="h2"
                                                                         style={{
-                                                                            marginRight:
-                                                                                "5px",
-                                                                            cursor:
-                                                                                "pointer",
-                                                                        }}
-                                                                    >
-                                                                        wiki.updatedAt
-                                                                    </Typography>
-                                                                </Tooltip>
-                                                                <EditLocationIcon fontSize="small" />
-                                                                <Tooltip
-                                                                    title="Word count"
-                                                                    placement="top"
-                                                                >
-                                                                    <Typography
-                                                                        variant="body2"
-                                                                        component="p"
-                                                                        style={{
-                                                                            marginRight:
-                                                                                "5px",
-                                                                            cursor:
-                                                                                "pointer",
+                                                                            flexGrow: 1,
                                                                         }}
                                                                     >
                                                                         {
-                                                                            wiki
-                                                                                .body
-                                                                                .length
+                                                                            wiki.name
                                                                         }
                                                                     </Typography>
-                                                                </Tooltip>
-                                                            </span>
-                                                            <Typography
-                                                                variant="body2"
-                                                                component="p"
-                                                                style={{
-                                                                    marginRight:
-                                                                        "5px",
-                                                                    cursor:
-                                                                        "pointer",
-                                                                }}
-                                                            >
-                                                                Maybe some Wiki
-                                                                tags, like Work
-                                                                In Progress
-                                                            </Typography>
-                                                        </CardContent>
-                                                    </Card>
-                                                );
-                                            })}
+                                                                    <Tooltip
+                                                                        title="View"
+                                                                        placement="top"
+                                                                    >
+                                                                        <Link
+                                                                            to={`#`}
+                                                                            className={
+                                                                                classes.link
+                                                                            }
+                                                                        >
+                                                                            <IconButton aria-label="view">
+                                                                                <VisibilityIcon fontSize="small" />
+                                                                            </IconButton>
+                                                                        </Link>
+                                                                    </Tooltip>
+                                                                    <Tooltip
+                                                                        title="Edit"
+                                                                        placement="top"
+                                                                    >
+                                                                        <Link
+                                                                            to={`/app/universes/${universeId}/wikis/${wiki._id}/edit`}
+                                                                            className={
+                                                                                classes.link
+                                                                            }
+                                                                        >
+                                                                            <IconButton aria-label="edit">
+                                                                                <CreateIcon fontSize="small" />
+                                                                            </IconButton>
+                                                                        </Link>
+                                                                    </Tooltip>
+
+                                                                    <DeleteWikiModal
+                                                                        wikiName={
+                                                                            wiki.name
+                                                                        }
+                                                                        ownerId={
+                                                                            currentUser.id
+                                                                        }
+                                                                        universeId={
+                                                                            universeId
+                                                                        }
+                                                                        wikiId={
+                                                                            wiki._id
+                                                                        }
+                                                                        handleSubmit={
+                                                                            handleWikiDelete
+                                                                        }
+                                                                    />
+                                                                </div>
+
+                                                                <Typography
+                                                                    variant="body1"
+                                                                    component="p"
+                                                                >
+                                                                    Wiki
+                                                                    category
+                                                                    (character,
+                                                                    magic, etc.)
+                                                                </Typography>
+                                                                <span
+                                                                    style={{
+                                                                        display:
+                                                                            "flex",
+                                                                        marginBottom:
+                                                                            "5px",
+                                                                    }}
+                                                                >
+                                                                    <DateRangeIcon fontSize="small" />
+                                                                    <Tooltip
+                                                                        title="Last modified"
+                                                                        placement="top"
+                                                                    >
+                                                                        <Typography
+                                                                            variant="body2"
+                                                                            component="p"
+                                                                            style={{
+                                                                                marginRight:
+                                                                                    "5px",
+                                                                                cursor:
+                                                                                    "pointer",
+                                                                            }}
+                                                                        >
+                                                                            wiki.updatedAt
+                                                                        </Typography>
+                                                                    </Tooltip>
+                                                                    <EditLocationIcon fontSize="small" />
+                                                                    <Tooltip
+                                                                        title="Word count"
+                                                                        placement="top"
+                                                                    >
+                                                                        <Typography
+                                                                            variant="body2"
+                                                                            component="p"
+                                                                            style={{
+                                                                                marginRight:
+                                                                                    "5px",
+                                                                                cursor:
+                                                                                    "pointer",
+                                                                            }}
+                                                                        >
+                                                                            {
+                                                                                wiki
+                                                                                    .body
+                                                                                    .length
+                                                                            }
+                                                                        </Typography>
+                                                                    </Tooltip>
+                                                                </span>
+                                                                <Typography
+                                                                    variant="body2"
+                                                                    component="p"
+                                                                    style={{
+                                                                        marginRight:
+                                                                            "5px",
+                                                                        cursor:
+                                                                            "pointer",
+                                                                    }}
+                                                                >
+                                                                    Maybe some
+                                                                    Wiki tags,
+                                                                    like Work In
+                                                                    Progress
+                                                                </Typography>
+                                                            </CardContent>
+                                                        </Card>
+                                                    );
+                                                })
+                                            ) : (
+                                                <Typography
+                                                    variant="body2"
+                                                    component="p"
+                                                    align="center"
+                                                    style={{
+                                                        padding: "10px",
+                                                    }}
+                                                >
+                                                    No wikis created
+                                                </Typography>
+                                            )}
                                         </>
+                                    ) : (
+                                        <div
+                                            style={{
+                                                textAlign: "center",
+                                                paddingTop: "10px",
+                                            }}
+                                        >
+                                            <CircularProgress />
+                                        </div>
                                     )}
                                 </Grid>
                             </Grid>

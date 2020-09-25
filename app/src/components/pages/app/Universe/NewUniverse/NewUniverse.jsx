@@ -131,8 +131,6 @@ export default () => {
                                         // doing an if else so that only one shows up
                                         if (!values.name) {
                                             errors.name = "Required";
-                                        } else if (!values.description) {
-                                            errors.description = "Required";
                                         }
 
                                         return errors;

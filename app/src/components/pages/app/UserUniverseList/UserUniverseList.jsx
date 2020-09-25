@@ -19,6 +19,7 @@ import {
     CardActions,
     IconButton,
     Tooltip,
+    CircularProgress,
 } from "@material-ui/core";
 import CreateIcon from "@material-ui/icons/Create";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -170,7 +171,8 @@ export default () => {
         }, 500);
     }
 
-    function handleUniverseDelete(ownerId, universeId) {
+    function handleUniverseDelete(ownerId, universeId, index) {
+        setUniversesLoaded(false);
         UniverseService.deleteUniverse(ownerId, universeId).then(
             (response) => {
                 // setMessage(response.data.message);
@@ -178,6 +180,11 @@ export default () => {
                 // logIn();
                 //history.push("/about"); // for some reason...we aren't logged in at this point. It's like login isn't even being calleed...
                 //window.location.reload();
+
+                setUniverses(
+                    universes.filter((universe) => universeId != universe._id)
+                );
+                setUniversesLoaded(true);
                 console.log(response);
             },
             (error) => {
@@ -348,133 +355,155 @@ export default () => {
                                     </Grid>
 
                                     <Grid item md={12}>
-                                        {universesLoaded && (
+                                        {universesLoaded ? (
                                             <>
-                                                {universes.map(
-                                                    (universe, i) => {
-                                                        return (
-                                                            <Card
-                                                                variant="outlined"
-                                                                style={{
-                                                                    width:
-                                                                        "100%",
-                                                                    marginBottom:
-                                                                        "10px",
-                                                                }}
-                                                                key={i}
-                                                            >
-                                                                <Link
-                                                                    to={{
-                                                                        pathname: `/app/universes/${universe._id}`,
-                                                                        state: {
-                                                                            universeId:
-                                                                                universe._id,
-                                                                        },
+                                                {universes.length > 0 ? (
+                                                    universes.map(
+                                                        (universe, i) => {
+                                                            return (
+                                                                <Card
+                                                                    variant="outlined"
+                                                                    style={{
+                                                                        width:
+                                                                            "100%",
+                                                                        marginBottom:
+                                                                            "10px",
                                                                     }}
-                                                                    className={
-                                                                        classes.link
-                                                                    }
+                                                                    key={i}
                                                                 >
-                                                                    <Typography
-                                                                        gutterBottom
-                                                                        variant="h5"
-                                                                        component="h2"
-                                                                        className={
-                                                                            classes.cardHeader
-                                                                        }
-                                                                    >
-                                                                        {
-                                                                            universe.name
-                                                                        }
-                                                                    </Typography>
-                                                                </Link>
-
-                                                                <CardContent>
-                                                                    <Typography
-                                                                        variant="body1"
-                                                                        component="p"
-                                                                    >
-                                                                        {
-                                                                            universe.description
-                                                                        }
-                                                                        <br />
-                                                                        maybe
-                                                                        tags,
-                                                                        other
-                                                                        stuff.
-                                                                        <br />
-                                                                        Stuff
-                                                                    </Typography>
-                                                                </CardContent>
-                                                                <CardActions
-                                                                    className={
-                                                                        classes.cardFooter
-                                                                    }
-                                                                >
-                                                                    <Typography
-                                                                        variant="body2"
-                                                                        style={{
-                                                                            flexGrow: 1,
+                                                                    <Link
+                                                                        to={{
+                                                                            pathname: `/app/universes/${universe._id}`,
+                                                                            state: {
+                                                                                universeId:
+                                                                                    universe._id,
+                                                                            },
                                                                         }}
+                                                                        className={
+                                                                            classes.link
+                                                                        }
                                                                     >
-                                                                        Created
-                                                                        -{" "}
-                                                                        {moment(
-                                                                            universe.createdAt
-                                                                        ).format(
-                                                                            "h:mma [on] MMMM Do, YYYY"
-                                                                        )}{" "}
-                                                                        |
-                                                                        Updated
-                                                                        -{" "}
-                                                                        {moment(
-                                                                            universe.updatedAt
-                                                                        ).format(
-                                                                            "MMMM Do, YYYY"
-                                                                        )}
-                                                                    </Typography>
-                                                                    <Tooltip
-                                                                        title="Edit"
-                                                                        placement="top"
-                                                                    >
-                                                                        <Link
-                                                                            to={{
-                                                                                pathname: `/app/universes/${universe._id}`,
-                                                                                state: {
-                                                                                    universeId:
-                                                                                        universe._id,
-                                                                                },
-                                                                            }}
+                                                                        <Typography
+                                                                            gutterBottom
+                                                                            variant="h5"
+                                                                            component="h2"
                                                                             className={
-                                                                                classes.link
+                                                                                classes.cardHeader
                                                                             }
                                                                         >
-                                                                            <IconButton aria-label="edit">
-                                                                                <CreateIcon fontSize="small" />
-                                                                            </IconButton>
-                                                                        </Link>
-                                                                    </Tooltip>
+                                                                            {
+                                                                                universe.name
+                                                                            }
+                                                                        </Typography>
+                                                                    </Link>
 
-                                                                    <DeleteUniverseModal
-                                                                        universeName={
-                                                                            universe.name
+                                                                    <CardContent>
+                                                                        <Typography
+                                                                            variant="body1"
+                                                                            component="p"
+                                                                        >
+                                                                            {universe.description
+                                                                                ? universe.description
+                                                                                : "No description available"}
+                                                                            <br />
+                                                                            maybe
+                                                                            tags,
+                                                                            other
+                                                                            stuff.
+                                                                            <br />
+                                                                            Stuff
+                                                                        </Typography>
+                                                                    </CardContent>
+                                                                    <CardActions
+                                                                        className={
+                                                                            classes.cardFooter
                                                                         }
-                                                                        ownerId={
-                                                                            currentUser.id
-                                                                        }
-                                                                        universeId={
-                                                                            universe._id
-                                                                        }
-                                                                        handleSubmit={
-                                                                            handleUniverseDelete
-                                                                        }
-                                                                    />
-                                                                </CardActions>
-                                                            </Card>
-                                                        );
-                                                    }
+                                                                    >
+                                                                        <Typography
+                                                                            variant="body2"
+                                                                            style={{
+                                                                                flexGrow: 1,
+                                                                            }}
+                                                                        >
+                                                                            Created
+                                                                            -{" "}
+                                                                            {moment(
+                                                                                universe.createdAt
+                                                                            ).format(
+                                                                                "h:mma [on] MMMM Do, YYYY"
+                                                                            )}{" "}
+                                                                            |
+                                                                            Updated
+                                                                            -{" "}
+                                                                            {moment(
+                                                                                universe.updatedAt
+                                                                            ).format(
+                                                                                "MMMM Do, YYYY"
+                                                                            )}
+                                                                        </Typography>
+                                                                        <Tooltip
+                                                                            title="Edit"
+                                                                            placement="top"
+                                                                        >
+                                                                            <Link
+                                                                                to={{
+                                                                                    pathname: `/app/universes/${universe._id}`,
+                                                                                    state: {
+                                                                                        universeId:
+                                                                                            universe._id,
+                                                                                    },
+                                                                                }}
+                                                                                className={
+                                                                                    classes.link
+                                                                                }
+                                                                            >
+                                                                                <IconButton aria-label="edit">
+                                                                                    <CreateIcon fontSize="small" />
+                                                                                </IconButton>
+                                                                            </Link>
+                                                                        </Tooltip>
+
+                                                                        <DeleteUniverseModal
+                                                                            universeName={
+                                                                                universe.name
+                                                                            }
+                                                                            ownerId={
+                                                                                currentUser.id
+                                                                            }
+                                                                            universeId={
+                                                                                universe._id
+                                                                            }
+                                                                            handleSubmit={
+                                                                                handleUniverseDelete
+                                                                            }
+                                                                        />
+                                                                    </CardActions>
+                                                                </Card>
+                                                            );
+                                                        }
+                                                    )
+                                                ) : (
+                                                    <Typography
+                                                        variant="body2"
+                                                        component="p"
+                                                        align="center"
+                                                        style={{
+                                                            padding: "10px",
+                                                        }}
+                                                    >
+                                                        No universes created
+                                                    </Typography>
                                                 )}
                                             </>
+                                        ) : (
+                                            <div
+                                                style={{
+                                                    textAlign: "center",
+                                                    paddingTop: "10px",
+                                                }}
+                                            >
+                                                <CircularProgress />
+                                            </div>
                                         )}
                                     </Grid>
                                 </Grid>
