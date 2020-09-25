@@ -9,8 +9,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { Formik, Form, Field } from "formik";
-import { TextField, Checkbox as FormCheckBox } from "formik-material-ui";
-import UniverseService from "../../../services/universe.service";
+import { TextField } from "formik-material-ui";
 
 export default function DeleteUniverseModal(props) {
     const [open, setOpen] = React.useState(false);
@@ -28,13 +27,6 @@ export default function DeleteUniverseModal(props) {
         if (formRef.current) {
             formRef.current.handleSubmit();
         }
-        handleClose();
-    }
-
-    function handleSubmit(values, setSubmitting) {
-        console.log(props.ownerId);
-        console.log(props.universeId);
-
         handleClose();
     }
 

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import AppWrapper from "../../../../molecules/Wrapper/AppWrapper";
 import Grid from "@material-ui/core/Grid";
 import AddIcon from "@material-ui/icons/Add";
 import {
@@ -13,7 +12,6 @@ import {
     ListItem,
     ListItemText,
     MenuItem,
-    CardActions,
     IconButton,
     Tooltip,
     CircularProgress,
@@ -25,11 +23,10 @@ import moment from "moment";
 
 import SearchIcon from "@material-ui/icons/Search";
 import CreateIcon from "@material-ui/icons/Create";
-import DeleteIcon from "@material-ui/icons/Delete";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import DateRangeIcon from "@material-ui/icons/DateRange";
 import EditLocationIcon from "@material-ui/icons/EditLocation";
-import { TextField, Checkbox as FormCheckBox } from "formik-material-ui";
+import { TextField } from "formik-material-ui";
 import UniverseWrapper from "../../../../molecules/Wrapper/UniverseWrapper";
 import UniverseService from "../../../../../services/universe.service";
 import WikiService from "../../../../../services/wiki.service";
@@ -143,8 +140,6 @@ export default (props) => {
             }
         );
     }, [currentUser.id, universeId]);
-    console.log(wikis);
-    console.log(universe);
 
     function handleSubmit(values, setSubmitting) {
         // UserService.login(
@@ -186,10 +181,9 @@ export default (props) => {
                 // logIn();
                 //history.push("/about");
                 //window.location.reload();
-                setWikis(wikis.filter((wiki) => wikiId != wiki._id));
+                setWikis(wikis.filter((wiki) => wikiId !== wiki._id));
 
                 setWikisLoaded(true);
-                console.log(response);
             },
             (error) => {
                 // const resMessage =
@@ -198,8 +192,6 @@ export default (props) => {
                 //         error.response.data.message) ||
                 //     error.message ||
                 //     error.toString();
-
-                console.log(error);
             }
         );
     }
@@ -464,7 +456,11 @@ export default (props) => {
                                                                                     "pointer",
                                                                             }}
                                                                         >
-                                                                            wiki.updatedAt
+                                                                            {moment(
+                                                                                wiki.updatedAt
+                                                                            ).format(
+                                                                                "MMM Do, YYYY [at] h:mma"
+                                                                            )}
                                                                         </Typography>
                                                                     </Tooltip>
                                                                     <EditLocationIcon fontSize="small" />

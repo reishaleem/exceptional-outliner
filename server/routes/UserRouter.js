@@ -4,7 +4,6 @@ let User = require("../models/UserSchema");
 
 // This is just for testing
 router.route("/").get((req, res) => {
-    console.log();
     User.find()
         .then((users) => res.json(users))
         .catch((err) => res.status(400).json("Error " + err));

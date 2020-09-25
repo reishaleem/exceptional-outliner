@@ -80,8 +80,6 @@ export default () => {
                 AuthService.login(values.username, values.password).then(() => {
                     history.push("/app");
                 });
-
-                console.log(response);
             },
             (error) => {
                 // const resMessage =
@@ -90,8 +88,6 @@ export default () => {
                 //         error.response.data.message) ||
                 //     error.message ||
                 //     error.toString();
-
-                console.log(error);
             }
         );
     }

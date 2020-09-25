@@ -1,28 +1,17 @@
 import React, { useState, useEffect } from "react";
-import AppWrapper from "../../../../molecules/Wrapper/AppWrapper";
 import Grid from "@material-ui/core/Grid";
-import AddIcon from "@material-ui/icons/Add";
 import {
     Container,
-    Card,
-    CardContent,
-    Typography,
     makeStyles,
-    Divider,
     Button,
-    List,
-    ListItem,
-    ListItemText,
-    InputLabel,
-    FormControlLabel,
     CircularProgress,
 } from "@material-ui/core";
 import { TextField as MuiTextField } from "@material-ui/core";
 import { Autocomplete } from "formik-material-ui-lab";
 
 import { Formik, Form, Field } from "formik";
-import { TextField, Checkbox as FormCheckBox } from "formik-material-ui";
-import { Link, useHistory, Redirect } from "react-router-dom";
+import { TextField } from "formik-material-ui";
+import { useHistory, Redirect } from "react-router-dom";
 import UniverseWrapper from "../../../../molecules/Wrapper/UniverseWrapper";
 import UniverseService from "../../../../../services/universe.service";
 import AuthService from "../../../../../services/auth.service";
@@ -82,8 +71,8 @@ export default (props) => {
 
     const [universes, setUniverses] = useState([]);
 
-    let defaultUniverse = {};
-    if (props.location.state.universe) {
+    let defaultUniverse = null;
+    if (props.location.state && props.location.state.universe) {
         defaultUniverse = props.location.state.universe;
     }
 
@@ -95,10 +84,6 @@ export default (props) => {
             setUniversesLoaded(true);
         });
     }, [currentUser.id]);
-    console.log(universes);
-
-    const name = props.location.state.universe;
-    console.log(name);
 
     function handleSubmit(values, setSubmitting) {
         WikiService.createWiki(
@@ -113,7 +98,6 @@ export default (props) => {
                 // logIn();
                 //history.push("/about"); // for some reason...we aren't logged in at this point. It's like login isn't even being calleed...
                 //window.location.reload();
-                console.log(response);
                 history.push({
                     pathname: `/app/universes/${response.data.universeId}/wikis/${response.data.wiki._id}/edit`,
                     state: { wikiId: response.data.wiki._id },
@@ -126,8 +110,6 @@ export default (props) => {
                 //         error.response.data.message) ||
                 //     error.message ||
                 //     error.toString();
-
-                console.log(error);
             }
         );
     }
@@ -152,18 +134,20 @@ export default (props) => {
                                             name: "",
                                             // add for universes: the default universe. We will send it via state eventually (or it will just be {})
                                             universe: defaultUniverse,
+
                                             body: "",
                                         }}
                                         validate={(values) => {
                                             const errors = {};
 
                                             // doing an if else so that only one shows up
+
                                             if (!values.name) {
                                                 errors.name = "Required";
-                                            } else if (!values.body) {
-                                                errors.body = "Required";
                                             } else if (!values.universe) {
                                                 errors.universe = "Required";
+                                            } else if (!values.body) {
+                                                errors.body = "Required";
                                             }
 
                                             return errors;
@@ -211,41 +195,6 @@ export default (props) => {
                                                     </Grid>
 
                                                     <Grid item md={12}>
-                                                        {/* <Field
-                                                        name="autocomplete"
-                                                        multiple
-                                                        component={Autocomplete}
-                                                        options={unis}
-                                                        getOptionLabel={(
-                                                            option
-                                                        ) => option.title}
-                                                        style={{ width: 300 }}
-                                                        renderInput={(
-                                                            params
-                                                        ) => (
-                                                            <MuiTextField
-                                                                {...params}
-                                                                error={
-                                                                    touched[
-                                                                        "autocomplete"
-                                                                    ] &&
-                                                                    !!errors[
-                                                                        "autocomplete"
-                                                                    ]
-                                                                }
-                                                                helperText={
-                                                                    touched[
-                                                                        "autocomplete"
-                                                                    ] &&
-                                                                    errors[
-                                                                        "autocomplete"
-                                                                    ]
-                                                                }
-                                                                label="Autocomplete"
-                                                                variant="outlined"
-                                                            />
-                                                        )}
-                                                    /> */}
                                                         <Field
                                                             component={
                                                                 Autocomplete
@@ -278,7 +227,7 @@ export default (props) => {
                                                                     }
                                                                     label="Universe"
                                                                     placeholder="Which universe is this wiki in?"
-                                                                    helperText="You cannot change this once it is created"
+                                                                    helperText="This cannot be changed once it is created"
                                                                     InputLabelProps={{
                                                                         shrink: true,
                                                                     }}

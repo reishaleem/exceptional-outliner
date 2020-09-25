@@ -26,7 +26,6 @@ async function login(request, response) {
 }
 
 function authenticateToken(req, res, next) {
-    console.log(req.headers);
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1]; // get the token part after BEARER
     if (token == null) res.status(401).json("Invalid token");

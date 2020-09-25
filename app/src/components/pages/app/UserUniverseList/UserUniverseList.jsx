@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AppWrapper from "../../../molecules/Wrapper/AppWrapper";
 import Grid from "@material-ui/core/Grid";
-import AddIcon from "@material-ui/icons/Add";
 import {
     Container,
     Card,
@@ -9,12 +8,6 @@ import {
     Typography,
     Divider,
     Button,
-    List,
-    ListItem,
-    ListItemText,
-    InputLabel,
-    FormControlLabel,
-    InputBase,
     MenuItem,
     CardActions,
     IconButton,
@@ -22,18 +15,16 @@ import {
     CircularProgress,
 } from "@material-ui/core";
 import CreateIcon from "@material-ui/icons/Create";
-import DeleteIcon from "@material-ui/icons/Delete";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import moment from "moment";
 
 import SearchIcon from "@material-ui/icons/Search";
 
 import { Formik, Form, Field } from "formik";
-import { TextField, Checkbox as FormCheckBox } from "formik-material-ui";
-import { Link, useHistory, Redirect } from "react-router-dom";
+import { TextField } from "formik-material-ui";
+import { Link, Redirect } from "react-router-dom";
 import UniverseService from "../../../../services/universe.service";
 import AuthService from "../../../../services/auth.service";
-import ModalForm from "../../../molecules/ModalForm/DeleteUniverseModal";
 import DeleteUniverseModal from "../../../molecules/ModalForm/DeleteUniverseModal";
 
 const useStyles = makeStyles((theme) => ({
@@ -122,7 +113,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default () => {
     const classes = useStyles();
-    const history = useHistory();
 
     const currentUser = AuthService.getCurrentUser();
     if (currentUser === null) {
@@ -138,7 +128,6 @@ export default () => {
             setUniversesLoaded(true);
         });
     }, [currentUser.id]);
-    console.log(universes);
 
     function handleSubmit(values, setSubmitting) {
         // UserService.login(
@@ -182,10 +171,9 @@ export default () => {
                 //window.location.reload();
 
                 setUniverses(
-                    universes.filter((universe) => universeId != universe._id)
+                    universes.filter((universe) => universeId !== universe._id)
                 );
                 setUniversesLoaded(true);
-                console.log(response);
             },
             (error) => {
                 // const resMessage =
@@ -194,8 +182,6 @@ export default () => {
                 //         error.response.data.message) ||
                 //     error.message ||
                 //     error.toString();
-
-                console.log(error);
             }
         );
     }

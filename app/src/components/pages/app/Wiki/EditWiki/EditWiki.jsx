@@ -1,7 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import AppWrapper from "../../../../molecules/Wrapper/AppWrapper";
 import Grid from "@material-ui/core/Grid";
-import AddIcon from "@material-ui/icons/Add";
 import {
     Container,
     Card,
@@ -10,20 +8,13 @@ import {
     makeStyles,
     Divider,
     Button,
-    List,
-    ListItem,
-    ListItemText,
-    InputLabel,
-    FormControlLabel,
 } from "@material-ui/core";
 import { Formik, Form, Field } from "formik";
-import { TextField, Checkbox as FormCheckBox } from "formik-material-ui";
-import { Link, useHistory, useParams, Redirect } from "react-router-dom";
+import { TextField } from "formik-material-ui";
+import { Link, useParams, Redirect } from "react-router-dom";
 import UniverseWrapper from "../../../../molecules/Wrapper/UniverseWrapper";
-import UniverseService from "../../../../../services/universe.service";
 import WikiService from "../../../../../services/wiki.service";
 import AuthService from "../../../../../services/auth.service";
-import DeleteWikiModal from "../../../../molecules/ModalForm/DeleteWikiModal";
 
 const useStyles = makeStyles((theme) => ({
     pad: {
@@ -74,7 +65,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default () => {
     const classes = useStyles();
-    const history = useHistory();
 
     const currentUser = AuthService.getCurrentUser();
     if (currentUser === null) {
@@ -96,7 +86,6 @@ export default () => {
         );
         //setWikiLoaded(true);
     }, [currentUser.id, universeId, wikiId]);
-    console.log(wiki);
 
     function handleExternalSubmit() {
         if (formRef.current) {
@@ -127,8 +116,6 @@ export default () => {
                     setWiki(response.data);
                     setWikiLoaded(true);
                 });
-
-                console.log(response);
             },
             (error) => {
                 // const resMessage =
@@ -137,8 +124,6 @@ export default () => {
                 //         error.response.data.message) ||
                 //     error.message ||
                 //     error.toString();
-
-                console.log(error);
             }
         );
     }

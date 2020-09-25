@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../../../atoms/AppNavbar/Navbar";
 import AppWrapper from "../../../molecules/Wrapper/AppWrapper";
 import Grid from "@material-ui/core/Grid";
 import AddIcon from "@material-ui/icons/Add";
@@ -77,7 +76,6 @@ export default () => {
     if (currentUser === null) {
         return <Redirect to="/login" />;
     }
-    console.log(currentUser);
 
     const [recentlyEdited, setRecentlyEdited] = useState([]);
     const [recentlyEditedLoaded, setRecentlyEditedLoaded] = useState(false);
@@ -102,7 +100,6 @@ export default () => {
             setRecentlyEditedLoaded(true);
         });
     }, [currentUser.id]);
-    console.log(recentlyEdited);
 
     return (
         <>
@@ -191,9 +188,6 @@ export default () => {
                                         <Link
                                             to={{
                                                 pathname: "/app/wikis/new",
-                                                state: {
-                                                    universe: {},
-                                                },
                                             }}
                                             className={classes.link}
                                         >

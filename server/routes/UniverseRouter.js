@@ -23,7 +23,6 @@ router.route("/:id/get/:universeId").get((req, res) => {
 });
 
 router.route("/:id/getUniverses").get((req, res) => {
-    console.log(req.headers);
     universeService.getUniverseList(req.params.id, res);
 });
 

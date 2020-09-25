@@ -1,24 +1,10 @@
 import React from "react";
 import AppWrapper from "../../../../molecules/Wrapper/AppWrapper";
 import Grid from "@material-ui/core/Grid";
-import AddIcon from "@material-ui/icons/Add";
-import {
-    Container,
-    Card,
-    CardContent,
-    Typography,
-    makeStyles,
-    Divider,
-    Button,
-    List,
-    ListItem,
-    ListItemText,
-    InputLabel,
-    FormControlLabel,
-} from "@material-ui/core";
+import { Container, makeStyles, Button } from "@material-ui/core";
 import { Formik, Form, Field } from "formik";
-import { TextField, Checkbox as FormCheckBox } from "formik-material-ui";
-import { Link, useHistory, Redirect } from "react-router-dom";
+import { TextField } from "formik-material-ui";
+import { useHistory, Redirect } from "react-router-dom";
 import UniverseService from "../../../../../services/universe.service";
 import AuthService from "../../../../../services/auth.service";
 
@@ -86,7 +72,7 @@ export default () => {
                 // logIn();
                 //history.push("/about"); // for some reason...we aren't logged in at this point. It's like login isn't even being calleed...
                 //window.location.reload();
-                console.log(response);
+
                 history.push({
                     pathname: `/app/universes/${response.data.universe._id}`,
                     state: { universeId: response.data.universe._id },
@@ -99,8 +85,6 @@ export default () => {
                 //         error.response.data.message) ||
                 //     error.message ||
                 //     error.toString();
-
-                console.log(error);
             }
         );
     }
