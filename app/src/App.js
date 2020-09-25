@@ -17,23 +17,8 @@ import EditWiki from "./components/pages/app/Wiki/EditWiki/EditWiki";
 import NewWiki from "./components/pages/app/Wiki/NewWiki/NewWiki";
 
 function App() {
-    function handleClick1() {
-        axios
-            .get("/api/users")
-            .then((res) => console.log(res.data))
-            .catch((err) => console.log(err));
-    }
-
-    function handleClick2() {
-        axios
-            .get("/api/health")
-            .then((res) => console.log(res.data))
-            .catch((err) => console.log(err));
-    }
     return (
         <div className="App">
-            <button onClick={handleClick1}>Hi</button>
-            <button onClick={handleClick2}>Hi2</button>
             <Switch>
                 {/* Public pages */}
                 <Route path="/" component={HomePage} exact />

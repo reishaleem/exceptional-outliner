@@ -14,6 +14,7 @@ async function login(request, response) {
 
     if (await bcrypt.compare(request.password, user.password)) {
         const userDetails = {
+            id: user._id,
             name: user.name,
             username: user.username,
         };
@@ -24,4 +25,18 @@ async function login(request, response) {
     }
 }
 
-module.exports = { login };
+function authenticateToken(req, res, next) {
+    console.log(req.headers);
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1]; // get the token part after BEARER
+    if (token == null) res.status(401).json("Invalid token");
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) res.status(403).json("Token error...");
+
+        req.user = user;
+        next();
+    });
+}
+
+module.exports = { login, authenticateToken };

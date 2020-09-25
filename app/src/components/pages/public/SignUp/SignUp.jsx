@@ -13,6 +13,8 @@ import {
 import { Formik, Form, Field } from "formik";
 import { TextField } from "formik-material-ui";
 import UserService from "../../../../services/user.service";
+import AuthService from "../../../../services/auth.service";
+import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     pad: {
@@ -87,6 +89,12 @@ function handleSubmit(values, setSubmitting) {
 
 export default () => {
     const classes = useStyles();
+
+    const currentUser = AuthService.getCurrentUser();
+    if (currentUser !== null) {
+        return <Redirect to="/app" />;
+    }
+
     return (
         <>
             <Navbar />

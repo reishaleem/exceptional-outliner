@@ -1,4 +1,5 @@
 import axios from "axios";
+import authHeader from "./auth-header";
 
 const API_URL = "/api/wikis/";
 
@@ -17,7 +18,9 @@ const getWikisByUniverse = (ownerId, universeId) => {
     return axios.get(API_URL + `${ownerId}/${universeId}/getWikis`);
 };
 const getWikisByUser = (ownerId) => {
-    return axios.get(API_URL + `${ownerId}/getAllWikis`);
+    return axios.get(API_URL + `${ownerId}/getAllWikis`, {
+        headers: authHeader(),
+    });
 };
 
 const updateWiki = (ownerId, universeId, wikiId, name, body) => {

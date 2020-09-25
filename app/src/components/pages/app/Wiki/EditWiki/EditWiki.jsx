@@ -18,10 +18,11 @@ import {
 } from "@material-ui/core";
 import { Formik, Form, Field } from "formik";
 import { TextField, Checkbox as FormCheckBox } from "formik-material-ui";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { Link, useHistory, useParams, Redirect } from "react-router-dom";
 import UniverseWrapper from "../../../../molecules/Wrapper/UniverseWrapper";
 import UniverseService from "../../../../../services/universe.service";
 import WikiService from "../../../../../services/wiki.service";
+import AuthService from "../../../../../services/auth.service";
 import DeleteWikiModal from "../../../../molecules/ModalForm/DeleteWikiModal";
 
 const useStyles = makeStyles((theme) => ({
@@ -75,7 +76,10 @@ export default () => {
     const classes = useStyles();
     const history = useHistory();
 
-    const currentUserId = "5f6b9d1ad980b3346a4a329d";
+    const currentUser = AuthService.getCurrentUser();
+    if (currentUser === null) {
+        return <Redirect to="/login" />;
+    }
 
     const formRef = useRef();
     const { universeId, wikiId } = useParams();
@@ -84,14 +88,14 @@ export default () => {
     const [wikiLoaded, setWikiLoaded] = useState(false);
 
     useEffect(() => {
-        WikiService.getWikiById(currentUserId, universeId, wikiId).then(
+        WikiService.getWikiById(currentUser.id, universeId, wikiId).then(
             (response) => {
                 setWiki(response.data);
                 //setWikisLoaded(true);
             }
         );
         setWikiLoaded(true);
-    }, [currentUserId, universeId, wikiId]);
+    }, [currentUser.id, universeId, wikiId]);
     console.log(wiki);
 
     function handleExternalSubmit() {
@@ -104,7 +108,7 @@ export default () => {
         setWikiLoaded(false);
 
         WikiService.updateWiki(
-            currentUserId,
+            currentUser.id,
             universeId,
             wikiId,
             values.name,

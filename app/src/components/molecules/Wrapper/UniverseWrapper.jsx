@@ -38,12 +38,13 @@ import BuildIcon from "@material-ui/icons/Build";
 import NoteIcon from "@material-ui/icons/Note";
 import DescriptionIcon from "@material-ui/icons/Description";
 import Button from "@material-ui/core/Button";
-import { withRouter, NavLink, Link } from "react-router-dom";
+import { withRouter, NavLink, Link, Redirect } from "react-router-dom";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import StarBorder from "@material-ui/icons/StarBorder";
 import Collapse from "@material-ui/core/Collapse";
 import Grid from "@material-ui/core/Grid";
+import AuthService from "../../../services/auth.service";
 
 const drawerWidth = 240;
 
@@ -131,6 +132,8 @@ const AppWrapper = ({ universeDropdownStartOpen, children }) => {
     );
     const [studioDropdownOpen, setStudioDropdownOpen] = React.useState(false);
 
+    const currentUser = AuthService.getCurrentUser();
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -216,10 +219,10 @@ const AppWrapper = ({ universeDropdownStartOpen, children }) => {
                                 alt="Account Name"
                                 src="./account-profile-image.jpg"
                             >
-                                A
+                                {currentUser.name.charAt(0)}
                             </Avatar>
                         </ListItemIcon>
-                        <ListItemText primary="Account Name" />
+                        <ListItemText primary={currentUser.name} />
                         {accountDropdownOpen ? <ExpandLess /> : <ExpandMore />}
                     </ListItem>
                     <Collapse
@@ -245,7 +248,11 @@ const AppWrapper = ({ universeDropdownStartOpen, children }) => {
                                 </ListItem>
                             </Link>
                             <Link to="/" className={classes.sidebarLink}>
-                                <ListItem button className={classes.nested}>
+                                <ListItem
+                                    button
+                                    className={classes.nested}
+                                    onClick={() => AuthService.logout()}
+                                >
                                     <ListItemIcon>
                                         <ExitToAppIcon />
                                     </ListItemIcon>

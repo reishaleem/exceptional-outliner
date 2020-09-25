@@ -33,6 +33,7 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import StarBorder from "@material-ui/icons/StarBorder";
 import Collapse from "@material-ui/core/Collapse";
 import Grid from "@material-ui/core/Grid";
+import AuthService from "../../../services/auth.service";
 
 const drawerWidth = 240;
 
@@ -116,6 +117,8 @@ const AppWrapper = ({ children }) => {
     const [open, setOpen] = React.useState(true);
     const [accountDropdownOpen, setAccountDropdownOpen] = React.useState(false);
 
+    const currentUser = AuthService.getCurrentUser();
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -193,10 +196,10 @@ const AppWrapper = ({ children }) => {
                                 alt="Account Name"
                                 src="./account-profile-image.jpg"
                             >
-                                A
+                                {currentUser.name.charAt(0)}
                             </Avatar>
                         </ListItemIcon>
-                        <ListItemText primary="Account Name" />
+                        <ListItemText primary={currentUser.name} />
                         {accountDropdownOpen ? <ExpandLess /> : <ExpandMore />}
                     </ListItem>
                     <Collapse
@@ -222,7 +225,11 @@ const AppWrapper = ({ children }) => {
                                 </ListItem>
                             </Link>
                             <Link to="/" className={classes.sidebarLink}>
-                                <ListItem button className={classes.nested}>
+                                <ListItem
+                                    button
+                                    className={classes.nested}
+                                    onClick={() => AuthService.logout()}
+                                >
                                     <ListItemIcon>
                                         <ExitToAppIcon />
                                     </ListItemIcon>

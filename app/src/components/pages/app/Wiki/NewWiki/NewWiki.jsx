@@ -21,9 +21,10 @@ import { Autocomplete } from "formik-material-ui-lab";
 
 import { Formik, Form, Field } from "formik";
 import { TextField, Checkbox as FormCheckBox } from "formik-material-ui";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, Redirect } from "react-router-dom";
 import UniverseWrapper from "../../../../molecules/Wrapper/UniverseWrapper";
 import UniverseService from "../../../../../services/universe.service";
+import AuthService from "../../../../../services/auth.service";
 import WikiService from "../../../../../services/wiki.service";
 
 const useStyles = makeStyles((theme) => ({
@@ -73,7 +74,10 @@ export default (props) => {
     const classes = useStyles();
     const history = useHistory();
 
-    const currentUserId = "5f6b9d1ad980b3346a4a329d"; // needs to be changed when jwt is done
+    const currentUser = AuthService.getCurrentUser();
+    if (currentUser === null) {
+        return <Redirect to="/login" />;
+    }
 
     const [universes, setUniverses] = useState([]);
 
@@ -85,11 +89,11 @@ export default (props) => {
     const [universesLoaded, setUniversesLoaded] = useState(false);
 
     useEffect(() => {
-        UniverseService.getUserUniverseList(currentUserId).then((response) => {
+        UniverseService.getUserUniverseList(currentUser.id).then((response) => {
             setUniverses(response.data);
             setUniversesLoaded(true);
         });
-    }, [currentUserId]);
+    }, [currentUser.id]);
     console.log(universes);
 
     const name = props.location.state.universe;
@@ -97,7 +101,7 @@ export default (props) => {
 
     function handleSubmit(values, setSubmitting) {
         WikiService.createWiki(
-            currentUserId,
+            currentUser.id,
             values.universe._id,
             values.name,
             values.body

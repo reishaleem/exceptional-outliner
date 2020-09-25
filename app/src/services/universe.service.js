@@ -1,4 +1,5 @@
 import axios from "axios";
+import authHeader from "./auth-header";
 
 const API_URL = "/api/universes/";
 
@@ -14,7 +15,9 @@ const getUniverseById = (ownerId, universeId) => {
 };
 
 const getUserUniverseList = (id) => {
-    return axios.get(API_URL + `${id}/getUniverses`);
+    return axios.get(API_URL + `${id}/getUniverses`, {
+        headers: authHeader(),
+    });
 };
 
 const deleteUniverse = (ownerId, universeId) => {

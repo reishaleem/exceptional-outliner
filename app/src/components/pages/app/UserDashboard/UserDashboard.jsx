@@ -17,10 +17,11 @@ import {
     ListItemAvatar,
     Avatar,
 } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import ImageIcon from "@material-ui/icons/Image";
 
 import WikiService from "../../../../services/wiki.service";
+import AuthService from "../../../../services/auth.service";
 
 const useStyles = makeStyles((theme) => ({
     pad: {
@@ -71,7 +72,11 @@ const useStyles = makeStyles((theme) => ({
 export default () => {
     const classes = useStyles();
 
-    const currentUserId = "5f6b9d1ad980b3346a4a329d"; // needs to be changed when jwt is done
+    const currentUser = AuthService.getCurrentUser();
+    if (currentUser === null) {
+        return <Redirect to="/login" />;
+    }
+    console.log(currentUser);
 
     const [recentlyEdited, setRecentlyEdited] = useState([]);
 
@@ -80,7 +85,7 @@ export default () => {
     // maybe when you hover over the icon, it says universe: universeName, just for Wikis.
 
     useEffect(() => {
-        WikiService.getWikisByUser(currentUserId).then((response) => {
+        WikiService.getWikisByUser(currentUser.id).then((response) => {
             let wikis = response.data;
             wikis.sort((a, b) => {
                 const d1 = new Date(a.wiki.updatedAt);
@@ -93,7 +98,7 @@ export default () => {
             });
             setRecentlyEdited(wikis);
         });
-    }, [currentUserId]);
+    }, [currentUser.id]);
     console.log(recentlyEdited);
 
     return (

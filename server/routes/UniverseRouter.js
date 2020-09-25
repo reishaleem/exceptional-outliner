@@ -1,9 +1,12 @@
 const router = require("express").Router();
 const universeService = require("../services/UniverseService");
+const authService = require("../services/AuthenticationService");
 let User = require("../models/UserSchema");
 
+router.use(authService.authenticateToken); // this is going to add the 'user' part to every request, so that way, we can authenticate and get username and ID
+
 router.route("/").get((req, res) => {
-    User.find()
+    User.find({ username: req.body.usename })
         .then((users) => {
             universes = users.map((user) => user.universes);
             res.json(universes);
@@ -20,6 +23,7 @@ router.route("/:id/get/:universeId").get((req, res) => {
 });
 
 router.route("/:id/getUniverses").get((req, res) => {
+    console.log(req.headers);
     universeService.getUniverseList(req.params.id, res);
 });
 

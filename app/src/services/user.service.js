@@ -12,15 +12,6 @@ const addUser = (name, username, email, password, bio) => {
     });
 };
 
-// add jwt stuff later. Can't GET with a body...so...just do later.
-const login = (username, password) => {
-    return axios.get(API_URL + "login", {
-        username,
-        password,
-    });
-};
-
 export default {
     addUser,
-    login,
 };

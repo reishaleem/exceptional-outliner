@@ -29,8 +29,9 @@ import SearchIcon from "@material-ui/icons/Search";
 
 import { Formik, Form, Field } from "formik";
 import { TextField, Checkbox as FormCheckBox } from "formik-material-ui";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, Redirect } from "react-router-dom";
 import UniverseService from "../../../../services/universe.service";
+import AuthService from "../../../../services/auth.service";
 import ModalForm from "../../../molecules/ModalForm/DeleteUniverseModal";
 import DeleteUniverseModal from "../../../molecules/ModalForm/DeleteUniverseModal";
 
@@ -122,18 +123,20 @@ export default () => {
     const classes = useStyles();
     const history = useHistory();
 
-    const currentUserId = "5f6b9d1ad980b3346a4a329d"; // needs to be changed when jwt is done
-
+    const currentUser = AuthService.getCurrentUser();
+    if (currentUser === null) {
+        return <Redirect to="/login" />;
+    }
     const [universes, setUniverses] = useState([]);
 
     const [universesLoaded, setUniversesLoaded] = useState(false);
 
     useEffect(() => {
-        UniverseService.getUserUniverseList(currentUserId).then((response) => {
+        UniverseService.getUserUniverseList(currentUser.id).then((response) => {
             setUniverses(response.data);
             setUniversesLoaded(true);
         });
-    }, [currentUserId]);
+    }, [currentUser.id]);
     console.log(universes);
 
     function handleSubmit(values, setSubmitting) {
@@ -457,7 +460,7 @@ export default () => {
                                                                             universe.name
                                                                         }
                                                                         ownerId={
-                                                                            currentUserId
+                                                                            currentUser.id
                                                                         }
                                                                         universeId={
                                                                             universe._id

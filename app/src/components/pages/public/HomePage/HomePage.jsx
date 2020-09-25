@@ -18,10 +18,7 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: "15px",
         paddingRight: "15px",
     },
-    link: {
-        textDecoration: "none",
-        color: "inherit",
-    },
+    
 }));
 
 export default () => {

@@ -18,8 +18,9 @@ import {
 } from "@material-ui/core";
 import { Formik, Form, Field } from "formik";
 import { TextField, Checkbox as FormCheckBox } from "formik-material-ui";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, Redirect } from "react-router-dom";
 import UniverseService from "../../../../../services/universe.service";
+import AuthService from "../../../../../services/auth.service";
 
 const useStyles = makeStyles((theme) => ({
     pad: {
@@ -68,11 +69,14 @@ export default () => {
     const classes = useStyles();
     const history = useHistory();
 
-    const currentUserId = "5f6b9d1ad980b3346a4a329d"; // needs to be changed when jwt is done
+    const currentUser = AuthService.getCurrentUser(); // needs to be changed when jwt is done
+    if (currentUser === null) {
+        return <Redirect to="/login" />;
+    }
 
     function handleSubmit(values, setSubmitting) {
         UniverseService.createUniverse(
-            currentUserId,
+            currentUser.id,
             values.name,
             values.description
         ).then(

@@ -17,7 +17,7 @@ import {
     IconButton,
     Tooltip,
 } from "@material-ui/core";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, Redirect } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import moment from "moment";
@@ -32,6 +32,7 @@ import { TextField, Checkbox as FormCheckBox } from "formik-material-ui";
 import UniverseWrapper from "../../../../molecules/Wrapper/UniverseWrapper";
 import UniverseService from "../../../../../services/universe.service";
 import WikiService from "../../../../../services/wiki.service";
+import AuthService from "../../../../../services/auth.service";
 import DeleteWikiModal from "../../../../molecules/ModalForm/DeleteWikiModal";
 
 const useStyles = makeStyles((theme) => ({
@@ -116,28 +117,31 @@ const useStyles = makeStyles((theme) => ({
 
 export default (props) => {
     const classes = useStyles();
-
-    const currentUserId = "5f6b9d1ad980b3346a4a329d"; // needs to be changed when jwt is done
     const { universeId } = useParams();
     const [universe, setUniverse] = useState({});
 
     const [wikis, setWikis] = useState([]);
 
     const [wikisLoaded, setWikisLoaded] = useState(true);
+    const currentUser = AuthService.getCurrentUser();
+
+    if (currentUser === null) {
+        return <Redirect to="/login" />;
+    }
 
     useEffect(() => {
-        WikiService.getWikisByUniverse(currentUserId, universeId).then(
+        WikiService.getWikisByUniverse(currentUser.id, universeId).then(
             (response) => {
                 setWikis(response.data);
                 setWikisLoaded(true);
             }
         );
-        UniverseService.getUniverseById(currentUserId, universeId).then(
+        UniverseService.getUniverseById(currentUser.id, universeId).then(
             (response) => {
                 setUniverse(response.data);
             }
         );
-    }, [currentUserId, universeId]);
+    }, [currentUser.id, universeId]);
     console.log(wikis);
     console.log(universe);
 
@@ -409,7 +413,7 @@ export default (props) => {
                                                                         wiki.name
                                                                     }
                                                                     ownerId={
-                                                                        currentUserId
+                                                                        currentUser.id
                                                                     }
                                                                     universeId={
                                                                         universeId
