@@ -24,15 +24,15 @@ connectionPool.once("open", () => {
     console.log("MongoDB connection pool established");
 });
 
-const userRouter = require("./server/routes/UserRouter");
-const universeRouter = require("./server/routes/UniverseRouter");
-const wikiRouter = require("./server/routes/WikiRouter");
-const authenticationRouter = require("./server/routes/AuthenticationRouter");
+// const userRouter = require("./old/server/routes/UserRouter");
+// const universeRouter = require("./old/server/routes/UniverseRouter");
+// const wikiRouter = require("./old/server/routes/WikiRouter");
+// const authenticationRouter = require("./old/server/routes/AuthenticationRouter");
 
-app.use("/api/users", userRouter);
-app.use("/api/universes", universeRouter);
-app.use("/api/wikis", wikiRouter);
-app.use("/api/auth", authenticationRouter);
+// app.use("/api/users", userRouter);
+// app.use("/api/universes", universeRouter);
+// app.use("/api/wikis", wikiRouter);
+// app.use("/api/auth", authenticationRouter);
 
 app.get("/api/health", (req, res) => {
     res.send({ message: "Server is running" });
