@@ -134,6 +134,7 @@ const AppWrapper = ({ children }) => {
                 className={clsx(classes.appBar, {
                     [classes.appBarShift]: open,
                 })}
+                elevation={0}
             >
                 <Toolbar>
                     <IconButton

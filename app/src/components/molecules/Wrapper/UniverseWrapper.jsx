@@ -118,7 +118,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const AppWrapper = ({ universeDropdownStartOpen, children }) => {
+const UniverseWrapper = ({ universeDropdownStartOpen, children }) => {
     const classes = useStyles();
     const theme = useTheme();
     const [open, setOpen] = React.useState(true);
@@ -158,6 +158,7 @@ const AppWrapper = ({ universeDropdownStartOpen, children }) => {
                 className={clsx(classes.appBar, {
                     [classes.appBarShift]: open,
                 })}
+                elevation={0}
             >
                 <Toolbar>
                     <IconButton
@@ -425,4 +426,4 @@ const AppWrapper = ({ universeDropdownStartOpen, children }) => {
     );
 };
 
-export default withRouter(AppWrapper);
+export default withRouter(UniverseWrapper);

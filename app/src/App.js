@@ -14,6 +14,7 @@ import UserUniverseList from "./components/pages/app/UserUniverseList/UserUniver
 import UniverseDashboard from "./components/pages/app/Universe/Dashboard/UniverseDashboard";
 import EditWiki from "./components/pages/app/Wiki/EditWiki/EditWiki";
 import NewWiki from "./components/pages/app/Wiki/NewWiki/NewWiki";
+import UniverseHomePage from "./components/pages/app/Explore/Universe/UniverseHomePage";
 
 function App() {
     return (
@@ -48,6 +49,17 @@ function App() {
                 <Route
                     path="/app/universes/:universeId"
                     component={UniverseDashboard}
+                    exact
+                />
+
+                <Route
+                    path="/app/view/:universeId"
+                    component={UniverseHomePage}
+                    exact
+                />
+                <Route
+                    path="/app/view/:universeId/:wikiId"
+                    component={UniverseHomePage}
                     exact
                 />
             </Switch>
