@@ -1,8 +1,10 @@
-import { Button, Card, CardContent, Container, Grid, makeStyles, Typography } from "@material-ui/core";
+import { Button, Card, CardContent, Container, Divider, Grid, List, ListItem, makeStyles, Typography } from "@material-ui/core";
 import BuildIcon from "@material-ui/icons/Build"
 import React from "react";
 
 import TestImage from "../../../../images/landing-bg.jpg"
+import OnePiece from "../../../../images/onepieceworld.jpg"
+import PublicNavbar from "../../../molecules/Navbar/PublicNavbar/PublicNavbar";
 
 const useStyles = makeStyles((theme) => ({
     background: {
@@ -58,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
     },
     section: {
         padding: "70px 0",
-        textAlign: "center"
+        //textAlign: "center"
     },
     productTitle: {
         marginBottom: "1rem",
@@ -68,13 +70,57 @@ const useStyles = makeStyles((theme) => ({
       },
       productDescription: {
         color: "#999"
-      }
+      },
+      fluidImage: {
+        maxWidth: "100%",
+        height: "auto",
+        verticalAlign: "middle",
+        borderStyle: "none",
+    },
+    footer: {
+        padding: "0.9375rem 0",
+        textAlign: "center",
+        display: "flex",
+        zIndex: 2,
+        position: "relative"
+      },
+      left: {
+        float: "left",
+        display: "block"
+      },
+      right: {
+        padding: "15px 0",
+        margin: "0",
+        float: "right"
+      },
+      list: {
+        marginBottom: "0",
+        padding: "0",
+        marginTop: "0"
+      },
+      inlineBlock: {
+        display: "inline-block",
+        padding: "0px",
+        width: "auto"
+      },
+      block: {
+        color: "inherit",
+        padding: "0.9375rem",
+        fontWeight: 500,
+        fontSize: "12px",
+        textTransform: "uppercase",
+        borderRadius: "3px",
+        textDecoration: "none",
+        position: "relative",
+        display: "block"
+      },
 }));
 
 export default () => {
     const classes = useStyles();
     return (
         <>
+            <PublicNavbar />
             <div className={`${classes.background}`} style={{backgroundImage: "url(" + TestImage + ")"}}>
                 <Container>
                     <Grid item xs={12} sm={12} md={6}>
@@ -88,49 +134,139 @@ export default () => {
                 
                 <Container>
                     <div className={`${classes.section}`}>
-                    <Grid container justify="center">
-                        <Grid item xs={12} sm={12} md={6}>
-                            <Typography variant="h3" component="h3" className={`${classes.productTitle}`}>Product</Typography>
-                            <Typography variant="body1" component="h5" className={`${classes.productDescription}`}>Desc</Typography>
-                        </Grid>
-                    </Grid>
-                    <div>
-                        <Grid container>
-                            <Grid item xs={12} sm={12} md={4}>
-                                <Card elevation={0}>
-                                    <CardContent>
-                                        <Typography variant="h4" component="h2" gutterBottom><BuildIcon fontSize="large" /></Typography>
-                                        <Typography variant="h5" component="h2" gutterBottom>Title</Typography>
-                                        <Typography variant="body1" component="p" gutterBottom>Paragraph</Typography>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={4}>
-                                <Card elevation={0}>
-                                    <CardContent>
-                                        <Typography variant="h4" component="h2" gutterBottom><BuildIcon fontSize="large" /></Typography>
-                                        <Typography variant="h5" component="h2" gutterBottom>Title</Typography>
-                                        <Typography variant="body1" component="p" gutterBottom>Paragraph</Typography>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={4}>
-                                <Card elevation={0}>
-                                    <CardContent>
-                                        <Typography variant="h4" component="h2" gutterBottom><BuildIcon fontSize="large" /></Typography>
-                                        <Typography variant="h5" component="h2" gutterBottom>Title</Typography>
-                                        <Typography variant="body1" component="p" gutterBottom>Paragraph</Typography>
-                                    </CardContent>
-                                </Card>
+                        <Grid container justify="center">
+                            <Grid item xs={12} sm={12} md={6}>
+                                <Typography variant="h3" component="h3" align="center" className={`${classes.productTitle}`}>Product</Typography>
+                                <Typography variant="body1" component="h5" align="center" className={`${classes.productDescription}`}>Desc</Typography>
                             </Grid>
                         </Grid>
+                        <div>
+                            <Grid container>
+                                <Grid item xs={12} sm={12} md={4}>
+                                    <Card elevation={0}>
+                                        <CardContent>
+                                            <Typography variant="h4" component="h2" align="center" gutterBottom><BuildIcon fontSize="large" /></Typography>
+                                            <Typography variant="h5" component="h2" align="center" gutterBottom>Title</Typography>
+                                            <Typography variant="body1" component="p" align="center" gutterBottom>Paragraph</Typography>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                                <Grid item xs={12} sm={12} md={4}>
+                                    <Card elevation={0}>
+                                        <CardContent>
+                                            <Typography variant="h4" component="h2" align="center" gutterBottom><BuildIcon fontSize="large" /></Typography>
+                                            <Typography variant="h5" component="h2" align="center" gutterBottom>Title</Typography>
+                                            <Typography variant="body1" component="p" align="center" gutterBottom>Paragraph</Typography>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                                <Grid item xs={12} sm={12} md={4}>
+                                    <Card elevation={0}>
+                                        <CardContent>
+                                            <Typography variant="h4" component="h2" align="center" gutterBottom><BuildIcon fontSize="large" /></Typography>
+                                            <Typography variant="h5" component="h2" align="center" gutterBottom>Title</Typography>
+                                            <Typography variant="body1" component="p" align="center" gutterBottom>Paragraph</Typography>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                            </Grid>
+                        </div>
                     </div>
+                    <div className={`${classes.section}`}>
+                        <Grid container justify="center">
+                            <Grid item xs={12} sm={12} md={6}>
+                                <Typography variant="h3" component="h3" align="center" className={`${classes.productTitle}`}>About us</Typography>
+                            </Grid>
+                        </Grid>
+                        <div>
+                            <Grid container spacing={3}>
+                                <Grid item xs={12} sm={12} md={6}>
+                                        <Typography variant="h4" align="center">
+                                            Who we are
+                                        </Typography>
+                                        <Typography variant="body1">
+                                            I am a story lover. I love huge worlds and
+                                            the countless untold stories within them.
+                                            There is nothing like losing myself in the
+                                            endless seas of the Grand Line, the secret
+                                            passageways within Hogwarts, or the mists of
+                                            the Final Empire. And what I love most is
+                                            that we are all capable of inventing our
+                                            own, mythical story. We just need a place to
+                                            do it. So, I created the Exceptional
+                                            Outliner.
+                                        </Typography>
+                                        <Divider style={{margin: "15px"}}/>
+                                        <Typography variant="h4" align="center">
+                                            What we do
+                                        </Typography>
+                                        <Typography variant="body1">
+                                            I am a software Engineer studying at Ohio
+                                            State University. My goal was to create this
+                                            application to combine features from
+                                            different apps like{" "}
+                                            <a href="https://plotfactory.com">
+                                                Plot Factory
+                                            </a>{" "}
+                                            and{" "}
+                                            <a href="https://worldanvil.com">
+                                                World Anvil
+                                            </a>
+                                            . Hopefully when this is complete, it will
+                                            provide a nice combination of world
+                                            building, outlining, and writing. Check out
+                                            the{" "}
+                                            <a href="https://github.com/reishaleem/exceptional-outliner">
+                                                repository
+                                            </a>{" "}
+                                            on GitHub to see more information on how
+                                            this app was made.
+                                        </Typography>
+                                </Grid>
+                                <Grid item xs={12} sm={12} md={6}>
+                                    <img src={OnePiece} alt="Fantasy World" className={classes.fluidImage}/>
+                                </Grid>
+                                
+                            </Grid>
+                        </div>
                     </div>
                 </Container>
-                
-
-                
             </div>
+            <footer className={classes.footer}> 
+            <Container>
+                <div className={classes.left}>
+                    <List className={classes.list}>
+                        <ListItem className={classes.inlineBlock}>
+                            <a
+                                href="https://github.com/reishaleem/exceptional-outliner"
+                                className={classes.block}
+                            >
+                                GitHub
+                            </a>
+                        </ListItem>
+                        <ListItem className={classes.inlineBlock}>
+                            <a
+                                href="#"
+                                className={classes.block}
+                            >
+                                Twitter
+                            </a>
+                        </ListItem>
+                        <ListItem className={classes.inlineBlock}>
+                            <a
+                                href="#"
+                                className={classes.block}
+                            >
+                                Contact Us
+                            </a>
+                        </ListItem>
+                    </List>
+                </div>
+                <div className={classes.right}>
+                    &copy; {new Date().getFullYear()}. All rights reserved.
+                </div>
+            </Container>
+        </footer>
         </>
     )
 };
