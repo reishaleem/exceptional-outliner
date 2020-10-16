@@ -25,12 +25,6 @@ async function createUser(request, response) {
         });
 }
 
-async function getUserByUsername(username) {
-    return await User.find({ username: username }).exec();
-}
-
-
 module.exports = {
     createUser,
-    getUserByUsername
 }
