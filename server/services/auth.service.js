@@ -6,12 +6,14 @@ async function login(request, response) {
     const username = request.username;
 
     const users = await Users.find({ username: username }).exec();
-    if (users == null) {
+    if (users == null || !users[0]) {
         response.status(400).json("Error: Username or password is incorrect");
         return;
     }
     const user = users[0];
 
+    const passwordMatches = await bcrypt.compare(request.password, user.password);
+    console.log(passwordMatches)
     if (await bcrypt.compare(request.password, user.password)) {
         const userDetails = {
             id: user._id,
@@ -21,7 +23,7 @@ async function login(request, response) {
         const accessToken = jwt.sign(userDetails, process.env.JWT_SECRET);
         response.json({ accessToken: accessToken });
     } else {
-        response.json("Error: Username or password is incorrect");
+        response.status(400).json("Error: Username or password is incorrect");
     }
 }
 

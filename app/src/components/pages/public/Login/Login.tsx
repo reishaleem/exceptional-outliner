@@ -10,10 +10,13 @@ import {
 import { Field, Form, Formik } from "formik";
 import { Checkbox, TextField } from "formik-material-ui";
 import React from "react";
+import { useHistory } from "react-router";
 
 import TestImage from "../../../../images/landing-bg.jpg";
 import PublicFooter from "../../../molecules/Footer/PublicFooter";
 import PublicNavbar from "../../../molecules/Navbar/PublicNavbar/PublicNavbar";
+
+import AuthService from "../../../../services/auth.service";
 
 interface Values {
     username: string;
@@ -75,12 +78,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default () => {
     const classes = useStyles();
+    const history = useHistory();
 
     function handleSubmit(values: any, setSubmitting: any) {
-        setTimeout(() => {
-            setSubmitting(false);
-            alert(JSON.stringify(values, null, 2));
-        }, 500);
+        AuthService.login(values.username, values.password)
+            .then(() => {
+                history.push("/app");
+            })
+            .catch((err) => {
+                console.log(err.response);
+                setSubmitting(false);
+            });
     }
     return (
         <>
