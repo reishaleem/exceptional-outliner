@@ -51,6 +51,9 @@ export default () => {
                             to="/features"
                             exact
                             className={`${classes.link} ${classes.navlink}`}
+                            activeStyle={{
+                                background: "rgba(200, 200, 200, 0.2)",
+                            }}
                         >
                             <Button color="inherit">Features</Button>
                         </NavLink>
@@ -58,6 +61,9 @@ export default () => {
                             to="/register"
                             exact
                             className={`${classes.link} ${classes.navlink}`}
+                            activeStyle={{
+                                background: "rgba(200, 200, 200, 0.2)",
+                            }}
                         >
                             <Button color="inherit">Sign Up</Button>
                         </NavLink>
@@ -65,6 +71,9 @@ export default () => {
                             to="/login"
                             exact
                             className={`${classes.link} ${classes.navlink}`}
+                            activeStyle={{
+                                background: "rgba(200, 200, 200, 0.2)",
+                            }}
                         >
                             <Button color="inherit">Login</Button>
                         </NavLink>

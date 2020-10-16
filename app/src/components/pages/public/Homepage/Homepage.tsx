@@ -263,17 +263,17 @@ export default () => {
                                         Who we are
                                     </Typography>
                                     <Typography variant="body1">
-                                        I am a story lover. I love huge worlds
+                                        We are story lovers. We love huge worlds
                                         and the countless untold stories within
                                         them. There is nothing like losing
-                                        myself in the endless seas of the Grand
-                                        Line, the secret passageways within
-                                        Hogwarts, or the mists of the Final
-                                        Empire. And what I love most is that we
-                                        are all capable of inventing our own,
-                                        mythical story. We just need a place to
-                                        do it. So, I created the Exceptional
-                                        Outliner.
+                                        ourselves in the endless seas of the
+                                        Grand Line, the secret passageways
+                                        within Hogwarts, or the mists of the
+                                        Final Empire. And what we love most is
+                                        that we are all capable of inventing our
+                                        own, mythical story. We just need a
+                                        place to do it. So, we created the
+                                        Exceptional Outliner.
                                     </Typography>
                                     <Divider style={{ margin: "15px" }} />
                                     <Typography variant="h4" align="center">
