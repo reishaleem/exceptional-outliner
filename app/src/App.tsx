@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Homepage from "./components/pages/public/Homepage/Homepage";
 import SignUp from "./components/pages/public/SignUp/SignUp";
 import Login from "./components/pages/public/Login/Login";
+import Features from "./components/pages/public/Features/Features";
 
 function App() {
     return (
@@ -11,6 +12,9 @@ function App() {
             <Switch>
                 <Route path="/" exact>
                     <Homepage />
+                </Route>
+                <Route path="/features" exact>
+                    <Features />
                 </Route>
                 <Route path="/register" exact>
                     <SignUp />
