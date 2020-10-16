@@ -1,20 +1,13 @@
-import {
-    Button,
-    Card,
-    CardContent,
-    Container,
-    Divider,
-    Grid,
-    List,
-    ListItem,
-    makeStyles,
-    Typography,
-} from "@material-ui/core";
-import BuildIcon from "@material-ui/icons/Build";
 import React from "react";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Container from "@material-ui/core/Container";
+import Divider from "@material-ui/core/Divider";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import makeStyles from "@material-ui/styles/makeStyles";
 
 import TestImage from "../../../../images/landing-bg.jpg";
-import OnePiece from "../../../../images/onepieceworld.jpg";
 import PublicFooter from "../../../molecules/Footer/PublicFooter";
 import PublicNavbar from "../../../molecules/Navbar/PublicNavbar/PublicNavbar";
 

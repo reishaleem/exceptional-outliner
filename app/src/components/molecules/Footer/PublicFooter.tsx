@@ -61,12 +61,18 @@ export default () => {
                             </a>
                         </ListItem>
                         <ListItem className={classes.inlineBlock}>
-                            <a href="#" className={classes.block}>
+                            <a
+                                href="https://twitter.com"
+                                className={classes.block}
+                            >
                                 Twitter
                             </a>
                         </ListItem>
                         <ListItem className={classes.inlineBlock}>
-                            <a href="#" className={classes.block}>
+                            <a
+                                href="https://instagram.com"
+                                className={classes.block}
+                            >
                                 Contact Us
                             </a>
                         </ListItem>

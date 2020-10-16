@@ -7,7 +7,7 @@ import {
     Container,
 } from "@material-ui/core";
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default () => {
+const PublicNavbar = () => {
     const classes = useStyles();
 
     return (
@@ -83,3 +83,5 @@ export default () => {
         </>
     );
 };
+
+export default withRouter(PublicNavbar);
