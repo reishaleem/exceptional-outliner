@@ -14,6 +14,10 @@ import TestImage from "../../../../images/landing-bg.jpg";
 import PublicFooter from "../../../molecules/Footer/PublicFooter";
 import PublicNavbar from "../../../molecules/Navbar/PublicNavbar/PublicNavbar";
 
+import UserService from "../../../../services/user.service";
+import AuthService from "../../../../services/auth.service";
+import { useHistory } from "react-router";
+
 interface Values {
     name: string;
     username: string;
@@ -77,12 +81,24 @@ const useStyles = makeStyles((theme) => ({
 
 export default () => {
     const classes = useStyles();
+    const history = useHistory();
 
     function handleSubmit(values: any, setSubmitting: any) {
-        setTimeout(() => {
-            setSubmitting(false);
-            alert(JSON.stringify(values, null, 2));
-        }, 500);
+        UserService.createUser(
+            values.name,
+            values.username,
+            values.email,
+            values.password
+        )
+            .then((response) => {
+                console.log(response);
+                AuthService.login(values.username, values.password).then(() => {
+                    history.push("/app");
+                });
+            })
+            .catch((error) => {
+                console.log("Test", error.response);
+            });
     }
     return (
         <>
@@ -107,13 +123,7 @@ export default () => {
                             </Grid>
                         </Grid>
                         <div>
-                            <Grid
-                                container
-                                xs={12}
-                                sm={12}
-                                md={12}
-                                justify="center"
-                            >
+                            <Grid container justify="center">
                                 <Grid item xs={12} sm={12} md={4}>
                                     <Formik
                                         initialValues={{

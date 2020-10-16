@@ -27,12 +27,12 @@ connectionPool.once("open", () => {
 const userRouter = require("./server/routes/user.router");
 // const universeRouter = require("./old/server/routes/UniverseRouter");
 // const wikiRouter = require("./old/server/routes/WikiRouter");
-// const authenticationRouter = require("./old/server/routes/AuthenticationRouter");
+const authenticationRouter = require("./server/routes/auth.router");
 
 app.use("/api/users", userRouter);
 // app.use("/api/universes", universeRouter);
 // app.use("/api/wikis", wikiRouter);
-// app.use("/api/auth", authenticationRouter);
+app.use("/api/auth", authenticationRouter);
 
 app.get("/api/health", (req, res) => {
     res.send({ message: "Server is running" });
