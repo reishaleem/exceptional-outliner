@@ -20,7 +20,7 @@ import PublicNavbar from "../../../molecules/Navbar/PublicNavbar/PublicNavbar";
 
 const useStyles = makeStyles((theme) => ({
     background: {
-        height: "90vh",
+        height: "45vh",
         maxHeight: "1000px",
         overflow: "hidden",
         position: "relative",
@@ -68,6 +68,7 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: "6px",
         boxShadow:
             "0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",
+        //width: "500px",
     },
     section: {
         padding: "70px 0",
@@ -99,7 +100,7 @@ export default () => {
                 className={`${classes.background}`}
                 style={{ backgroundImage: "url(" + TestImage + ")" }}
             >
-                <Container>
+                {/* <Container>
                     <Grid item xs={12} sm={12} md={6}>
                         <Typography
                             variant="h2"
@@ -123,7 +124,7 @@ export default () => {
                             Start your journey
                         </Button>
                     </Grid>
-                </Container>
+                </Container> */}
             </div>
             <div className={`${classes.mainRaised} ${classes.main}`}>
                 <Container>
@@ -136,15 +137,7 @@ export default () => {
                                     align="center"
                                     className={`${classes.productTitle}`}
                                 >
-                                    Product
-                                </Typography>
-                                <Typography
-                                    variant="body1"
-                                    component="h5"
-                                    align="center"
-                                    className={`${classes.productDescription}`}
-                                >
-                                    Desc
+                                    Create your account
                                 </Typography>
                             </Grid>
                         </Grid>
