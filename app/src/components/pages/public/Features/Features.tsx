@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
         textDecoration: "none",
     },
     productDescription: {
-        color: "#999",
+        //color: "#999",
     },
     fluidImage: {
         maxWidth: "100%",

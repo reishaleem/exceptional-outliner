@@ -105,13 +105,7 @@ export default () => {
                             </Grid>
                         </Grid>
                         <div>
-                            <Grid
-                                container
-                                xs={12}
-                                sm={12}
-                                md={12}
-                                justify="center"
-                            >
+                            <Grid container justify="center">
                                 <Grid item xs={12} sm={12} md={4}>
                                     <Formik
                                         initialValues={{

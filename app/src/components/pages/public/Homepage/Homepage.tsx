@@ -7,12 +7,15 @@ import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import BuildIcon from "@material-ui/icons/Build";
+import CreateIcon from "@material-ui/icons/Create";
+import SearchIcon from "@material-ui/icons/Search";
 import makeStyles from "@material-ui/styles/makeStyles";
 
 import TestImage from "../../../../images/landing-bg.jpg";
 import OnePiece from "../../../../images/onepieceworld.jpg";
 import PublicFooter from "../../../molecules/Footer/PublicFooter";
 import PublicNavbar from "../../../molecules/Navbar/PublicNavbar/PublicNavbar";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     background: {
@@ -84,6 +87,10 @@ const useStyles = makeStyles((theme) => ({
         verticalAlign: "middle",
         borderStyle: "none",
     },
+    link: {
+        textDecoration: "none",
+        color: "inherit",
+    },
 }));
 
 export default () => {
@@ -111,13 +118,15 @@ export default () => {
                         >
                             The ultimate outlining tool.
                         </Typography>
-                        <Button
-                            color="secondary"
-                            variant="contained"
-                            size="large"
-                        >
-                            Start your journey
-                        </Button>
+                        <Link to={"/register"} className={classes.link}>
+                            <Button
+                                color="secondary"
+                                variant="contained"
+                                size="large"
+                            >
+                                Create your free account
+                            </Button>
+                        </Link>
                     </Grid>
                 </Container>
             </div>
@@ -132,7 +141,7 @@ export default () => {
                                     align="center"
                                     className={`${classes.productTitle}`}
                                 >
-                                    Product
+                                    What We Offer
                                 </Typography>
                                 <Typography
                                     variant="body1"
@@ -140,12 +149,24 @@ export default () => {
                                     align="center"
                                     className={`${classes.productDescription}`}
                                 >
-                                    Desc
+                                    The Exceptional Outliner provides an
+                                    outlining experience that is tailored to
+                                    whatever process you follow. With
+                                    wiki-styled pages, link together different
+                                    locations, characters, magic systems, and
+                                    much more, to create a cohesive and
+                                    navigable world for your story. Write
+                                    outlines for characters and events, design
+                                    characters, draw maps, and so much more. Or,
+                                    just go straight into a manuscript and start
+                                    writing chapter 1. Our goal is to be
+                                    different from the others, to stand above
+                                    the rest. To truly be <i>Exceptional</i>.
                                 </Typography>
                             </Grid>
                         </Grid>
                         <div>
-                            <Grid container>
+                            <Grid container spacing={1}>
                                 <Grid item xs={12} sm={12} md={4}>
                                     <Card elevation={0}>
                                         <CardContent>
@@ -163,15 +184,24 @@ export default () => {
                                                 align="center"
                                                 gutterBottom
                                             >
-                                                Title
+                                                Build your character (WIP)
                                             </Typography>
                                             <Typography
-                                                variant="body1"
+                                                variant="subtitle1"
                                                 component="p"
                                                 align="center"
-                                                gutterBottom
                                             >
-                                                Paragraph
+                                                Build your character from
+                                                scratch, your way. Create
+                                                questionnaires for yourself to
+                                                answer, begin editing a
+                                                wiki-styled page to flesh out
+                                                the details, go straight to
+                                                character design, or just open a
+                                                blank sheet and write down every
+                                                thought that comes to mind.
+                                                Whatever suits your style, you
+                                                can find it here.
                                             </Typography>
                                         </CardContent>
                                     </Card>
@@ -185,7 +215,7 @@ export default () => {
                                                 align="center"
                                                 gutterBottom
                                             >
-                                                <BuildIcon fontSize="large" />
+                                                <SearchIcon fontSize="large" />
                                             </Typography>
                                             <Typography
                                                 variant="h5"
@@ -193,15 +223,22 @@ export default () => {
                                                 align="center"
                                                 gutterBottom
                                             >
-                                                Title
+                                                Find inspiration (WIP)
                                             </Typography>
                                             <Typography
-                                                variant="body1"
+                                                variant="subtitle1"
                                                 component="p"
                                                 align="center"
-                                                gutterBottom
                                             >
-                                                Paragraph
+                                                Use ready-made character sheets
+                                                provided by us and other users
+                                                to get going, explore other
+                                                published characters from the
+                                                community, or use the Generator
+                                                to get names, weapons, a prompt
+                                                to start with, and countless
+                                                other ideas to create unique
+                                                characters for your story.
                                             </Typography>
                                         </CardContent>
                                     </Card>
@@ -215,7 +252,7 @@ export default () => {
                                                 align="center"
                                                 gutterBottom
                                             >
-                                                <BuildIcon fontSize="large" />
+                                                <CreateIcon fontSize="large" />
                                             </Typography>
                                             <Typography
                                                 variant="h5"
@@ -223,15 +260,21 @@ export default () => {
                                                 align="center"
                                                 gutterBottom
                                             >
-                                                Title
+                                                Plan, Organize, and Write (WIP)
                                             </Typography>
                                             <Typography
-                                                variant="body1"
+                                                variant="subtitle1"
                                                 component="p"
                                                 align="center"
-                                                gutterBottom
                                             >
-                                                Paragraph
+                                                Begin crafting the perfect
+                                                character arc with manuscript
+                                                editors as if you were writing a
+                                                novel. Create your own beats or
+                                                use one of the development
+                                                sheets to map out your character
+                                                and their development in any way
+                                                you can imagine.
                                             </Typography>
                                         </CardContent>
                                     </Card>
@@ -239,6 +282,7 @@ export default () => {
                             </Grid>
                         </div>
                     </div>
+                    <Divider />
                     <div className={`${classes.section}`}>
                         <Grid container justify="center">
                             <Grid item xs={12} sm={12} md={6}>
@@ -248,16 +292,16 @@ export default () => {
                                     align="center"
                                     className={`${classes.productTitle}`}
                                 >
-                                    About us
+                                    Our Culture
                                 </Typography>
                             </Grid>
                         </Grid>
                         <div>
                             <Grid container spacing={3}>
                                 <Grid item xs={12} sm={12} md={6}>
-                                    <Typography variant="h4" align="center">
+                                    {/* <Typography variant="h4" align="center">
                                         Who we are
-                                    </Typography>
+                                    </Typography> */}
                                     <Typography variant="body1">
                                         We are story lovers. We love huge worlds
                                         and the countless untold stories within
@@ -265,13 +309,30 @@ export default () => {
                                         ourselves in the endless seas of the
                                         Grand Line, the secret passageways
                                         within Hogwarts, or the mists of the
-                                        Final Empire. And what we love most is
-                                        that we are all capable of inventing our
-                                        own, mythical story. We just need a
-                                        place to do it. So, we created the
-                                        Exceptional Outliner.
+                                        Final Empire. And creating these worlds
+                                        is equally fun.
                                     </Typography>
-                                    <Divider style={{ margin: "15px" }} />
+                                    <br />
+                                    <Typography variant="body1">
+                                        Some writers like to outline every last
+                                        detail, from the tragic backstory to the
+                                        ultimate victory. Others will simply put
+                                        a character in an interesting situation
+                                        and see what comes next. Whether you are
+                                        the purest gardener or the most
+                                        thoughtful architect, or anywhere
+                                        inbetween, this is the place for you.
+                                    </Typography>
+                                    <br />
+                                    <Typography variant="body1">
+                                        Because what we love most is that we are{" "}
+                                        <i>all</i> capable of inventing our own,
+                                        mythical story. We just need a place to
+                                        do it. So, we created the Exceptional
+                                        Outliner.
+                                    </Typography>
+
+                                    {/* <Divider style={{ margin: "15px" }} />
                                     <Typography variant="h4" align="center">
                                         What we do
                                     </Typography>
@@ -296,7 +357,7 @@ export default () => {
                                         </a>{" "}
                                         on GitHub to see more information on how
                                         this app was made.
-                                    </Typography>
+                                    </Typography> */}
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={6}>
                                     <img
