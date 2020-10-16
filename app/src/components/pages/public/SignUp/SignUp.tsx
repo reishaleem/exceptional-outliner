@@ -1,26 +1,30 @@
 import {
     Button,
-    Card,
-    CardContent,
     Container,
-    Divider,
     Grid,
-    List,
-    ListItem,
+    LinearProgress,
     makeStyles,
     Typography,
 } from "@material-ui/core";
-import BuildIcon from "@material-ui/icons/Build";
+import { Field, Form, Formik } from "formik";
+import { TextField } from "formik-material-ui";
 import React from "react";
 
 import TestImage from "../../../../images/landing-bg.jpg";
-import OnePiece from "../../../../images/onepieceworld.jpg";
 import PublicFooter from "../../../molecules/Footer/PublicFooter";
 import PublicNavbar from "../../../molecules/Navbar/PublicNavbar/PublicNavbar";
 
+interface Values {
+    name: string;
+    username: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+}
+
 const useStyles = makeStyles((theme) => ({
     background: {
-        height: "45vh",
+        height: "40vh",
         maxHeight: "1000px",
         overflow: "hidden",
         position: "relative",
@@ -47,17 +51,6 @@ const useStyles = makeStyles((theme) => ({
             content: "''",
         },
     },
-    title: {
-        display: "inline-block",
-        position: "relative",
-        marginTop: "30px",
-        minHeight: "32px",
-        color: "#FFFFFF",
-        textDecoration: "none",
-    },
-    subtitle: {
-        color: "#FFFFFF",
-    },
     main: {
         background: "#FFFFFF",
         position: "relative",
@@ -80,52 +73,24 @@ const useStyles = makeStyles((theme) => ({
         minHeight: "32px",
         textDecoration: "none",
     },
-    productDescription: {
-        color: "#999",
-    },
-    fluidImage: {
-        maxWidth: "100%",
-        height: "auto",
-        verticalAlign: "middle",
-        borderStyle: "none",
-    },
 }));
 
 export default () => {
     const classes = useStyles();
+
+    function handleSubmit(values: any, setSubmitting: any) {
+        setTimeout(() => {
+            setSubmitting(false);
+            alert(JSON.stringify(values, null, 2));
+        }, 500);
+    }
     return (
         <>
             <PublicNavbar />
             <div
                 className={`${classes.background}`}
                 style={{ backgroundImage: "url(" + TestImage + ")" }}
-            >
-                {/* <Container>
-                    <Grid item xs={12} sm={12} md={6}>
-                        <Typography
-                            variant="h2"
-                            component="h2"
-                            className={classes.title}
-                        >
-                            The Exceptional Outliner
-                        </Typography>
-                        <Typography
-                            variant="h5"
-                            className={classes.subtitle}
-                            gutterBottom
-                        >
-                            The ultimate outlining tool.
-                        </Typography>
-                        <Button
-                            color="secondary"
-                            variant="contained"
-                            size="large"
-                        >
-                            Start your journey
-                        </Button>
-                    </Grid>
-                </Container> */}
-            </div>
+            ></div>
             <div className={`${classes.mainRaised} ${classes.main}`}>
                 <Container>
                     <div className={`${classes.section}`}>
@@ -142,165 +107,157 @@ export default () => {
                             </Grid>
                         </Grid>
                         <div>
-                            <Grid container>
+                            <Grid
+                                container
+                                xs={12}
+                                sm={12}
+                                md={12}
+                                justify="center"
+                            >
                                 <Grid item xs={12} sm={12} md={4}>
-                                    <Card elevation={0}>
-                                        <CardContent>
-                                            <Typography
-                                                variant="h4"
-                                                component="h2"
-                                                align="center"
-                                                gutterBottom
-                                            >
-                                                <BuildIcon fontSize="large" />
-                                            </Typography>
-                                            <Typography
-                                                variant="h5"
-                                                component="h2"
-                                                align="center"
-                                                gutterBottom
-                                            >
-                                                Title
-                                            </Typography>
-                                            <Typography
-                                                variant="body1"
-                                                component="p"
-                                                align="center"
-                                                gutterBottom
-                                            >
-                                                Paragraph
-                                            </Typography>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                                <Grid item xs={12} sm={12} md={4}>
-                                    <Card elevation={0}>
-                                        <CardContent>
-                                            <Typography
-                                                variant="h4"
-                                                component="h2"
-                                                align="center"
-                                                gutterBottom
-                                            >
-                                                <BuildIcon fontSize="large" />
-                                            </Typography>
-                                            <Typography
-                                                variant="h5"
-                                                component="h2"
-                                                align="center"
-                                                gutterBottom
-                                            >
-                                                Title
-                                            </Typography>
-                                            <Typography
-                                                variant="body1"
-                                                component="p"
-                                                align="center"
-                                                gutterBottom
-                                            >
-                                                Paragraph
-                                            </Typography>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                                <Grid item xs={12} sm={12} md={4}>
-                                    <Card elevation={0}>
-                                        <CardContent>
-                                            <Typography
-                                                variant="h4"
-                                                component="h2"
-                                                align="center"
-                                                gutterBottom
-                                            >
-                                                <BuildIcon fontSize="large" />
-                                            </Typography>
-                                            <Typography
-                                                variant="h5"
-                                                component="h2"
-                                                align="center"
-                                                gutterBottom
-                                            >
-                                                Title
-                                            </Typography>
-                                            <Typography
-                                                variant="body1"
-                                                component="p"
-                                                align="center"
-                                                gutterBottom
-                                            >
-                                                Paragraph
-                                            </Typography>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                            </Grid>
-                        </div>
-                    </div>
-                    <div className={`${classes.section}`}>
-                        <Grid container justify="center">
-                            <Grid item xs={12} sm={12} md={6}>
-                                <Typography
-                                    variant="h3"
-                                    component="h3"
-                                    align="center"
-                                    className={`${classes.productTitle}`}
-                                >
-                                    About us
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                        <div>
-                            <Grid container spacing={3}>
-                                <Grid item xs={12} sm={12} md={6}>
-                                    <Typography variant="h4" align="center">
-                                        Who we are
-                                    </Typography>
-                                    <Typography variant="body1">
-                                        I am a story lover. I love huge worlds
-                                        and the countless untold stories within
-                                        them. There is nothing like losing
-                                        myself in the endless seas of the Grand
-                                        Line, the secret passageways within
-                                        Hogwarts, or the mists of the Final
-                                        Empire. And what I love most is that we
-                                        are all capable of inventing our own,
-                                        mythical story. We just need a place to
-                                        do it. So, I created the Exceptional
-                                        Outliner.
-                                    </Typography>
-                                    <Divider style={{ margin: "15px" }} />
-                                    <Typography variant="h4" align="center">
-                                        What we do
-                                    </Typography>
-                                    <Typography variant="body1">
-                                        I am a software Engineer studying at
-                                        Ohio State University. My goal was to
-                                        create this application to combine
-                                        features from different apps like{" "}
-                                        <a href="https://plotfactory.com">
-                                            Plot Factory
-                                        </a>{" "}
-                                        and{" "}
-                                        <a href="https://worldanvil.com">
-                                            World Anvil
-                                        </a>
-                                        . Hopefully when this is complete, it
-                                        will provide a nice combination of world
-                                        building, outlining, and writing. Check
-                                        out the{" "}
-                                        <a href="https://github.com/reishaleem/exceptional-outliner">
-                                            repository
-                                        </a>{" "}
-                                        on GitHub to see more information on how
-                                        this app was made.
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={12} sm={12} md={6}>
-                                    <img
-                                        src={OnePiece}
-                                        alt="Fantasy World"
-                                        className={classes.fluidImage}
-                                    />
+                                    <Formik
+                                        initialValues={{
+                                            name: "",
+                                            username: "",
+                                            email: "",
+                                            password: "",
+                                            confirmPassword: "",
+                                        }}
+                                        validate={(values) => {
+                                            const errors: Partial<Values> = {};
+                                            if (!values.name) {
+                                                errors.name = "Required";
+                                            } else if (
+                                                values.name.length > 30
+                                            ) {
+                                                errors.name =
+                                                    "Name must be shorter than 30 characters";
+                                            }
+
+                                            if (!values.username) {
+                                                errors.username = "Required";
+                                            } else if (
+                                                values.username.length > 20
+                                            ) {
+                                                errors.username =
+                                                    "Username must be shorter than 20 characters";
+                                            }
+
+                                            if (!values.email) {
+                                                errors.email = "Required";
+                                            } else if (
+                                                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
+                                                    values.email
+                                                )
+                                            ) {
+                                                errors.email =
+                                                    "Enter a valid email address";
+                                            }
+
+                                            if (!values.password) {
+                                                errors.password = "Required";
+                                            } else if (
+                                                values.password.length < 6
+                                            ) {
+                                                errors.password =
+                                                    "Password must be at least 6 characters";
+                                            }
+
+                                            if (
+                                                values.password !==
+                                                values.confirmPassword
+                                            ) {
+                                                errors.confirmPassword =
+                                                    "Password does not match";
+                                            }
+
+                                            return errors;
+                                        }}
+                                        onSubmit={(
+                                            values,
+                                            { setSubmitting }
+                                        ) => {
+                                            handleSubmit(values, setSubmitting);
+                                        }}
+                                    >
+                                        {({
+                                            submitForm,
+                                            isSubmitting,
+                                            touched,
+                                            errors,
+                                        }) => (
+                                            <Form>
+                                                <Field
+                                                    component={TextField}
+                                                    name="name"
+                                                    id="name"
+                                                    type="text"
+                                                    label="Name"
+                                                    fullWidth
+                                                    style={{
+                                                        marginBottom: "10px",
+                                                    }}
+                                                />
+                                                <Field
+                                                    component={TextField}
+                                                    name="username"
+                                                    id="username"
+                                                    type="text"
+                                                    label="Username"
+                                                    fullWidth
+                                                    style={{
+                                                        marginBottom: "10px",
+                                                    }}
+                                                />
+                                                <Field
+                                                    component={TextField}
+                                                    name="email"
+                                                    id="email"
+                                                    type="email"
+                                                    label="Email"
+                                                    fullWidth
+                                                    style={{
+                                                        marginBottom: "10px",
+                                                    }}
+                                                />
+                                                <Field
+                                                    component={TextField}
+                                                    name="password"
+                                                    id="password"
+                                                    type="password"
+                                                    label="Password"
+                                                    fullWidth
+                                                    style={{
+                                                        marginBottom: "10px",
+                                                    }}
+                                                />
+                                                <Field
+                                                    component={TextField}
+                                                    name="confirmPassword"
+                                                    id="confirmPassword"
+                                                    type="password"
+                                                    label="Re-enter password"
+                                                    fullWidth
+                                                    style={{
+                                                        marginBottom: "20px",
+                                                    }}
+                                                />
+                                                {isSubmitting && (
+                                                    <LinearProgress />
+                                                )}
+                                                <Button
+                                                    variant="contained"
+                                                    color="primary"
+                                                    type="submit"
+                                                    disabled={isSubmitting}
+                                                    onClick={submitForm}
+                                                    fullWidth
+                                                >
+                                                    Register
+                                                </Button>
+                                            </Form>
+                                        )}
+                                    </Formik>
                                 </Grid>
                             </Grid>
                         </div>
