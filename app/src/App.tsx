@@ -5,6 +5,7 @@ import Homepage from "./components/pages/public/Homepage/Homepage";
 import SignUp from "./components/pages/public/SignUp/SignUp";
 import Login from "./components/pages/public/Login/Login";
 import Features from "./components/pages/public/Features/Features";
+import UserDashboard from "./components/pages/app/UserDashboard/UserDashboard";
 
 function App() {
     return (
@@ -21,6 +22,10 @@ function App() {
                 </Route>
                 <Route path="/login" exact>
                     <Login />
+                </Route>
+
+                <Route path="/app" exact>
+                    <UserDashboard />
                 </Route>
             </Switch>
         </BrowserRouter>

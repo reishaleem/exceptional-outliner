@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 //const atlasURI = process.env.ATLAS_URI;
-const localURI = "mongodb://localhost:27017/exceptional-outliner_test";
+const localURI = "mongodb://localhost:27017/outliner_test";
 mongoose.connect(localURI, {
     useNewUrlParser: true,
     useCreateIndex: true,
@@ -24,12 +24,12 @@ connectionPool.once("open", () => {
     console.log("MongoDB connection pool established");
 });
 
-// const userRouter = require("./old/server/routes/UserRouter");
+const userRouter = require("./server/routes/user.router");
 // const universeRouter = require("./old/server/routes/UniverseRouter");
 // const wikiRouter = require("./old/server/routes/WikiRouter");
 // const authenticationRouter = require("./old/server/routes/AuthenticationRouter");
 
-// app.use("/api/users", userRouter);
+app.use("/api/users", userRouter);
 // app.use("/api/universes", universeRouter);
 // app.use("/api/wikis", wikiRouter);
 // app.use("/api/auth", authenticationRouter);
