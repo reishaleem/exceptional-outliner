@@ -6,6 +6,7 @@ import SignUp from "./components/pages/public/SignUp/SignUp";
 import Login from "./components/pages/public/Login/Login";
 import Features from "./components/pages/public/Features/Features";
 import UserDashboard from "./components/pages/app/UserDashboard/UserDashboard";
+import NewUniverse from "./components/pages/app/Universe/NewUniverse/NewUniverse";
 
 function App() {
     return (
@@ -26,6 +27,9 @@ function App() {
 
                 <Route path="/app" exact>
                     <UserDashboard />
+                </Route>
+                <Route path="/app/universes/new" exact>
+                    <NewUniverse />
                 </Route>
             </Switch>
         </BrowserRouter>
