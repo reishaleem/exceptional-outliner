@@ -1,14 +1,13 @@
 import {
     Button,
     Container,
-    FormControlLabel,
     Grid,
     LinearProgress,
     makeStyles,
     Typography,
 } from "@material-ui/core";
 import { Field, Form, Formik } from "formik";
-import { Checkbox, TextField } from "formik-material-ui";
+import { TextField } from "formik-material-ui";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 
@@ -133,7 +132,7 @@ export default () => {
                                         initialValues={{
                                             username: "",
                                             password: "",
-                                            rememberMe: false,
+                                            //rememberMe: false,
                                         }}
                                         validate={(values) => {
                                             const errors: Partial<Values> = {};
@@ -182,11 +181,11 @@ export default () => {
                                                     label="Password"
                                                     fullWidth
                                                     style={{
-                                                        marginBottom: "10px",
+                                                        marginBottom: "20px",
                                                     }}
                                                 />
 
-                                                <FormControlLabel
+                                                {/* <FormControlLabel
                                                     control={
                                                         <Field
                                                             component={Checkbox}
@@ -199,7 +198,7 @@ export default () => {
                                                     style={{
                                                         marginBottom: "20px",
                                                     }}
-                                                />
+                                                /> */}
 
                                                 {isSubmitting && (
                                                     <LinearProgress />
