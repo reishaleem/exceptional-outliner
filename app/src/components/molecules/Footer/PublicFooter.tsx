@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default () => {
+const PublicFooter: React.FC = () => {
     const classes = useStyles();
 
     return (
@@ -85,3 +85,5 @@ export default () => {
         </footer>
     );
 };
+
+export default PublicFooter;

@@ -86,7 +86,7 @@ export default () => {
     const [usernameTaken, setUsernameTaken] = useState(false);
     const [emailTaken, setEmailTaken] = useState(false);
 
-    function handleSubmit(values: any, setSubmitting: any) {
+    function handleSubmit(values: Values, setSubmitting: any): void {
         setUsernameTaken(false);
         setEmailTaken(false);
         UserService.createUser(
@@ -160,7 +160,7 @@ export default () => {
                                             password: "",
                                             confirmPassword: "",
                                         }}
-                                        validate={(values) => {
+                                        validate={(values: Values) => {
                                             const errors: Partial<Values> = {};
                                             if (!values.name) {
                                                 errors.name = "Required";
@@ -213,7 +213,7 @@ export default () => {
                                             return errors;
                                         }}
                                         onSubmit={(
-                                            values,
+                                            values: Values,
                                             { setSubmitting }
                                         ) => {
                                             handleSubmit(values, setSubmitting);

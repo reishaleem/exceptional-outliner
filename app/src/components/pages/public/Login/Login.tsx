@@ -81,7 +81,7 @@ export default () => {
 
     const [errorMessage, setErrorMessage] = useState("");
 
-    function handleSubmit(values: any, setSubmitting: any) {
+    function handleSubmit(values: Values, setSubmitting: any): void {
         AuthService.login(values.username, values.password)
             .then(() => {
                 history.push("/app");
@@ -134,7 +134,7 @@ export default () => {
                                             password: "",
                                             //rememberMe: false,
                                         }}
-                                        validate={(values) => {
+                                        validate={(values: Values) => {
                                             const errors: Partial<Values> = {};
 
                                             if (!values.username) {
@@ -148,7 +148,7 @@ export default () => {
                                             return errors;
                                         }}
                                         onSubmit={(
-                                            values,
+                                            values: Values,
                                             { setSubmitting }
                                         ) => {
                                             handleSubmit(values, setSubmitting);

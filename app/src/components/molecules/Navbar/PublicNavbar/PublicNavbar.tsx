@@ -14,6 +14,12 @@ import { Link, NavLink, withRouter } from "react-router-dom";
 
 import AuthService from "../../../../services/auth.service";
 
+interface User {
+    id: string;
+    name: string;
+    username: string;
+}
+
 const useStyles = makeStyles((theme) => ({
     title: {
         flexGrow: 1,
@@ -36,20 +42,20 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const PublicNavbar = () => {
+const PublicNavbar: React.FC = () => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 
-    const currentUser = AuthService.getCurrentUser();
+    const currentUser: User = AuthService.getCurrentUser();
 
-    const handleMenu = (event: any) => {
+    function handleMenu(event: any): void {
         setAnchorEl(event.currentTarget);
-    };
+    }
 
-    const handleClose = () => {
+    function handleClose(): void {
         setAnchorEl(null);
-    };
+    }
 
     return (
         <>
@@ -91,7 +97,7 @@ const PublicNavbar = () => {
                                     id="app-signout-menu"
                                     anchorEl={anchorEl}
                                     anchorOrigin={{
-                                        vertical: "bottom",
+                                        vertical: "top",
                                         horizontal: "center",
                                     }}
                                     transformOrigin={{

@@ -89,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default () => {
+const Features: React.FC = () => {
     const classes = useStyles();
     return (
         <>
@@ -321,3 +321,5 @@ export default () => {
         </>
     );
 };
+
+export default Features;

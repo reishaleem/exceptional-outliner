@@ -93,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default () => {
+const HomePage: React.FC = () => {
     const classes = useStyles();
     return (
         <>
@@ -375,3 +375,5 @@ export default () => {
         </>
     );
 };
+
+export default HomePage;
