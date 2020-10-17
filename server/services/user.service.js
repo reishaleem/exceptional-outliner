@@ -25,6 +25,17 @@ async function createUser(request, response) {
         });
 }
 
+async function checkUsernameExists(username, response) {
+    console.log(username)
+    
+    const exists = await Users.exists({username: username});
+   
+    response.json({
+        taken: exists
+    })
+}
+
 module.exports = {
     createUser,
+    checkUsernameExists,
 }

@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
-import React from "react";
+import React, { useState } from "react";
 
 import TestImage from "../../../../images/landing-bg.jpg";
 import PublicFooter from "../../../molecules/Footer/PublicFooter";
@@ -83,7 +83,12 @@ export default () => {
     const classes = useStyles();
     const history = useHistory();
 
+    const [usernameTaken, setUsernameTaken] = useState(false);
+    const [emailTaken, setEmailTaken] = useState(false);
+
     function handleSubmit(values: any, setSubmitting: any) {
+        setUsernameTaken(false);
+        setEmailTaken(false);
         UserService.createUser(
             values.name,
             values.username,
@@ -98,8 +103,20 @@ export default () => {
             })
             .catch((error) => {
                 console.log("Test", error.response);
+                if (error.response.data.keyPattern.username) {
+                    setUsernameTaken(true);
+                } else if (error.response.data.keyPattern.email) {
+                    setEmailTaken(true);
+                }
+                setSubmitting(false);
             });
     }
+
+    // async function usernameExists(username: string) {
+    //     const exists = await UserService.usernameExists(username);
+    //     setUsernameTaken(exists);
+    // }
+
     return (
         <>
             <PublicNavbar />
@@ -125,6 +142,16 @@ export default () => {
                         <div>
                             <Grid container justify="center">
                                 <Grid item xs={12} sm={12} md={4}>
+                                    {/* <div>
+                                        {usernameTaken && (
+                                            <h1>Username is already in use</h1>
+                                        )}
+                                    </div>
+                                    <div>
+                                        {emailTaken && (
+                                            <h1>Email is already in use</h1>
+                                        )}
+                                    </div> */}
                                     <Formik
                                         initialValues={{
                                             name: "",
@@ -144,6 +171,7 @@ export default () => {
                                                     "Name must be shorter than 30 characters";
                                             }
 
+                                            setUsernameTaken(false);
                                             if (!values.username) {
                                                 errors.username = "Required";
                                             } else if (
@@ -153,6 +181,7 @@ export default () => {
                                                     "Username must be shorter than 20 characters";
                                             }
 
+                                            setEmailTaken(false);
                                             if (!values.email) {
                                                 errors.email = "Required";
                                             } else if (
@@ -218,6 +247,18 @@ export default () => {
                                                     style={{
                                                         marginBottom: "10px",
                                                     }}
+                                                    error={
+                                                        (touched["username"] &&
+                                                            !!errors[
+                                                                "username"
+                                                            ]) ||
+                                                        usernameTaken
+                                                    }
+                                                    helperText={
+                                                        usernameTaken &&
+                                                        !errors.username &&
+                                                        "Username is already in use"
+                                                    }
                                                 />
                                                 <Field
                                                     component={TextField}
@@ -229,6 +270,18 @@ export default () => {
                                                     style={{
                                                         marginBottom: "10px",
                                                     }}
+                                                    error={
+                                                        (touched["email"] &&
+                                                            !!errors[
+                                                                "email"
+                                                            ]) ||
+                                                        emailTaken
+                                                    }
+                                                    helperText={
+                                                        emailTaken &&
+                                                        !errors.email &&
+                                                        "Email is already in use"
+                                                    }
                                                 />
                                                 <Field
                                                     component={TextField}
