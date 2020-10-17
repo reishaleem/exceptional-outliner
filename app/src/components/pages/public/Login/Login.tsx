@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import { Field, Form, Formik } from "formik";
 import { Checkbox, TextField } from "formik-material-ui";
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router";
 
 import TestImage from "../../../../images/landing-bg.jpg";
@@ -80,6 +80,8 @@ export default () => {
     const classes = useStyles();
     const history = useHistory();
 
+    const [errorMessage, setErrorMessage] = useState("");
+
     function handleSubmit(values: any, setSubmitting: any) {
         AuthService.login(values.username, values.password)
             .then(() => {
@@ -87,6 +89,7 @@ export default () => {
             })
             .catch((err) => {
                 console.log(err.response);
+                setErrorMessage(err.response.data);
                 setSubmitting(false);
             });
     }
@@ -115,6 +118,17 @@ export default () => {
                         <div>
                             <Grid container justify="center">
                                 <Grid item xs={12} sm={12} md={4}>
+                                    {errorMessage && (
+                                        <h1>
+                                            <Typography
+                                                variant="body1"
+                                                component="p"
+                                                color="secondary"
+                                            >
+                                                {errorMessage}
+                                            </Typography>
+                                        </h1>
+                                    )}
                                     <Formik
                                         initialValues={{
                                             username: "",
