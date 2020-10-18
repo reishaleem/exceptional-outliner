@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const wikiSchema = require("./wiki.model")
+const universeSchema = require("./universe.model")
 
 const userSchema = new Schema(
     {
@@ -38,7 +38,7 @@ const userSchema = new Schema(
             trim: true,
             maxlength: 255,
         },
-        wikis: [wikiSchema],
+        universes: [universeSchema],
     },
     {
         timestamps: true,

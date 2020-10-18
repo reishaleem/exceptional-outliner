@@ -31,7 +31,7 @@ import {
 interface Values {
     name: string;
     description: string;
-    genre: string;
+    genre: string; // need to change to an array of strings, or just force the user to choose one specific genre
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -98,10 +98,23 @@ export default () => {
     }
 
     function handleSubmit(values: any, setSubmitting: any) {
-        setTimeout(() => {
-            setSubmitting(false);
-            alert(JSON.stringify(values, null, 2));
-        }, 500);
+        UniverseService.createUniverse(
+            currentUser.id,
+            values.name,
+            values.genre,
+            values.description
+        )
+            .then((response) => {
+                console.log(response);
+                history.push(`/app/universes/${response.data.universe._id}`);
+            })
+            .catch((error) => {
+                console.log(error.response);
+            });
+        // setTimeout(() => {
+        //     setSubmitting(false);
+        //     alert(JSON.stringify(values, null, 2));
+        // }, 500);
     }
 
     const genres = ["Fantasy", "Nonfiction"];

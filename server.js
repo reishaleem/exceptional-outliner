@@ -25,12 +25,12 @@ connectionPool.once("open", () => {
 });
 
 const userRouter = require("./server/routes/user.router");
-// const universeRouter = require("./old/server/routes/UniverseRouter");
+const universeRouter = require("./server/routes/universe.router");
 // const wikiRouter = require("./old/server/routes/WikiRouter");
 const authenticationRouter = require("./server/routes/auth.router");
 
 app.use("/api/users", userRouter);
-// app.use("/api/universes", universeRouter);
+app.use("/api/universes", universeRouter);
 // app.use("/api/wikis", wikiRouter);
 app.use("/api/auth", authenticationRouter);
 

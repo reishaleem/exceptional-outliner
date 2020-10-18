@@ -6,11 +6,12 @@ function hello() {
     console.log("Hi");
 }
 
-const createUniverse = (ownerId, name, description) => {
+const createUniverse = (ownerId, name, genre, description) => {
     return axios.post(
         API_URL + `${ownerId}/create`,
         {
             name: name,
+            genre: genre,
             description: description,
         },
     );
