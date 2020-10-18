@@ -10,6 +10,7 @@ import {
     FormGroup,
     FormControlLabel,
 } from "@material-ui/core";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import MuiTextField from "@material-ui/core/TextField";
 import { Formik, Form, Field } from "formik";
 import {
@@ -22,11 +23,15 @@ import { useHistory, Redirect } from "react-router-dom";
 import UniverseService from "../../../../../services/universe.service";
 import AuthService from "../../../../../services/auth.service";
 import GenreCheckbox from "../../../../atoms/GenreCheckbox/GenreCheckbox";
-import { Autocomplete } from "formik-material-ui-lab";
+import {
+    Autocomplete,
+    AutocompleteRenderInputParams,
+} from "formik-material-ui-lab";
 
 interface Values {
     name: string;
     description: string;
+    genre: string;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -71,15 +76,21 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(1),
     },
     universeThumbnail: {
-        //height: "75%",
-        //width: "75%",
-        alignItems: "center",
+        height: "60%", // need to somehow get the height to match the width
+        width: "100%",
     },
 }));
 
 export default () => {
     const classes = useStyles();
     const history = useHistory();
+
+    const top100Films = [
+        { title: "The Shawshank Redemption", year: 1994 },
+        { title: "The Godfather", year: 1972 },
+        { title: "The Godfather: Part II", year: 1974 },
+        { title: "The Dark Knight", year: 2008 },
+    ];
 
     const currentUser = AuthService.getCurrentUser(); // needs to be changed when jwt is done
     if (currentUser === null) {
@@ -102,10 +113,20 @@ export default () => {
                     initialValues={{
                         name: "",
                         description: "",
-                        genre: {},
+                        genre: [],
                     }}
                     validate={(values) => {
                         const errors: Partial<Values> = {};
+
+                        if (!values.name) {
+                            errors.name = "Required";
+                        }
+
+                        if (values.genre.length == 0) {
+                            errors.genre = "Required";
+                        }
+
+                        return errors;
                     }}
                     onSubmit={(values, { setSubmitting }) => {
                         handleSubmit(values, setSubmitting);
@@ -113,33 +134,30 @@ export default () => {
                 >
                     {({ submitForm, isSubmitting, touched, errors }) => (
                         <Form style={{ width: "100%" }}>
-                            <Grid container spacing={2}>
-                                <Grid container item md={3}>
-                                    <Field
-                                        style={{ width: "100%" }}
-                                        component={Autocomplete}
-                                        name="genre"
-                                        options={genres}
-                                        getOptionLabel={(option: any) => option}
-                                        renderInput={(params: any) => (
-                                            <MuiTextField
-                                                {...params}
-                                                error={
-                                                    touched["genre"] &&
-                                                    !!errors["genre"]
-                                                }
-                                                helperText={
-                                                    touched["genre"] &&
-                                                    errors["genre"]
-                                                }
-                                                label="Genre"
-                                                //placeholder="What is the genre of this Universe?"
-                                                // InputLabelProps={{
-                                                //     shrink: true,
-                                                // }}
-                                            />
-                                        )}
-                                    />
+                            <Grid container>
+                                <Grid container item md={3} justify="center">
+                                    <Grid item md={8}>
+                                        <Avatar
+                                            className={
+                                                classes.universeThumbnail
+                                            }
+                                            variant="square"
+                                        >
+                                            N
+                                        </Avatar>
+                                        <Button
+                                            variant="contained"
+                                            color="default"
+                                            className={classes.button}
+                                            startIcon={<CloudUploadIcon />}
+                                            fullWidth
+                                            style={{ marginTop: "8px" }}
+                                            disableElevation
+                                            size="small"
+                                        >
+                                            Upload image
+                                        </Button>
+                                    </Grid>
                                 </Grid>
                                 <Grid container item md={9} spacing={2}>
                                     <Grid item md={12}>
@@ -159,6 +177,39 @@ export default () => {
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
+                                        />
+                                    </Grid>
+                                    <Grid item md={12}>
+                                        <Field
+                                            name="genre"
+                                            multiple
+                                            component={Autocomplete}
+                                            options={genres}
+                                            getOptionLabel={(option: string) =>
+                                                option
+                                            }
+                                            style={{ width: "100%" }}
+                                            renderInput={(
+                                                params: AutocompleteRenderInputParams
+                                            ) => (
+                                                <MuiTextField
+                                                    {...params}
+                                                    error={
+                                                        touched["genre"] &&
+                                                        !!errors["genre"]
+                                                    }
+                                                    helperText={
+                                                        touched["genre"] &&
+                                                        errors["genre"]
+                                                    }
+                                                    label="Genre"
+                                                    //placeholder="What is the genre of this Universe?"
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
+                                                    //variant="outlined"
+                                                />
+                                            )}
                                         />
                                     </Grid>
 
