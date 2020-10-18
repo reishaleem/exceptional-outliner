@@ -7,12 +7,22 @@ import {
     Button,
     Avatar,
     Typography,
+    FormGroup,
+    FormControlLabel,
 } from "@material-ui/core";
+import MuiTextField from "@material-ui/core/TextField";
 import { Formik, Form, Field } from "formik";
-import { TextField } from "formik-material-ui";
+import {
+    Checkbox,
+    CheckboxProps,
+    fieldToCheckbox,
+    TextField,
+} from "formik-material-ui";
 import { useHistory, Redirect } from "react-router-dom";
 import UniverseService from "../../../../../services/universe.service";
 import AuthService from "../../../../../services/auth.service";
+import GenreCheckbox from "../../../../atoms/GenreCheckbox/GenreCheckbox";
+import { Autocomplete } from "formik-material-ui-lab";
 
 interface Values {
     name: string;
@@ -58,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
         fontSize: "1rem",
     },
     button: {
-        margin: theme.spacing(1),
+        marginRight: theme.spacing(1),
     },
     universeThumbnail: {
         //height: "75%",
@@ -76,146 +86,134 @@ export default () => {
         return <Redirect to="/login" />;
     }
 
-    function handleSubmit(values: Values, setSubmitting: any): void {
-        UniverseService.createUniverse(
-            currentUser.id,
-            values.name,
-            values.description
-        ).then(
-            (response: any) => {
-                // setMessage(response.data.message);
-                // setSuccessful(true);
-                // logIn();
-                //history.push("/about"); // for some reason...we aren't logged in at this point. It's like login isn't even being calleed...
-                //window.location.reload();
-
-                history.push({
-                    pathname: `/app/universes/${response.data.universe._id}`,
-                    state: { universeId: response.data.universe._id },
-                });
-            },
-            (error: any) => {
-                // const resMessage =
-                //     (error.response &&
-                //         error.response.data &&
-                //         error.response.data.message) ||
-                //     error.message ||
-                //     error.toString();
-            }
-        );
+    function handleSubmit(values: any, setSubmitting: any) {
+        setTimeout(() => {
+            setSubmitting(false);
+            alert(JSON.stringify(values, null, 2));
+        }, 500);
     }
 
+    const genres = ["Fantasy", "Nonfiction"];
+
     return (
-        <>
-            <AppWrapper>
-                <Grid container spacing={3}>
-                    <Grid item md={3}>
-                        <Avatar
-                            variant="square"
-                            className={classes.universeThumbnail}
-                        >
-                            N
-                        </Avatar>
-                        <Typography variant="body1" component="p">
-                            Genre
-                        </Typography>
-                    </Grid>
-                    <Grid item md={9}>
-                        <Formik
-                            initialValues={{
-                                name: "",
-                                description: "",
-                            }}
-                            validate={(values) => {
-                                const errors: Partial<Values> = {};
-
-                                // doing an if else so that only one shows up
-                                if (!values.name) {
-                                    errors.name = "Required";
-                                }
-
-                                return errors;
-                            }}
-                            onSubmit={(values, { setSubmitting }) => {
-                                handleSubmit(values, setSubmitting);
-                            }}
-                        >
-                            {({
-                                submitForm,
-                                isSubmitting,
-                                touched,
-                                errors,
-                            }) => (
-                                <Form>
-                                    <Grid container item md={12} spacing={2}>
-                                        <Grid item md={12}>
-                                            <Field
-                                                component={TextField}
-                                                name="name"
-                                                id="name"
-                                                type="text"
-                                                label="What is your Universe's name?"
-                                                placeholder="e.g. Middle Earth, Narnia, Earthland, World2"
-                                                helperText="If you are not sure of a name now, this
+        <AppWrapper>
+            <Grid container spacing={2}>
+                <Formik
+                    initialValues={{
+                        name: "",
+                        description: "",
+                        genre: {},
+                    }}
+                    validate={(values) => {
+                        const errors: Partial<Values> = {};
+                    }}
+                    onSubmit={(values, { setSubmitting }) => {
+                        handleSubmit(values, setSubmitting);
+                    }}
+                >
+                    {({ submitForm, isSubmitting, touched, errors }) => (
+                        <Form style={{ width: "100%" }}>
+                            <Grid container spacing={2}>
+                                <Grid container item md={3}>
+                                    <Field
+                                        style={{ width: "100%" }}
+                                        component={Autocomplete}
+                                        name="genre"
+                                        options={genres}
+                                        getOptionLabel={(option: any) => option}
+                                        renderInput={(params: any) => (
+                                            <MuiTextField
+                                                {...params}
+                                                error={
+                                                    touched["genre"] &&
+                                                    !!errors["genre"]
+                                                }
+                                                helperText={
+                                                    touched["genre"] &&
+                                                    errors["genre"]
+                                                }
+                                                label="Genre"
+                                                //placeholder="What is the genre of this Universe?"
+                                                // InputLabelProps={{
+                                                //     shrink: true,
+                                                // }}
+                                            />
+                                        )}
+                                    />
+                                </Grid>
+                                <Grid container item md={9} spacing={2}>
+                                    <Grid item md={12}>
+                                        <Field
+                                            component={TextField}
+                                            name="name"
+                                            id="name"
+                                            type="text"
+                                            label="What is your Universe's name?"
+                                            placeholder="e.g. Middle Earth, Narnia, Earthland, World2"
+                                            helperText="If you are not sure of a name now, this
                                                         can be changed later. Feel free to check
                                                         out the GENERATOR for ideas!"
-                                                style={{
-                                                    width: "100%",
-                                                }}
-                                                InputLabelProps={{
-                                                    shrink: true,
-                                                }}
-                                            />
-                                        </Grid>
-
-                                        <Grid item md={12}>
-                                            <Field
-                                                component={TextField}
-                                                name="description"
-                                                id="description"
-                                                type="text"
-                                                style={{
-                                                    width: "100%",
-                                                }}
-                                                multiline
-                                                rows={4}
-                                                variant="outlined"
-                                                InputLabelProps={{
-                                                    shrink: true,
-                                                }}
-                                                label="What is your Universe about? (Optional)"
-                                                placeholder="Write a short paragraph that evokes the wonderful or not so wonderful aspects of your world. A teaser of what is to come"
-                                            />
-                                        </Grid>
-
-                                        <Grid item md={12}>
-                                            <Button
-                                                variant="contained"
-                                                color="primary"
-                                                disabled={isSubmitting}
-                                                onClick={() => history.goBack()}
-                                                className={classes.button}
-                                                disableElevation
-                                            >
-                                                Cancel
-                                            </Button>
-                                            <Button
-                                                variant="contained"
-                                                color="primary"
-                                                disabled={isSubmitting}
-                                                onClick={submitForm}
-                                                disableElevation
-                                            >
-                                                Create
-                                            </Button>
-                                        </Grid>
+                                            style={{
+                                                width: "100%",
+                                            }}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                        />
                                     </Grid>
-                                </Form>
-                            )}
-                        </Formik>
-                    </Grid>
-                </Grid>
-            </AppWrapper>
-        </>
+
+                                    <Grid item md={12}>
+                                        <Field
+                                            component={TextField}
+                                            name="description"
+                                            id="description"
+                                            type="text"
+                                            style={{
+                                                width: "100%",
+                                            }}
+                                            multiline
+                                            rows={4}
+                                            variant="outlined"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            label="What is your Universe about? (Optional)"
+                                            placeholder="Write a short paragraph that evokes the wonderful or not so wonderful aspects of your world. A teaser of what is to come"
+                                        />
+                                    </Grid>
+
+                                    <Grid
+                                        item
+                                        md={12}
+                                        container
+                                        justify="flex-end"
+                                    >
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            disabled={isSubmitting}
+                                            onClick={() => history.goBack()}
+                                            className={classes.button}
+                                            disableElevation
+                                        >
+                                            Cancel
+                                        </Button>
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            disabled={isSubmitting}
+                                            onClick={submitForm}
+                                            disableElevation
+                                        >
+                                            Create
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Form>
+                    )}
+                </Formik>
+            </Grid>
+        </AppWrapper>
     );
 };
