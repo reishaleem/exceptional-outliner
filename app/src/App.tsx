@@ -1,38 +1,23 @@
 import React from "react";
+import logo from "./logo.svg";
 import "./App.css";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Homepage from "./components/pages/public/Homepage/Homepage";
-import SignUp from "./components/pages/public/SignUp/SignUp";
-import Login from "./components/pages/public/Login/Login";
-import Features from "./components/pages/public/Features/Features";
-import UserDashboard from "./components/pages/app/UserDashboard/UserDashboard";
-import NewUniverse from "./components/pages/app/Universe/NewUniverse/NewUniverse";
 
 function App() {
     return (
-        <BrowserRouter>
-            <Switch>
-                <Route path="/" exact>
-                    <Homepage />
-                </Route>
-                <Route path="/features" exact>
-                    <Features />
-                </Route>
-                <Route path="/register" exact>
-                    <SignUp />
-                </Route>
-                <Route path="/login" exact>
-                    <Login />
-                </Route>
-
-                <Route path="/app" exact>
-                    <UserDashboard />
-                </Route>
-                <Route path="/app/universes/new" exact>
-                    <NewUniverse />
-                </Route>
-            </Switch>
-        </BrowserRouter>
+        <div className="App">
+            <header className="App-header">
+                <img src={logo} className="App-logo" alt="logo" />
+                <p>This is a test</p>
+                <a
+                    className="App-link"
+                    href="https://reactjs.org"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Learn React
+                </a>
+            </header>
+        </div>
     );
 }
 
