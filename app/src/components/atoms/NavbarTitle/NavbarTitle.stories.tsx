@@ -1,5 +1,6 @@
 import React, { ComponentProps } from "react";
 import { Story } from "@storybook/react/types-6-0";
+
 import NavbarTitle from "./NavbarTitle";
 
 const storyDetails = {

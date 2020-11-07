@@ -1,10 +1,11 @@
-import { Typography } from "@material-ui/core";
 import React from "react";
+import Typography from "@material-ui/core/Typography";
 
 interface PropTypes {
     title: string;
 }
-const Brand: React.FC<PropTypes> = ({ title }) => {
+
+const NavbarTitle: React.FC<PropTypes> = ({ title }) => {
     return (
         <Typography variant="h6" component="h2">
             {title}
@@ -12,4 +13,4 @@ const Brand: React.FC<PropTypes> = ({ title }) => {
     );
 };
 
-export default Brand;
+export default NavbarTitle;

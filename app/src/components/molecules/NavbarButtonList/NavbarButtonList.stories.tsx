@@ -1,5 +1,6 @@
 import React, { ComponentProps } from "react";
 import { Story } from "@storybook/react/types-6-0";
+
 import NavbarButtonList from "./NavbarButtonList";
 
 const storyDetails = {
@@ -16,4 +17,5 @@ const Template: Story<ComponentProps<typeof NavbarButtonList>> = (args) => {
 export const Default = Template.bind({});
 Default.args = {
     names: ["Test1", "Test2"],
+    refs: ["/testPath1", "/testPath2"],
 };

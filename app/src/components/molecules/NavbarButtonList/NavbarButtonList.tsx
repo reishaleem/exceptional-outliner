@@ -1,9 +1,11 @@
-import { Button } from "@material-ui/core";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 import React from "react";
+import Button from "@material-ui/core/Button";
+import makeStyles from "@material-ui/styles/makeStyles";
+import { Link } from "react-router-dom";
 
 interface PropTypes {
     names: Array<string>;
+    refs: Array<string>;
 }
 
 const useStyles = makeStyles(() => ({
@@ -12,13 +14,17 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-const NavbarButtonList: React.FC<PropTypes> = ({ names }) => {
+const NavbarButtonList: React.FC<PropTypes> = ({ names, refs }) => {
     const classes = useStyles();
 
     return (
         <div className={classes.container}>
             {names.map((name, i) => {
-                return <Button key={i}>{name}</Button>;
+                return (
+                    <Button key={i} component={Link} to={refs[i]}>
+                        {name}
+                    </Button>
+                );
             })}
         </div>
     );
