@@ -10,6 +10,7 @@ import OverlayImage from "../../../atoms/OverlayImage/OverlayImage";
 
 import OnePiece from "../../../../images/onepieceworld.jpg";
 import IconButton from "@material-ui/core/IconButton";
+import Footer from "../../../molecules/Footer/Footer";
 
 const useStyles = makeStyles(() => ({
     positionInTheDistance: {
@@ -56,6 +57,7 @@ const Home: React.FC = () => {
                 </Box>
             </OverlayImage>
             hello
+            <Footer />
         </>
     );
 };
