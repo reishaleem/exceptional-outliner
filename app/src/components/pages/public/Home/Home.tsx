@@ -1,11 +1,14 @@
 import React from "react";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
+import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import makeStyles from "@material-ui/styles/makeStyles";
 
+import CircularCard from "../../../molecules/CirclularCard/CircularCard";
 import Footer from "../../../molecules/Footer/Footer";
 import Navbar from "../../../molecules/Navbar/Public/Navbar";
 import OverlayImage from "../../../atoms/OverlayImage/OverlayImage";
@@ -56,7 +59,57 @@ const Home: React.FC = () => {
                     </IconButton>
                 </Box>
             </OverlayImage>
-            hello
+            <Grid container>
+                <Container>
+                    <Grid container item xs={12} sm={12} md={6}>
+                        <Grid item xs={12} sm={12} md={8}>
+                            <CircularCard
+                                title="Build"
+                                body="Build your character from scratch, your
+                                        way. Create questionnaires for yourself
+                                        to answer, begin editing a wiki-styled
+                                        page to flesh out the details, go
+                                        straight to character design, or just
+                                        open a blank sheet and write down every
+                                        thought that comes to mind. Whatever
+                                        suits your style, you can find it here."
+                                size="500px"
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={4} />
+                        <Grid item xs={12} sm={12} md={4} />
+                        <Grid item xs={12} sm={12} md={8}>
+                            <CircularCard
+                                title="Build"
+                                body="Build your character from scratch, your
+                                        way. Create questionnaires for yourself
+                                        to answer, begin editing a wiki-styled
+                                        page to flesh out the details, go
+                                        straight to character design, or just
+                                        open a blank sheet and write down every
+                                        thought that comes to mind. Whatever
+                                        suits your style, you can find it here."
+                                size="400px"
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={8}>
+                            <CircularCard
+                                title="Build"
+                                body="Build your character from scratch, your
+                                        way. Create questionnaires for yourself
+                                        to answer, begin editing a wiki-styled
+                                        page to flesh out the details, go
+                                        straight to character design, or just
+                                        open a blank sheet and write down every
+                                        thought that comes to mind. Whatever
+                                        suits your style, you can find it here."
+                                size="400px"
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={4} />
+                    </Grid>
+                </Container>
+            </Grid>
             <Footer />
         </>
     );
