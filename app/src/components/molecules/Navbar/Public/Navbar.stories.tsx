@@ -15,6 +15,10 @@ const Template: Story<ComponentProps<typeof Navbar>> = (args) => {
     return <Navbar {...args} />;
 };
 
-// The default public navbar, with no additional args
-export const Default = Template.bind({});
-Default.args = {};
+export const PrimaryNavbar = Template.bind({});
+PrimaryNavbar.args = {};
+
+export const TransparentNavbar = Template.bind({});
+TransparentNavbar.args = {
+    transparent: true,
+};

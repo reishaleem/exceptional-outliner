@@ -2,12 +2,20 @@ import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 
-import NavbarTitle from "../../../atoms/NavbarTitle/NavbarTitle";
 import NavbarButtonList from "../../NavbarButtonList/NavbarButtonList";
+import NavbarTitle from "../../../atoms/NavbarTitle/NavbarTitle";
 
-const Navbar: React.FC = () => {
+interface PropTypes {
+    transparent?: boolean;
+}
+
+const Navbar: React.FC<PropTypes> = ({ transparent }) => {
     return (
-        <AppBar position="static" elevation={0}>
+        <AppBar
+            position="static"
+            elevation={0}
+            color={transparent ? "transparent" : "primary"}
+        >
             <Toolbar>
                 <NavbarTitle title="The Exceptional Outliner" destination="/" />
                 <NavbarButtonList
