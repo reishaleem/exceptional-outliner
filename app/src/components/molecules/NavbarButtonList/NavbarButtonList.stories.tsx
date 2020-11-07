@@ -1,11 +1,19 @@
 import React, { ComponentProps } from "react";
 import { Story } from "@storybook/react/types-6-0";
+import { MemoryRouter } from "react-router-dom";
 
 import NavbarButtonList from "./NavbarButtonList";
 
 const storyDetails = {
     title: "NavbarButtonList",
     component: NavbarButtonList,
+    decorators: [
+        (getStory: any) => (
+            <MemoryRouter>
+                <div style={{ width: "100%" }}>{getStory()}</div>
+            </MemoryRouter>
+        ),
+    ],
 };
 export default storyDetails;
 
@@ -13,9 +21,9 @@ const Template: Story<ComponentProps<typeof NavbarButtonList>> = (args) => {
     return <NavbarButtonList {...args} />;
 };
 
-// The default NavbarButtonList, with just a list of names and no additional args
 export const Default = Template.bind({});
 Default.args = {
-    names: ["Test1", "Test2"],
-    refs: ["/testPath1", "/testPath2"],
+    buttonNames: ["Test1", "Test2"],
+    buttonDestinations: ["/testPath1", "/testPath2"],
+    align: "left",
 };
