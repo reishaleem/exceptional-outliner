@@ -15,7 +15,6 @@ const Template: Story<ComponentProps<typeof NavbarTitle>> = (args) => {
     return <NavbarTitle {...args} />;
 };
 
-// The default brand, with no additional args
 export const WithoutLink = Template.bind({});
 WithoutLink.args = {
     title: "Title that is not a link",
