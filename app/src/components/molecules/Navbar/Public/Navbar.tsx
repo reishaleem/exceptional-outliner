@@ -7,12 +7,13 @@ import NavbarButtonList from "../../NavbarButtonList/NavbarButtonList";
 
 const Navbar: React.FC = () => {
     return (
-        <AppBar position="static">
+        <AppBar position="static" elevation={0}>
             <Toolbar>
-                <NavbarTitle title="The Exceptional Outliner" />
+                <NavbarTitle title="The Exceptional Outliner" destination="/" />
                 <NavbarButtonList
-                    names={["Sign Up", "Login"]}
-                    refs={["/register", "/login"]}
+                    buttonNames={["Sign Up", "Login"]}
+                    buttonDestinations={["/register", "/login"]}
+                    align="left"
                 />
             </Toolbar>
         </AppBar>
