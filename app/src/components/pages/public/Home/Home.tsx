@@ -60,72 +60,74 @@ const Home: React.FC = () => {
                     </IconButton>
                 </Box>
             </OverlayImage>
-            <Container>
-                <Grid container>
-                    <Grid item xs={12}>
-                        <Typography variant="h3" component="h2">
-                            User driven features for anyone with{" "}
-                            <Typed
-                                strings={[
-                                    "a thought",
-                                    "an idea",
-                                    "an imagination",
-                                ]}
-                                typeSpeed={100}
-                                backSpeed={100}
-                                backDelay={1500}
-                                smartBackspace={false}
-                                showCursor={false}
-                            />
-                        </Typography>
+            <Box p={1}>
+                <Container>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12}>
+                            <Typography variant="h3" component="h2">
+                                User driven features for anyone with{" "}
+                                <Typed
+                                    strings={[
+                                        "a thought",
+                                        "an idea",
+                                        "an imagination",
+                                    ]}
+                                    typeSpeed={100}
+                                    backSpeed={100}
+                                    backDelay={1500}
+                                    smartBackspace={false}
+                                    showCursor={false}
+                                />
+                            </Typography>
+                        </Grid>
+                        <Grid container item xs={12} sm={12} md={6}>
+                            <Grid item xs={12} sm={12} md={8}>
+                                <CircularCard
+                                    title="Build"
+                                    body="Build your character from scratch, your
+                                        way. Create questionnaires for yourself
+                                        to answer, begin editing a wiki-styled
+                                        page to flesh out the details, go
+                                        straight to character design, or just
+                                        open a blank sheet and write down every
+                                        thought that comes to mind. Whatever
+                                        suits your style, you can find it here."
+                                    size="300px"
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={4} />
+                            <Grid item xs={12} sm={12} md={4}>
+                                <CircularCard
+                                    title="Build"
+                                    body="Build your character from scratch, your
+                                        way. Create questionnaires for yourself
+                                        to answer, begin editing a wiki-styled
+                                        page to flesh out the details, go
+                                        straight to character design, or just
+                                        open a blank sheet and write down every
+                                        thought that comes to mind. Whatever
+                                        suits your style, you can find it here."
+                                    size="200px"
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={8}>
+                                <CircularCard
+                                    title="Build"
+                                    body="Build your character from scratch, your
+                                        way. Create questionnaires for yourself
+                                        to answer, begin editing a wiki-styled
+                                        page to flesh out the details, go
+                                        straight to character design, or just
+                                        open a blank sheet and write down every
+                                        thought that comes to mind. Whatever
+                                        suits your style, you can find it here."
+                                    size="250px"
+                                />
+                            </Grid>
+                        </Grid>
                     </Grid>
-                    <Grid container item xs={12} sm={12} md={6}>
-                        <Grid item xs={12} sm={12} md={8}>
-                            <CircularCard
-                                title="Build"
-                                body="Build your character from scratch, your
-                                        way. Create questionnaires for yourself
-                                        to answer, begin editing a wiki-styled
-                                        page to flesh out the details, go
-                                        straight to character design, or just
-                                        open a blank sheet and write down every
-                                        thought that comes to mind. Whatever
-                                        suits your style, you can find it here."
-                                size="300px"
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={12} md={4} />
-                        <Grid item xs={12} sm={12} md={4}>
-                            <CircularCard
-                                title="Build"
-                                body="Build your character from scratch, your
-                                        way. Create questionnaires for yourself
-                                        to answer, begin editing a wiki-styled
-                                        page to flesh out the details, go
-                                        straight to character design, or just
-                                        open a blank sheet and write down every
-                                        thought that comes to mind. Whatever
-                                        suits your style, you can find it here."
-                                size="200px"
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={12} md={8}>
-                            <CircularCard
-                                title="Build"
-                                body="Build your character from scratch, your
-                                        way. Create questionnaires for yourself
-                                        to answer, begin editing a wiki-styled
-                                        page to flesh out the details, go
-                                        straight to character design, or just
-                                        open a blank sheet and write down every
-                                        thought that comes to mind. Whatever
-                                        suits your style, you can find it here."
-                                size="250px"
-                            />
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </Container>
+                </Container>
+            </Box>
             <Footer />
         </>
     );
