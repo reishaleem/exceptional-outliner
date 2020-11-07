@@ -7,6 +7,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import makeStyles from "@material-ui/styles/makeStyles";
+import Typed from "react-typed";
 
 import CircularCard from "../../../molecules/CirclularCard/CircularCard";
 import Footer from "../../../molecules/Footer/Footer";
@@ -59,8 +60,25 @@ const Home: React.FC = () => {
                     </IconButton>
                 </Box>
             </OverlayImage>
-            <Grid container>
-                <Container>
+            <Container>
+                <Grid container>
+                    <Grid item xs={12}>
+                        <Typography variant="h3" component="h2">
+                            User driven features for anyone with{" "}
+                            <Typed
+                                strings={[
+                                    "a thought",
+                                    "an idea",
+                                    "an imagination",
+                                ]}
+                                typeSpeed={100}
+                                backSpeed={100}
+                                backDelay={1500}
+                                smartBackspace={false}
+                                showCursor={false}
+                            />
+                        </Typography>
+                    </Grid>
                     <Grid container item xs={12} sm={12} md={6}>
                         <Grid item xs={12} sm={12} md={8}>
                             <CircularCard
@@ -73,11 +91,24 @@ const Home: React.FC = () => {
                                         open a blank sheet and write down every
                                         thought that comes to mind. Whatever
                                         suits your style, you can find it here."
-                                size="500px"
+                                size="300px"
                             />
                         </Grid>
                         <Grid item xs={12} sm={12} md={4} />
-                        <Grid item xs={12} sm={12} md={4} />
+                        <Grid item xs={12} sm={12} md={4}>
+                            <CircularCard
+                                title="Build"
+                                body="Build your character from scratch, your
+                                        way. Create questionnaires for yourself
+                                        to answer, begin editing a wiki-styled
+                                        page to flesh out the details, go
+                                        straight to character design, or just
+                                        open a blank sheet and write down every
+                                        thought that comes to mind. Whatever
+                                        suits your style, you can find it here."
+                                size="200px"
+                            />
+                        </Grid>
                         <Grid item xs={12} sm={12} md={8}>
                             <CircularCard
                                 title="Build"
@@ -89,27 +120,12 @@ const Home: React.FC = () => {
                                         open a blank sheet and write down every
                                         thought that comes to mind. Whatever
                                         suits your style, you can find it here."
-                                size="400px"
+                                size="250px"
                             />
                         </Grid>
-                        <Grid item xs={12} sm={12} md={8}>
-                            <CircularCard
-                                title="Build"
-                                body="Build your character from scratch, your
-                                        way. Create questionnaires for yourself
-                                        to answer, begin editing a wiki-styled
-                                        page to flesh out the details, go
-                                        straight to character design, or just
-                                        open a blank sheet and write down every
-                                        thought that comes to mind. Whatever
-                                        suits your style, you can find it here."
-                                size="400px"
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={12} md={4} />
                     </Grid>
-                </Container>
-            </Grid>
+                </Grid>
+            </Container>
             <Footer />
         </>
     );
