@@ -62,7 +62,7 @@ const Home: React.FC = () => {
             </OverlayImage>
             <Box p={1}>
                 <Container>
-                    <Grid container spacing={3}>
+                    <Grid container>
                         <Grid item xs={12}>
                             <Typography variant="h3" component="h2">
                                 User driven features for anyone with{" "}
