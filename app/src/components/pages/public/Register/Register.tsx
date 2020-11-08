@@ -1,12 +1,12 @@
 import React from "react";
-import OverlayImage from "../../../atoms/OverlayImage/OverlayImage";
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
+
+import CardImageForm from "../../../organisms/CardImageForm/CardImageForm";
+import Footer from "../../../molecules/Footer/Footer";
 import Navbar from "../../../molecules/Navbar/Public/Navbar";
 
 import OnePiece from "../../../../images/onepieceworldbright.jpg";
-import Grid from "@material-ui/core/Grid";
-import { Box, Card, Container, TextField, Typography } from "@material-ui/core";
-import Footer from "../../../molecules/Footer/Footer";
-import CardImageForm from "../../../organisms/CardImageForm/CardImageForm";
 
 const Register: React.FC = () => {
     return (

@@ -1,10 +1,10 @@
 import React, { ComponentProps } from "react";
 import { Story } from "@storybook/react/types-6-0";
-
-import OnePiece from "../../../images/onepieceworldbright.jpg";
+import { MemoryRouter } from "react-router-dom";
 
 import CardImageForm from "./CardImageForm";
-import { MemoryRouter } from "react-router-dom";
+
+import OnePiece from "../../../images/onepieceworldbright.jpg";
 
 const storyDetails = {
     title: "CardImageForm",
