@@ -122,7 +122,7 @@ const RegisterForm: React.FC = () => {
                     color="primary"
                     variant="contained"
                     type="submit"
-                    style={{ marginLeft: "auto" }}
+                    fullWidth
                 >
                     Register
                 </Button>

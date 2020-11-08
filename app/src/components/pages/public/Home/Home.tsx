@@ -58,12 +58,24 @@ const Home: React.FC = () => {
                     </Button>
                 </div>
                 <Box position="absolute" mr="50%" ml="50%" bottom={0} mb={1}>
-                    <IconButton aria-label="scroll-arrow" color="primary">
+                    <IconButton
+                        aria-label="scroll-arrow"
+                        color="primary"
+                        onClick={() => {
+                            if (document.getElementById("main")) {
+                                document
+                                    .getElementById("main")
+                                    ?.scrollIntoView({
+                                        behavior: "smooth",
+                                    });
+                            }
+                        }}
+                    >
                         <ArrowDownwardIcon fontSize="large" />
                     </IconButton>
                 </Box>
             </OverlayImage>
-            <Box p={1}>
+            <Box p={1} id="main">
                 <Container>
                     <Grid container>
                         <Grid item xs={12}>

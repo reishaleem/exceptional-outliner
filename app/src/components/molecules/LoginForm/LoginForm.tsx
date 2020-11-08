@@ -69,7 +69,7 @@ const LoginForm: React.FC = () => {
                     color="primary"
                     variant="contained"
                     type="submit"
-                    style={{ marginLeft: "auto" }}
+                    fullWidth
                 >
                     Login
                 </Button>
