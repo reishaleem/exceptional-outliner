@@ -18,7 +18,7 @@ async function createUser(name: string, email: string, password: string) {
         response.success = data;
     } catch (error) {
         if (error.response.status === 400) {
-            response.error = "The email is already in use";
+            response.error = "An account with that email is already in use!";
         } else if (error.response.status === 500) {
             response.error =
                 "Something went wrong on our end. Please try again!";

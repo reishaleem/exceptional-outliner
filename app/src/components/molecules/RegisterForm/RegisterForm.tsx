@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 import { useFormik } from "formik";
 
 import UserService from "../../../services/user.service";
@@ -14,6 +15,8 @@ interface FormFields {
 }
 
 const RegisterForm: React.FC = () => {
+    const [errorMessage, setErrorMessage] = useState("");
+
     const formik = useFormik({
         initialValues: {
             name: "",
@@ -62,94 +65,108 @@ const RegisterForm: React.FC = () => {
             user.password
         );
         if (response.success) {
+            setErrorMessage("");
             console.log(response.success);
         } else if (response.error) {
             console.log(response.error);
+            setErrorMessage(response.error);
         }
         setSubmitting(false);
     }
 
     return (
-        <form onSubmit={formik.handleSubmit}>
-            <Box m={1}>
-                <TextField
-                    fullWidth
-                    id="name"
-                    name="name"
-                    label="Name"
-                    type="text"
-                    value={formik.values.name}
-                    onChange={formik.handleChange}
-                    error={formik.touched.name && Boolean(formik.errors.name)}
-                    helperText={formik.touched.name && formik.errors.name}
-                    disabled={formik.isSubmitting}
-                />
-            </Box>
-            <Box m={1}>
-                <TextField
-                    fullWidth
-                    id="email"
-                    name="email"
-                    label="Email"
-                    type="text"
-                    value={formik.values.email}
-                    onChange={formik.handleChange}
-                    error={formik.touched.email && Boolean(formik.errors.email)}
-                    helperText={formik.touched.email && formik.errors.email}
-                    disabled={formik.isSubmitting}
-                />
-            </Box>
-            <Box m={1}>
-                <TextField
-                    fullWidth
-                    id="password"
-                    name="password"
-                    label="Password"
-                    type="password"
-                    value={formik.values.password}
-                    onChange={formik.handleChange}
-                    error={
-                        formik.touched.password &&
-                        Boolean(formik.errors.password)
-                    }
-                    helperText={
-                        formik.touched.password && formik.errors.password
-                    }
-                    disabled={formik.isSubmitting}
-                />
-            </Box>
-            <Box m={1}>
-                <TextField
-                    fullWidth
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    label="Re-enter password"
-                    type="password"
-                    value={formik.values.confirmPassword}
-                    onChange={formik.handleChange}
-                    error={
-                        formik.touched.confirmPassword &&
-                        Boolean(formik.errors.confirmPassword)
-                    }
-                    helperText={
-                        formik.touched.confirmPassword &&
-                        formik.errors.confirmPassword
-                    }
-                    disabled={formik.isSubmitting}
-                />
-            </Box>
-            <Box m={1} display="flex" justifyContent="flex-end">
-                <Button
-                    color="primary"
-                    variant="contained"
-                    type="submit"
-                    fullWidth
-                    disabled={formik.isSubmitting}
-                >
-                    Register
-                </Button>
-            </Box>
-        </form>
+        <>
+            {errorMessage && (
+                <Typography variant="h6" component="h3" color="error">
+                    {errorMessage}
+                </Typography>
+            )}
+
+            <form onSubmit={formik.handleSubmit}>
+                <Box m={1}>
+                    <TextField
+                        fullWidth
+                        id="name"
+                        name="name"
+                        label="Name"
+                        type="text"
+                        value={formik.values.name}
+                        onChange={formik.handleChange}
+                        error={
+                            formik.touched.name && Boolean(formik.errors.name)
+                        }
+                        helperText={formik.touched.name && formik.errors.name}
+                        disabled={formik.isSubmitting}
+                    />
+                </Box>
+                <Box m={1}>
+                    <TextField
+                        fullWidth
+                        id="email"
+                        name="email"
+                        label="Email"
+                        type="text"
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                        error={
+                            formik.touched.email && Boolean(formik.errors.email)
+                        }
+                        helperText={formik.touched.email && formik.errors.email}
+                        disabled={formik.isSubmitting}
+                    />
+                </Box>
+                <Box m={1}>
+                    <TextField
+                        fullWidth
+                        id="password"
+                        name="password"
+                        label="Password"
+                        type="password"
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                        error={
+                            formik.touched.password &&
+                            Boolean(formik.errors.password)
+                        }
+                        helperText={
+                            formik.touched.password && formik.errors.password
+                        }
+                        disabled={formik.isSubmitting}
+                    />
+                </Box>
+                <Box m={1}>
+                    <TextField
+                        fullWidth
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        label="Re-enter password"
+                        type="password"
+                        value={formik.values.confirmPassword}
+                        onChange={formik.handleChange}
+                        error={
+                            formik.touched.confirmPassword &&
+                            Boolean(formik.errors.confirmPassword)
+                        }
+                        helperText={
+                            formik.touched.confirmPassword &&
+                            formik.errors.confirmPassword
+                        }
+                        disabled={formik.isSubmitting}
+                    />
+                </Box>
+                <Box m={1} display="flex" justifyContent="flex-end">
+                    <Button
+                        color="primary"
+                        variant="contained"
+                        type="submit"
+                        fullWidth
+                        disabled={formik.isSubmitting}
+                    >
+                        Register
+                    </Button>
+                </Box>
+            </form>
+        </>
     );
 };
 
