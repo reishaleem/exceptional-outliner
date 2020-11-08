@@ -8,7 +8,7 @@ router.route("/").get((req, res) => {
         .catch((err) => res.status(400).json("Error " + err));
 })
 
-router.route("/create").post((req, res) => {
+router.route("/").post((req, res) => {
     service.createUser(req.body, res);
 })
 
