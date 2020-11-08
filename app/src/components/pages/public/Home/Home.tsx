@@ -15,6 +15,7 @@ import Navbar from "../../../molecules/Navbar/Public/Navbar";
 import OverlayImage from "../../../atoms/OverlayImage/OverlayImage";
 
 import OnePiece from "../../../../images/onepieceworld.jpg";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
     positionInTheDistance: {
@@ -50,6 +51,8 @@ const Home: React.FC = () => {
                         variant="contained"
                         size="large"
                         fullWidth
+                        component={Link}
+                        to="/register"
                     >
                         Start your journey
                     </Button>
