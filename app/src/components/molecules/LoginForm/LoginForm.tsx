@@ -44,6 +44,7 @@ const LoginForm: React.FC = () => {
                     onChange={formik.handleChange}
                     error={formik.touched.email && Boolean(formik.errors.email)}
                     helperText={formik.touched.email && formik.errors.email}
+                    disabled={formik.isSubmitting}
                 />
             </Box>
             <Box m={1}>
@@ -62,6 +63,7 @@ const LoginForm: React.FC = () => {
                     helperText={
                         formik.touched.password && formik.errors.password
                     }
+                    disabled={formik.isSubmitting}
                 />
             </Box>
             <Box m={1} display="flex" justifyContent="flex-end">
@@ -70,6 +72,7 @@ const LoginForm: React.FC = () => {
                     variant="contained"
                     type="submit"
                     fullWidth
+                    disabled={formik.isSubmitting}
                 >
                     Login
                 </Button>

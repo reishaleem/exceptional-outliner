@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 //const atlasURI = process.env.ATLAS_URI;
-const localURI = "mongodb://localhost:27017/outliner_test";
+const localURI = "mongodb://localhost:27017/outliner_test_db";
 mongoose.connect(localURI, {
     useNewUrlParser: true,
     useCreateIndex: true,

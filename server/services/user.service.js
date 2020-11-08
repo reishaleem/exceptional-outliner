@@ -8,7 +8,14 @@ async function createUser(request, response) {
     const bio = ""; // users do not edit their bios when creating, so it starts empty
     const universes = []
 
-    const password = await authService.encryptPassword(request.password);
+    let password = null
+    try {
+        password = await authService.encryptPassword(request.password);
+    } catch (error) {
+        console.log(error)
+        response.status(500).json(error)
+        return;
+    }
 
     const newUser = Users({
         name,
@@ -21,9 +28,9 @@ async function createUser(request, response) {
 
     newUser
         .save()
-        .then(() => response.json(`User with username "${username}" added!`))
-        .catch((err) => {
-            response.status(400).json(err);
+        .then(() => response.json(`User with email "${email}" added!`))
+        .catch((error) => {
+            response.status(400).json(error);
         });
 }
 

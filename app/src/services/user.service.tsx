@@ -2,15 +2,29 @@ import axios, { AxiosResponse } from "axios";
 
 const API_URL = "/api/users";
 
-interface User {
-    name: string;
-    email: string;
-    password: string;
+interface Response {
+    success?: string;
+    error?: string;
 }
 
 async function createUser(name: string, email: string, password: string) {
-    const { data }: AxiosResponse<User> = await axios.post(API_URL);
-    return data;
+    const response: Response = {};
+    try {
+        const { data }: AxiosResponse<string> = await axios.post(API_URL, {
+            name: name,
+            email: email,
+            password: password,
+        });
+        response.success = data;
+    } catch (error) {
+        if (error.response.status === 400) {
+            response.error = "The email is already in use";
+        } else if (error.response.status === 500) {
+            response.error =
+                "Something went wrong on our end. Please try again!";
+        }
+    }
+    return response;
 }
 
 const exports = {

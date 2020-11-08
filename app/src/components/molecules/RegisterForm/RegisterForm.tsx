@@ -4,6 +4,8 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { useFormik } from "formik";
 
+import UserService from "../../../services/user.service";
+
 interface FormFields {
     name: string;
     email: string;
@@ -47,10 +49,25 @@ const RegisterForm: React.FC = () => {
 
             return errors;
         },
-        onSubmit: (values: FormFields) => {
-            alert(JSON.stringify(values, null, 2));
+        // setSubmitting is passed so we can end the Formik submission in our handleSubmit
+        onSubmit: (values: FormFields, { setSubmitting }) => {
+            handleSubmit(values, setSubmitting);
         },
     });
+
+    async function handleSubmit(user: FormFields, setSubmitting: any) {
+        const response = await UserService.createUser(
+            user.name,
+            user.email,
+            user.password
+        );
+        if (response.success) {
+            console.log(response.success);
+        } else if (response.error) {
+            console.log(response.error);
+        }
+        setSubmitting(false);
+    }
 
     return (
         <form onSubmit={formik.handleSubmit}>
@@ -65,6 +82,7 @@ const RegisterForm: React.FC = () => {
                     onChange={formik.handleChange}
                     error={formik.touched.name && Boolean(formik.errors.name)}
                     helperText={formik.touched.name && formik.errors.name}
+                    disabled={formik.isSubmitting}
                 />
             </Box>
             <Box m={1}>
@@ -78,6 +96,7 @@ const RegisterForm: React.FC = () => {
                     onChange={formik.handleChange}
                     error={formik.touched.email && Boolean(formik.errors.email)}
                     helperText={formik.touched.email && formik.errors.email}
+                    disabled={formik.isSubmitting}
                 />
             </Box>
             <Box m={1}>
@@ -96,6 +115,7 @@ const RegisterForm: React.FC = () => {
                     helperText={
                         formik.touched.password && formik.errors.password
                     }
+                    disabled={formik.isSubmitting}
                 />
             </Box>
             <Box m={1}>
@@ -115,6 +135,7 @@ const RegisterForm: React.FC = () => {
                         formik.touched.confirmPassword &&
                         formik.errors.confirmPassword
                     }
+                    disabled={formik.isSubmitting}
                 />
             </Box>
             <Box m={1} display="flex" justifyContent="flex-end">
@@ -123,6 +144,7 @@ const RegisterForm: React.FC = () => {
                     variant="contained"
                     type="submit"
                     fullWidth
+                    disabled={formik.isSubmitting}
                 >
                     Register
                 </Button>
