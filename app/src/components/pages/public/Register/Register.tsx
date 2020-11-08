@@ -5,6 +5,7 @@ import Container from "@material-ui/core/Container";
 import CardImageForm from "../../../organisms/CardImageForm/CardImageForm";
 import Footer from "../../../molecules/Footer/Footer";
 import Navbar from "../../../molecules/Navbar/Public/Navbar";
+import RegisterForm from "../../../molecules/RegisterForm/RegisterForm";
 
 import OnePiece from "../../../../images/onepieceworldbright.jpg";
 
@@ -21,8 +22,12 @@ const Register: React.FC = () => {
                             width="100%"
                             marginLeft="24px"
                             marginRight="24px"
-                            formHeader="Login"
-                        />
+                            formHeader="Sign Up"
+                        >
+                            <Box width="75%">
+                                <RegisterForm />
+                            </Box>
+                        </CardImageForm>
                     </Box>
                 </Container>
                 <Footer />

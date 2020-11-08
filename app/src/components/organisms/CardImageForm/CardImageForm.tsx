@@ -1,7 +1,7 @@
 import React from "react";
+import Box from "@material-ui/core/Box";
 import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 
 interface PropTypes {
@@ -11,7 +11,9 @@ interface PropTypes {
     marginLeft?: string;
     marginRight?: string;
     formHeader: string;
+    children: any;
 }
+
 const CardImageForm: React.FC<PropTypes> = ({
     image,
     height,
@@ -19,6 +21,7 @@ const CardImageForm: React.FC<PropTypes> = ({
     marginLeft,
     marginRight,
     formHeader,
+    children,
 }) => {
     return (
         <Card
@@ -40,14 +43,17 @@ const CardImageForm: React.FC<PropTypes> = ({
                     ></div>
                 </Grid>
                 <Grid container item md={6} alignItems="center">
-                    <Grid item md={12} style={{ textAlign: "center" }}>
+                    <Grid item md={12}>
                         <Typography variant="h2" component="h1" align="center">
                             {formHeader}
                         </Typography>
-
-                        <TextField label="Email" style={{ width: "75%" }} />
-                        <br />
-                        <TextField label="Password" style={{ width: "75%" }} />
+                        <Box
+                            width="100%"
+                            display="flex"
+                            justifyContent="center"
+                        >
+                            {children}
+                        </Box>
                     </Grid>
                 </Grid>
             </Grid>
