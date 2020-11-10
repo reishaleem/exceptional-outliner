@@ -1,15 +1,13 @@
 import React, { ComponentProps } from "react";
 import { Story } from "@storybook/react/types-6-0";
-import { MemoryRouter } from "react-router-dom";
-
-import OverlayImage from "./OverlayImage";
 
 import OnePiece from "../../../images/onepieceworld.jpg";
 
+import OverlayImage from "./OverlayImage";
+
 const storyDetails = {
-    title: "OverlayImage",
+    title: "Atoms/OverlayImage",
     component: OverlayImage,
-    decorators: [(getStory: any) => <MemoryRouter>{getStory()}</MemoryRouter>],
 };
 export default storyDetails;
 
@@ -17,20 +15,36 @@ const Template: Story<ComponentProps<typeof OverlayImage>> = (args) => {
     return <OverlayImage {...args} />;
 };
 
-export const NoTextFullPage = Template.bind({});
-NoTextFullPage.args = {
+export const withoutTextFullPage = Template.bind({});
+withoutTextFullPage.args = {
     image: OnePiece,
     fullPage: true,
 };
 
-export const WithTextFullPage: Story<ComponentProps<typeof OverlayImage>> = (
+export const withoutTextNotFullPage = Template.bind({});
+withoutTextNotFullPage.args = {
+    image: OnePiece,
+};
+
+export const withTextFullPage: Story<ComponentProps<typeof OverlayImage>> = (
     args
 ) => (
     <OverlayImage {...args}>
         <p>Text</p>
     </OverlayImage>
 );
-WithTextFullPage.args = {
+withTextFullPage.args = {
     image: OnePiece,
     fullPage: true,
+};
+
+export const withTextNotFullPage: Story<ComponentProps<typeof OverlayImage>> = (
+    args
+) => (
+    <OverlayImage {...args}>
+        <p>Text</p>
+    </OverlayImage>
+);
+withTextNotFullPage.args = {
+    image: OnePiece,
 };

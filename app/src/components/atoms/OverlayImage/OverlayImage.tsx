@@ -1,11 +1,11 @@
 import React from "react";
-import makeStyles from "@material-ui/styles/makeStyles";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 import clsx from "clsx";
 
 interface PropTypes {
     image: string;
     fullPage?: boolean;
-    children: any;
+    children?: any;
 }
 
 const useStyles = (image: string) =>
@@ -19,7 +19,11 @@ const useStyles = (image: string) =>
         },
     }));
 
-const OverlayImage: React.FC<PropTypes> = ({ image, fullPage, children }) => {
+const OverlayImage: React.FC<PropTypes> = ({
+    image,
+    fullPage,
+    children,
+}: PropTypes) => {
     const classes = useStyles(image)();
 
     return (
