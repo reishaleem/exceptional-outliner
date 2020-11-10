@@ -3,7 +3,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Container from "@material-ui/core/Container";
 import Toolbar from "@material-ui/core/Toolbar";
 
-import NavbarButtonList from "../../NavbarButtonList/NavbarButtonList";
+import NavbarButtonList from "../../../molecules/NavbarButtonList/NavbarButtonList";
 import NavbarTitle from "../../../atoms/NavbarTitle/NavbarTitle";
 
 interface PropTypes {
