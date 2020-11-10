@@ -11,7 +11,7 @@ import Typed from "react-typed";
 
 import CircularCard from "../../../molecules/CirclularCard/CircularCard";
 import Footer from "../../../molecules/Footer/Footer";
-import Navbar from "../../../molecules/Navbar/Public/Navbar";
+import Navbar from "../../../organisms/Navbar/Public/Navbar";
 import OverlayImage from "../../../atoms/OverlayImage/OverlayImage";
 
 import OnePiece from "../../../../images/onepieceworld.jpg";

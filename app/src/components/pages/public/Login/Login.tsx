@@ -4,7 +4,7 @@ import Container from "@material-ui/core/Container";
 
 import CardImageForm from "../../../organisms/CardImageForm/CardImageForm";
 import Footer from "../../../molecules/Footer/Footer";
-import Navbar from "../../../molecules/Navbar/Public/Navbar";
+import Navbar from "../../../organisms/Navbar/Public/Navbar";
 import LoginForm from "../../../molecules/LoginForm/LoginForm";
 
 import OnePiece from "../../../../images/onepieceworldbright.jpg";
