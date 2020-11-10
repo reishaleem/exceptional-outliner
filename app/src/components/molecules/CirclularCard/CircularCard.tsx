@@ -20,7 +20,12 @@ const useStyles = (size: string) =>
         },
     }));
 
-const CircularCard: React.FC<PropTypes> = ({ icon, title, body, size }) => {
+const CircularCard: React.FC<PropTypes> = ({
+    icon,
+    title,
+    body,
+    size,
+}: PropTypes) => {
     const classes = useStyles(size)();
 
     return (

@@ -5,7 +5,7 @@ import BuildIcon from "@material-ui/icons/Build";
 import CircularCard from "./CircularCard";
 
 const storyDetails = {
-    title: "CircularCard",
+    title: "Molecules/CircularCard",
     component: CircularCard,
 };
 export default storyDetails;
@@ -17,6 +17,13 @@ const Template: Story<ComponentProps<typeof CircularCard>> = (args) => {
 export const withTitleAndBody = Template.bind({});
 withTitleAndBody.args = {
     title: "Title",
+    body: "This is the body",
+    size: "200px",
+};
+
+export const withIconAndBody = Template.bind({});
+withIconAndBody.args = {
+    icon: <BuildIcon />,
     body: "This is the body",
     size: "200px",
 };
