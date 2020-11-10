@@ -1,13 +1,11 @@
 import React, { ComponentProps } from "react";
 import { Story } from "@storybook/react/types-6-0";
-import { MemoryRouter } from "react-router-dom";
 
 import Footer from "./Footer";
 
 const storyDetails = {
-    title: "Footer",
+    title: "Molecules/Footer",
     component: Footer,
-    decorators: [(getStory: any) => <MemoryRouter>{getStory()}</MemoryRouter>],
 };
 export default storyDetails;
 
