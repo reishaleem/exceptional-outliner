@@ -1,7 +1,8 @@
 const authService = require("./auth.service")
-let Users = require("../models/user.model")
+import Users from "../models/user.model"
 
-async function getAllUsers() {
+async function getAllUsers(
+) {
     try {
         const users = await Users.find();
         return users;
@@ -53,7 +54,7 @@ async function checkUsernameExists(username, response) {
     })
 }
 
-module.exports = {
+export default {
     createUser,
     checkUsernameExists,
     getAllUsers,
