@@ -1,9 +1,12 @@
-const mongoose = require("mongoose");
+import mongoose, { Schema } from "mongoose";
 
-const Schema = mongoose.Schema;
+export interface PageFields {
+    name: string;
+    body: string;
+    type: string;
+}
 
-
-const wikiSchema = new Schema(
+const pageSchema = new Schema(
     {
         name: {
             type: String,
@@ -17,11 +20,11 @@ const wikiSchema = new Schema(
         },
         type: {
             type: String,
-        }
+        },
     },
     {
-        timestamps: true
+        timestamps: true,
     }
-)
+);
 
-module.exports = wikiSchema;
+export default pageSchema;

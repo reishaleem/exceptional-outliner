@@ -1,6 +1,15 @@
 const authService = require("./auth.service")
 let Users = require("../models/user.model")
 
+async function getAllUsers() {
+    try {
+        const users = await Users.find();
+        return users;
+    } catch (error) {
+        throw error;
+    }
+}
+
 async function createUser(request, response) {
     const email = request.email;
     const name = request.name;
@@ -47,4 +56,5 @@ async function checkUsernameExists(username, response) {
 module.exports = {
     createUser,
     checkUsernameExists,
+    getAllUsers,
 }

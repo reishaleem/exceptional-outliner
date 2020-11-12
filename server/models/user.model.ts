@@ -1,8 +1,15 @@
-const mongoose = require("mongoose");
+import mongoose, { Schema, model } from "mongoose";
 
-const Schema = mongoose.Schema;
+import worldSchema, { WorldFields } from "./world.model";
 
-const universeSchema = require("./universe.model")
+interface UserFields extends mongoose.Document {
+    name: string;
+    email: string;
+    password: string;
+    penName: string;
+    bio: string;
+    worlds: WorldFields[];
+}
 
 const userSchema = new Schema(
     {
@@ -37,13 +44,16 @@ const userSchema = new Schema(
             trim: true,
             maxlength: 255,
         },
-        universes: [universeSchema],
+        worlds: [worldSchema],
+        // refreshToken: {
+        //     type: String,
+        // },
     },
     {
         timestamps: true,
     }
-)
+);
 
-const User = mongoose.model("User", userSchema);
+const User = model<UserFields>("User", userSchema);
 
-module.exports = User;
+export default User;

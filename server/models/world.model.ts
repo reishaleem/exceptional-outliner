@@ -1,10 +1,14 @@
-const mongoose = require("mongoose");
-const wikiSchema = require("./wiki.model");
+import { Schema } from "mongoose";
+import pageSchema, { PageFields } from "./wiki.model";
 
-const Schema = mongoose.Schema;
+export interface WorldFields {
+    name: string;
+    genres: string[];
+    description: string;
+    pages: PageFields[];
+}
 
-
-const universeSchema = new Schema(
+const worldSchema = new Schema(
     {
         name: {
             type: String,
@@ -21,11 +25,11 @@ const universeSchema = new Schema(
             time: true,
             maxlength: 500,
         },
-        wikis: [wikiSchema]
+        pages: [pageSchema],
     },
     {
-        timestamps: true
+        timestamps: true,
     }
-)
+);
 
-module.exports = universeSchema;
+export default worldSchema;

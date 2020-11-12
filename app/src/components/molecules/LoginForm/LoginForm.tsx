@@ -4,6 +4,8 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { useFormik } from "formik";
 
+import AuthService from "../../../services/auth.service";
+
 interface FormFields {
     email: string;
     password: string;
@@ -27,10 +29,16 @@ const LoginForm: React.FC = () => {
 
             return errors;
         },
-        onSubmit: (values: FormFields) => {
-            alert(JSON.stringify(values, null, 2));
+        onSubmit: (values: FormFields, { setSubmitting }) => {
+            handleSubmit(values, setSubmitting);
         },
     });
+
+    async function handleSubmit(user: FormFields, setSubmitting: any) {
+        const response = await AuthService.login(user.email, user.password);
+        console.log(response);
+        setSubmitting(false);
+    }
 
     return (
         <form onSubmit={formik.handleSubmit}>
