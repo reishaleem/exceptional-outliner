@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const service = require("../services/universe.service");
+const service = require("../services/world.service");
 const authService = require("../services/auth.service");
 
 //router.use(authService.authenticateToken); // this is going to add the 'user' part to every request, so that way, we can authenticate and get username and ID

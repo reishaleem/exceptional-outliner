@@ -1,60 +1,61 @@
 import {
-    GraphQLObjectType,
-    GraphQLString,
-    GraphQLBoolean,
-    GraphQLSchema,
     GraphQLID,
-    GraphQLFloat,
     GraphQLList,
     GraphQLNonNull,
+    GraphQLObjectType,
+    GraphQLString,
+    GraphQLSchema,
 } from "graphql";
+import User from "../models/user.model";
 
 import userService from "../services/user.service";
-
-import User from "../models/user.model";
+import worldService from "../services/world.service";
 
 const UserType = new GraphQLObjectType({
     name: "User",
     fields: () => ({
-        id: { type: GraphQLString },
+        id: { type: GraphQLID },
         name: { type: GraphQLString },
         email: { type: GraphQLString },
         password: { type: GraphQLString },
         penName: { type: GraphQLString },
         bio: { type: GraphQLString },
         worlds: { type: GraphQLList(WorldType) },
+        createdAt: { type: GraphQLString },
+        updatedAt: { type: GraphQLString },
     }),
 });
 
 const WorldType = new GraphQLObjectType({
     name: "World",
     fields: () => ({
-        id: { type: GraphQLString },
+        id: { type: GraphQLID },
         name: { type: GraphQLString },
         description: { type: GraphQLString },
         genres: { type: GraphQLList(GraphQLString) },
+        pages: { type: GraphQLList(PageType) },
+        createdAt: { type: GraphQLString },
+        updatedAt: { type: GraphQLString },
     }),
 });
 
-const RootQueryType = new GraphQLObjectType({
+const PageType = new GraphQLObjectType({
+    name: "Page",
+    description: "The wiki-like pages that belong to a World",
+    fields: () => ({
+        id: { type: GraphQLID },
+        name: { type: GraphQLString },
+        body: { type: GraphQLString },
+        type: { type: GraphQLString },
+        createdAt: { type: GraphQLString },
+        updatedAt: { type: GraphQLString },
+    }),
+});
+
+const RootQuery = new GraphQLObjectType({
     name: "Query",
     description: "The top level query",
     fields: () => ({
-        user: {
-            type: UserType,
-            description: "A single User",
-            args: {
-                id: { type: GraphQLString },
-            },
-            resolve: async (parent, args) => {
-                try {
-                    const user = User.findById(args.id);
-                    return user;
-                } catch (error) {
-                    throw error;
-                }
-            },
-        },
         users: {
             type: GraphQLList(UserType),
             description: "List of users",
@@ -66,53 +67,80 @@ const RootQueryType = new GraphQLObjectType({
                 }
             },
         },
-    }),
-});
-
-const RootMutationType = new GraphQLObjectType({
-    name: "Mutation",
-    description: "Root mutation for updates, deletes, and creation",
-    fields: () => ({
-        addWorld: {
-            type: WorldType,
-            description: "Add a World to a user",
+        user: {
+            type: UserType,
+            description: "A single User",
             args: {
-                ownerId: { type: GraphQLNonNull(GraphQLString) },
-                name: { type: GraphQLNonNull(GraphQLString) },
-                description: { type: GraphQLNonNull(GraphQLString) },
-                genres: { type: GraphQLList(GraphQLString) },
-                pages: { type: GraphQLList(GraphQLString) }, // this needs to be changed to list of PageTypes, just have not made yet
+                id: { type: GraphQLID },
             },
             resolve: async (parent, args) => {
-                const name: string = args.name;
-                const description: string = args.description;
-
-                const user = await User.findById(args.ownerId).exec();
-                if (!user) {
-                    // need to learn how to send status codes back to client with graphql
-                    //response.status(400).json("Error: user id does not exist");
-                    return;
-                }
-
-                user.worlds.push({
-                    name: name,
-                    description: description,
-                    genres: ["Fantasy"],
-                    pages: [],
-                });
-
                 try {
-                    const savedUser = await user.save();
-                    return savedUser.worlds[savedUser.worlds.length - 1];
+                    return userService.getUserById(args.id);
                 } catch (error) {
                     throw error;
                 }
+            },
+        },
+        world: {
+            type: WorldType,
+            description: "A single World",
+            args: {
+                ownerId: { type: GraphQLString },
+                worldId: { type: GraphQLID },
+            },
+            resolve: async () => {},
+        },
+    }),
+});
+
+const RootMutation = new GraphQLObjectType({
+    name: "Mutation",
+    description: "Root mutation for updates, deletes, and creation",
+    fields: () => ({
+        createUser: {
+            type: UserType,
+            description: "Create a new user",
+            args: {
+                name: { type: GraphQLNonNull(GraphQLString) },
+                email: { type: GraphQLNonNull(GraphQLString) },
+                password: { type: GraphQLNonNull(GraphQLString) },
+            },
+            resolve: async (parent, args) => {
+                const request = {
+                    name: args.name,
+                    email: args.email,
+                    password: args.password,
+                };
+                try {
+                    return userService.createUser(request);
+                } catch (error) {
+                    throw error;
+                }
+            },
+        },
+        createWorld: {
+            type: WorldType,
+            description: "Add a World to a user",
+            args: {
+                ownerId: { type: GraphQLNonNull(GraphQLID) },
+                name: { type: GraphQLNonNull(GraphQLString) },
+                description: { type: GraphQLNonNull(GraphQLString) },
+                genres: { type: GraphQLNonNull(GraphQLList(GraphQLString)) },
+            },
+            resolve: async (parent, args) => {
+                const request = {
+                    ownerId: args.ownerId,
+                    name: args.name,
+                    description: args.description,
+                    genres: args.genres,
+                };
+                return worldService.createWorld(request);
             },
         },
     }),
 });
 
 export default new GraphQLSchema({
-    query: RootQueryType,
-    mutation: RootMutationType,
+    query: RootQuery,
+    mutation: RootMutation,
 });
