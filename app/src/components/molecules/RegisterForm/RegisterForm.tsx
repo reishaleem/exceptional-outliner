@@ -5,7 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { useFormik } from "formik";
 
-import UserService from "../../../services/user.service";
+import { gql, useMutation } from "@apollo/client";
 
 interface FormFields {
     name: string;
@@ -14,8 +14,26 @@ interface FormFields {
     confirmPassword: string;
 }
 
+const test = gql`
+    mutation CreateUser($name: String!, $email: String!, $password: String!) {
+        createUser(name: $name, email: $email, password: $password) {
+            id
+            name
+            email
+            password
+            penName
+            bio
+        }
+    }
+`;
+
 const RegisterForm: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState("");
+    const [createUser, { data }] = useMutation(test, {
+        onError: (error) => {
+            setErrorMessage(error.message);
+        },
+    });
 
     const formik = useFormik({
         initialValues: {
@@ -58,22 +76,17 @@ const RegisterForm: React.FC = () => {
         },
     });
 
-    async function handleSubmit(user: FormFields, setSubmitting: any) {
-        const response = await UserService.createUser(
-            user.name,
-            user.email,
-            user.password
-        );
-        if (response.success) {
-            setErrorMessage("");
-            console.log(response.success);
-        } else if (response.error) {
-            console.log(response.error);
-            setErrorMessage(response.error);
-        }
+    function handleSubmit(user: FormFields, setSubmitting: any) {
+        createUser({
+            variables: {
+                name: user.name,
+                email: user.email,
+                password: user.password,
+            },
+        });
+        // then redirect with the data? Maybe we don't even need any data returned
         setSubmitting(false);
     }
-
     return (
         <>
             {errorMessage && (
