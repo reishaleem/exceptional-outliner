@@ -5,9 +5,9 @@ import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import { graphqlHTTP } from "express-graphql";
 import schema from "./server/graphql/schema";
+import dotenv from "dotenv";
 
-require("dotenv").config();
-
+dotenv.config();
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -17,9 +17,9 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
-//const atlasURI = process.env.ATLAS_URI;
-const localURI = "mongodb://localhost:27017/outliner_test_db";
-mongoose.connect(localURI, {
+const mongoURI =
+    process.env.MONGO_URI || "mongodb://localhost:27017/outliner_test_db";
+mongoose.connect(mongoURI, {
     useNewUrlParser: true,
     useCreateIndex: true,
 });
