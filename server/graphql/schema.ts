@@ -7,6 +7,8 @@ import {
     GraphQLSchema,
 } from "graphql";
 import User from "../models/user.model";
+import authService from "../services/auth.service";
+import { NextFunction } from "express";
 
 import userService from "../services/user.service";
 import worldService from "../services/world.service";
@@ -49,6 +51,14 @@ const PageType = new GraphQLObjectType({
         type: { type: GraphQLString },
         createdAt: { type: GraphQLString },
         updatedAt: { type: GraphQLString },
+    }),
+});
+
+const AccessToken = new GraphQLObjectType({
+    name: "AccessToken",
+    description: "An access token for authorization",
+    fields: () => ({
+        accessToken: { type: GraphQLString },
     }),
 });
 
@@ -119,7 +129,7 @@ const RootMutation = new GraphQLObjectType({
             },
         },
         createWorld: {
-            type: WorldType,
+            type: GraphQLString,
             description: "Add a World to a user",
             args: {
                 ownerId: { type: GraphQLNonNull(GraphQLID) },
@@ -127,14 +137,32 @@ const RootMutation = new GraphQLObjectType({
                 description: { type: GraphQLNonNull(GraphQLString) },
                 genres: { type: GraphQLNonNull(GraphQLList(GraphQLString)) },
             },
-            resolve: async (parent, args) => {
+            resolve: async (parent, args, context) => {
+                authService.authenticateToken(context); // should throw an error if user is not authenticated
+                console.log();
+                // const request = {
+                //     ownerId: args.ownerId,
+                //     name: args.name,
+                //     description: args.description,
+                //     genres: args.genres,
+                // };
+                // return worldService.createWorld(request);
+                return `Your user id is ${context.user.id} and your name is ${context.user.name}`;
+            },
+        },
+        login: {
+            type: AccessToken,
+            description: "Log a user in, giving them a token",
+            args: {
+                email: { type: GraphQLNonNull(GraphQLString) },
+                password: { type: GraphQLNonNull(GraphQLString) },
+            },
+            resolve: async (parent, args, context) => {
                 const request = {
-                    ownerId: args.ownerId,
-                    name: args.name,
-                    description: args.description,
-                    genres: args.genres,
+                    email: args.email,
+                    password: args.password,
                 };
-                return worldService.createWorld(request);
+                return authService.login(request, context.res);
             },
         },
     }),
