@@ -3,19 +3,11 @@ import userService from "../../services/user.service";
 import { CreateUserRequest } from "../../common/types";
 
 export function usersResolver() {
-    try {
-        return userService.getAllUsers();
-    } catch (error) {
-        throw error;
-    }
+    return userService.getAllUsers();
 }
 
 export function userResolver(args: any) {
-    try {
-        return userService.getUserById(args.id);
-    } catch (error) {
-        throw error;
-    }
+    return userService.getUserById(args.id);
 }
 
 export function createUserResolver(args: any) {
@@ -24,9 +16,6 @@ export function createUserResolver(args: any) {
         email: args.email,
         password: args.password,
     };
-    try {
-        return userService.createUser(request);
-    } catch (error) {
-        throw error;
-    }
+
+    return userService.createUser(request);
 }

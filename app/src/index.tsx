@@ -6,13 +6,10 @@ import {
     ApolloClient,
     ApolloLink,
     ApolloProvider,
-    concat,
     createHttpLink,
     from,
-    fromPromise,
     InMemoryCache,
 } from "@apollo/client";
-import { onError } from "@apollo/client/link/error";
 import reportWebVitals from "./reportWebVitals";
 import { TokenRefreshLink } from "apollo-link-token-refresh";
 import AuthService from "./services/auth.service";

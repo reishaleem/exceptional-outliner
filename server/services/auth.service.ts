@@ -17,7 +17,7 @@ async function login(request: LoginRequest, res: Response) {
 
     const users = await Users.find({ email: email }).exec();
     if (!users || !users[0]) {
-        throw new Error("Can't find user");
+        throw new Error("Email or password is incorrect");
     }
     const user = users[0];
 
@@ -25,7 +25,7 @@ async function login(request: LoginRequest, res: Response) {
     try {
         passwordMatches = await bcrypt.compare(request.password, user.password);
     } catch (error) {
-        throw new Error("Invalid password");
+        throw new Error("Email or password is incorrect");
     }
 
     if (passwordMatches) {
@@ -59,7 +59,7 @@ async function login(request: LoginRequest, res: Response) {
             accessToken: accessToken,
         };
     } else {
-        throw new Error("invalid pass");
+        throw new Error("Email or password is incorrect");
     }
 }
 
@@ -71,11 +71,53 @@ function generateToken(
     return jwt.sign(payload, secret, ...rest);
 }
 
+async function refreshToken(req: Request, res: Response) {
+    const token = req.cookies.rjid;
+    if (!token) {
+        return res.send({ ok: false, accessToken: "" }); // don't send an access token
+    }
+
+    let payload: any = null;
+    try {
+        payload = jwt.verify(token, process.env.REFRESH_JWT_SECRET!);
+    } catch (error) {
+        return res.send({ ok: false, accessToken: "" });
+    }
+
+    const user = await Users.findById(payload.id);
+    if (!user) {
+        return res.send({ ok: false, accessToken: "" });
+    }
+
+    const userDetails = {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        penName: user.penName,
+    };
+    const newAccessToken = generateToken(userDetails, process.env.JWT_SECRET!, {
+        expiresIn: "2m",
+    });
+    const refreshToken = generateToken(
+        userDetails,
+        process.env.REFRESH_JWT_SECRET!,
+        {
+            expiresIn: "7d",
+        }
+    );
+
+    res.cookie("rjid", refreshToken, {
+        httpOnly: true,
+        maxAge: 7 * 24 * 3600000,
+    });
+    return res.send({ ok: true, accessToken: newAccessToken });
+}
+
 // later, define a context type somewhere
 function authenticateToken(context: any) {
     const authorization = context.req.headers["authorization"];
     if (!authorization) {
-        throw new Error("No authorization header...");
+        throw new Error("Invalid token. Try logging in again.");
     }
     try {
         const token = authorization.split(" ")[1]; // second value after the bearer
@@ -83,8 +125,7 @@ function authenticateToken(context: any) {
         context.user = user as any;
         return;
     } catch (error) {
-        // console.log(error);
-        throw new Error("Error: " + error);
+        throw new Error("Invalid token. Try logging in again");
     }
 }
 
@@ -97,4 +138,5 @@ export default {
     generateToken,
     authenticateToken,
     encryptPassword,
+    refreshToken,
 };

@@ -8,7 +8,7 @@ async function createWorld(world: CreateWorldRequest) {
 
     let owner = await Users.findById(world.ownerId).exec();
     if (owner == null) {
-        throw "User does not exist";
+        throw `User with id ${world.ownerId} does not exist`;
     }
 
     owner.worlds.push({

@@ -6,8 +6,8 @@ import cookieParser from "cookie-parser";
 import { graphqlHTTP } from "express-graphql";
 import schema from "./server/graphql/schema";
 import dotenv from "dotenv";
-import { sign, verify } from "jsonwebtoken";
-import User from "./server/models/user.model";
+
+import authService from "./server/services/auth.service";
 
 dotenv.config();
 const app = express();
@@ -36,46 +36,8 @@ connectionPool.once("open", () => {
 });
 
 // for revoking refresh tokens, go back to the tutorial later when setting up forgot password.
-
 app.post("/refresh-token", async (req, res) => {
-    const token = req.cookies.rjid;
-    if (!token) {
-        return res.send({ ok: false, accessToken: "" }); // don't send an access token
-    }
-
-    let payload: any = null;
-    try {
-        payload = verify(token, process.env.REFRESH_JWT_SECRET!);
-    } catch (error) {
-        console.log(error);
-        return res.send({ ok: false, accessToken: "" }); // don't send an access token
-    }
-
-    const user = await User.findById(payload.id);
-    if (!user) {
-        return res.send({ ok: false, accessToken: "" }); // don't send an access token
-    }
-    const accessTokenSecret = process.env.JWT_SECRET;
-    const userDetails = {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        penName: user.penName,
-    };
-    const newAccessToken = sign(userDetails, accessTokenSecret!, {
-        expiresIn: "2m",
-    });
-
-    const refreshTokenSecret = process.env.REFRESH_JWT_SECRET;
-    const refreshToken = sign(userDetails, refreshTokenSecret!, {
-        expiresIn: "7d",
-    });
-    // rjid means refresh jwt id
-    res.cookie("rjid", refreshToken, {
-        httpOnly: true,
-        maxAge: 7 * 24 * 3600000,
-    });
-    return res.send({ ok: true, accessToken: newAccessToken }); // don't send an access token
+    return authService.refreshToken(req, res);
 });
 
 app.use(

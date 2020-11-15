@@ -15,7 +15,7 @@ async function getUserById(id: string) {
     try {
         return await Users.findById(id);
     } catch (error) {
-        throw error;
+        throw new Error(`No user with id ${id} exists`);
     }
 }
 
@@ -30,7 +30,7 @@ async function createUser(user: CreateUserRequest) {
     try {
         password = await authService.encryptPassword(user.password);
     } catch (error) {
-        throw error;
+        throw new Error("Something went wrong. Please try again.");
     }
 
     const newUser = new Users({
@@ -43,8 +43,12 @@ async function createUser(user: CreateUserRequest) {
     });
 
     try {
-        return newUser.save();
+        return await newUser.save();
     } catch (error) {
+        if (error.code === 11000) {
+            // this is the only duplicate key error (11000) that can occur at this stage
+            throw new Error("That email is already in use!");
+        }
         throw error;
     }
 }

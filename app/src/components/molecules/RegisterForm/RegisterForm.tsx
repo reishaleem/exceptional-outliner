@@ -75,24 +75,29 @@ const RegisterForm: React.FC = () => {
     });
 
     async function handleSubmit(user: FormFields, setSubmitting: any) {
-        await createUser({
+        const newUser = await createUser({
             variables: {
                 name: user.name,
                 email: user.email,
                 password: user.password,
             },
         });
-        const response = await login({
-            variables: {
-                email: user.email,
-                password: user.password,
-            },
-        });
-        if (response && response.data) {
-            // @ts-ignore: Object is possibly 'null'.
-            AuthService.setAccessToken(response.data.login.accessToken);
-            history.push("/dashboard");
+        if (newUser) {
+            const response = await login({
+                variables: {
+                    email: user.email,
+                    password: user.password,
+                },
+            });
+            if (response && response.data) {
+                // @ts-ignore: Object is possibly 'null'.
+                AuthService.setAccessToken(response.data.login.accessToken);
+                history.push("/dashboard");
+            } else {
+                history.push("/login"); // send them to login screen if there was an error for some reason...
+            }
         }
+
         setSubmitting(false);
     }
 
