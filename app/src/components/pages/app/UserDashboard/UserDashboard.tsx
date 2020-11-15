@@ -13,7 +13,9 @@ const user_query = gql`
 `;
 
 const UserDashboard: React.FC = () => {
-    const { error, loading, data, client } = useUsersQuery();
+    const { error, loading, data, client } = useUsersQuery({
+        fetchPolicy: "network-only",
+    });
     console.log(data);
     //console.log(error);
     console.log(getCurrentUser());

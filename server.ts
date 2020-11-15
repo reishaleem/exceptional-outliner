@@ -39,7 +39,6 @@ connectionPool.once("open", () => {
 
 app.post("/refresh-token", async (req, res) => {
     const token = req.cookies.rjid;
-    console.log(token);
     if (!token) {
         return res.send({ ok: false, accessToken: "" }); // don't send an access token
     }

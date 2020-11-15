@@ -57,7 +57,7 @@ const LoginForm: React.FC = () => {
         console.log(response);
         if (response && response.data) {
             // @ts-ignore: Object is possibly 'null'.
-            setAccessToken(response.data.login.accessToken, "");
+            setAccessToken(response.data.login.accessToken);
             history.push("/dashboard");
         }
 
