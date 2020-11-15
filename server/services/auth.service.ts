@@ -2,11 +2,14 @@ import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { access } from "fs";
 import jwt from "jsonwebtoken";
+import { LoginRequest } from "../common/types";
 import Users from "../models/user.model";
 
-interface LoginRequest {
+interface AccessTokenPayload {
+    id: string;
+    name: string;
     email: string;
-    password: string;
+    penName: string;
 }
 
 async function login(request: LoginRequest, res: Response) {
@@ -32,37 +35,25 @@ async function login(request: LoginRequest, res: Response) {
             email: user.email,
             penName: user.penName,
         };
-        const accessTokenSecret = process.env.JWT_SECRET;
-        const accessToken = jwt.sign(userDetails, accessTokenSecret!, {
-            expiresIn: "2m",
-        });
-        const refreshTokenSecret = process.env.REFRESH_JWT_SECRET;
-        const refreshToken = jwt.sign(userDetails, refreshTokenSecret!, {
-            expiresIn: "7d",
-        });
-        // rjid means refresh jwt id
+        const accessToken = generateToken(
+            userDetails,
+            process.env.JWT_SECRET!,
+            {
+                expiresIn: "2m",
+            }
+        );
+        const refreshToken = generateToken(
+            userDetails,
+            process.env.REFRESH_JWT_SECRET!,
+            {
+                expiresIn: "7d",
+            }
+        );
+
         res.cookie("rjid", refreshToken, {
             httpOnly: true,
             maxAge: 7 * 24 * 3600000,
         });
-
-        // RefreshTokens({
-        //     token: refreshToken,
-        //     userId: user._id,
-        // })
-        //     .save()
-        //     .then(() => {
-        //         response.cookie("jwt", accessToken, { httpOnly: true }); // add secure: true when we add HTTPS
-        //         response.cookie("refresh_jwt", refreshToken, {
-        //             httpOnly: true,
-        //         });
-        //         response.send();
-        //     })
-        //     .catch((error) => {
-        //         response
-        //             .status(500)
-        //             .json("Error with saving refresh token", error);
-        //     });
 
         return {
             accessToken: accessToken,
@@ -70,6 +61,14 @@ async function login(request: LoginRequest, res: Response) {
     } else {
         throw new Error("invalid pass");
     }
+}
+
+function generateToken(
+    payload: AccessTokenPayload,
+    secret: string,
+    ...rest: any
+) {
+    return jwt.sign(payload, secret, ...rest);
 }
 
 // later, define a context type somewhere
@@ -89,72 +88,13 @@ function authenticateToken(context: any) {
     }
 }
 
-// async function refreshToken(req, res) {
-//     const refreshToken = req.cookies.refresh_jwt;
-//     if (!refreshToken) throw "Refresh token not present";
-//     if (!(await RefreshTokens.exists({ token: refreshToken })))
-//         throw "Refresh token does not exist";
-
-//     jwt.verify(refreshToken, process.env.REFRESH_JWT_SECRET, (err, user) => {
-//         if (err) throw "Refresh token verification issue";
-//         const accessToken = jwt.sign(
-//             {
-//                 id: user._id,
-//                 name: user.name,
-//                 email: user.email,
-//                 penName: user.penName,
-//             },
-//             process.env.JWT_SECRET,
-//             {
-//                 expiresIn: "2m",
-//             }
-//         );
-//         res.cookie("jwt", accessToken, { httpOnly: true }); // add secure: true when we add HTTPS
-//         return {
-//             id: user._id,
-//             name: user.name,
-//             email: user.email,
-//             penName: user.penName,
-//         };
-//     });
-// }
-
-// function refreshToken(request, response) {
-//     const token = req.cookies.jwt;
-//     if (!token) {
-//         res.status(401).json("Invalid token")
-//         return;
-//     }
-
-//     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-//         if (err) {
-//             res.status(403).json("Token error...");
-//             return;
-//         }
-
-//         const refreshToken = user.refreshToken;
-//         jwt.verify(refreshToken, process.env.REFRESH_JWT_SECRET, (err, user) => {
-//             if (err) {
-//                 res.status(403).json("Token error...");
-//                 return;
-//             }
-
-//             const newToken = jwt.sign(user, process.env.JWT_SECRET, {
-//                 expiresIn: process.env.JWT_TOKEN_LIFE
-//             });
-//             response.cookie("jwt", newToken, {httpOnly: true}) // add secure: true when we add HTTPS
-//             response.send();
-//         })
-
-//     });
-// }
-
 async function encryptPassword(password: string) {
     return await bcrypt.hash(password, 10);
 }
 
 export default {
     login,
+    generateToken,
     authenticateToken,
     encryptPassword,
 };

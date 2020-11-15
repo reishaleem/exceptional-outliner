@@ -1,12 +1,7 @@
 import authService from "./auth.service";
 import Users from "../models/user.model";
 import { WorldFields } from "../models/world.model";
-
-interface CreateUserRequest {
-    name: string;
-    email: string;
-    password: string;
-}
+import { CreateUserRequest } from "../common/types";
 
 async function getAllUsers() {
     try {

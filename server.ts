@@ -89,22 +89,6 @@ app.use(
     })
 );
 
-/* No longer using these since we have graphql now
-const userRouter = require("./server/routes/user.router");
-const universeRouter = require("./server/routes/universe.router");
-// const wikiRouter = require("./old/server/routes/WikiRouter");
-const authenticationRouter = require("./server/routes/auth.router");
-
-app.use("/api/users", userRouter);
-app.use("/api/universes", universeRouter);
-// app.use("/api/wikis", wikiRouter);
-app.use("/api/auth", authenticationRouter);
-
-app.get("/api/health", (req, res) => {
-    res.send({ message: "Server is running" });
-});
-*/
-
 // not sure why I can't set req and res to Request and Response...will need to update it later...
 app.get("/*", (req: any, res: any) => {
     res.sendFile(path.resolve(__dirname, "app", "build", "index.html"));

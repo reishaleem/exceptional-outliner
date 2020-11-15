@@ -1,11 +1,5 @@
+import { CreateWorldRequest } from "../common/types";
 import Users from "../models/user.model";
-
-interface CreateWorldRequest {
-    ownerId: string;
-    name: string;
-    description: string;
-    genres: string[];
-}
 
 async function createWorld(world: CreateWorldRequest) {
     const name = world.name;

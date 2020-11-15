@@ -7,77 +7,31 @@ import {
     GraphQLSchema,
     GraphQLBoolean,
 } from "graphql";
-import User from "../models/user.model";
+
 import authService from "../services/auth.service";
-import { NextFunction, Response } from "express";
 
-import userService from "../services/user.service";
-import worldService from "../services/world.service";
-import { resolve } from "path";
+import AccessToken from "./typeDefs/AccessToken";
+import UserType from "./typeDefs/User";
+import WorldType from "./typeDefs/World";
 
-const UserType = new GraphQLObjectType({
-    name: "User",
-    fields: () => ({
-        id: { type: GraphQLID },
-        name: { type: GraphQLString },
-        email: { type: GraphQLString },
-        password: { type: GraphQLString },
-        penName: { type: GraphQLString },
-        bio: { type: GraphQLString },
-        worlds: { type: GraphQLList(WorldType) },
-        createdAt: { type: GraphQLString },
-        updatedAt: { type: GraphQLString },
-    }),
-});
-
-const WorldType = new GraphQLObjectType({
-    name: "World",
-    fields: () => ({
-        id: { type: GraphQLID },
-        name: { type: GraphQLString },
-        description: { type: GraphQLString },
-        genres: { type: GraphQLList(GraphQLString) },
-        pages: { type: GraphQLList(PageType) },
-        createdAt: { type: GraphQLString },
-        updatedAt: { type: GraphQLString },
-    }),
-});
-
-const PageType = new GraphQLObjectType({
-    name: "Page",
-    description: "The wiki-like pages that belong to a World",
-    fields: () => ({
-        id: { type: GraphQLID },
-        name: { type: GraphQLString },
-        body: { type: GraphQLString },
-        type: { type: GraphQLString },
-        createdAt: { type: GraphQLString },
-        updatedAt: { type: GraphQLString },
-    }),
-});
-
-const AccessToken = new GraphQLObjectType({
-    name: "AccessToken",
-    description: "An access token for authorization",
-    fields: () => ({
-        accessToken: { type: GraphQLString },
-    }),
-});
+import {
+    createUserResolver,
+    userResolver,
+    usersResolver,
+} from "./resolvers/user-resolvers";
+import { createWorldResolver } from "./resolvers/world-resolvers";
+import { loginResolver, logoutResolver } from "./resolvers/auth-resolvers";
 
 const RootQuery = new GraphQLObjectType({
     name: "Query",
-    description: "The top level query",
+    description: "Root query for gets",
     fields: () => ({
         users: {
             type: GraphQLList(UserType),
-            description: "List of users",
+            description: "A list of all Users",
             resolve: (_parent, _args, context) => {
                 authService.authenticateToken(context); // should throw an error if user is not authenticated
-                try {
-                    return userService.getAllUsers();
-                } catch (error) {
-                    throw error;
-                }
+                return usersResolver();
             },
         },
         user: {
@@ -86,12 +40,8 @@ const RootQuery = new GraphQLObjectType({
             args: {
                 id: { type: GraphQLID },
             },
-            resolve: async (parent, args) => {
-                try {
-                    return userService.getUserById(args.id);
-                } catch (error) {
-                    throw error;
-                }
+            resolve: async (_parent, args) => {
+                return userResolver(args);
             },
         },
         world: {
@@ -112,69 +62,47 @@ const RootMutation = new GraphQLObjectType({
     fields: () => ({
         createUser: {
             type: UserType,
-            description: "Create a new user",
+            description: "Creates a new User",
             args: {
                 name: { type: GraphQLNonNull(GraphQLString) },
                 email: { type: GraphQLNonNull(GraphQLString) },
                 password: { type: GraphQLNonNull(GraphQLString) },
             },
-            resolve: async (parent, args) => {
-                const request = {
-                    name: args.name,
-                    email: args.email,
-                    password: args.password,
-                };
-                try {
-                    return userService.createUser(request);
-                } catch (error) {
-                    throw error;
-                }
+            resolve: async (_parent, args) => {
+                return createUserResolver(args);
             },
         },
         createWorld: {
             type: GraphQLString,
-            description: "Add a World to a user",
+            description:
+                "Creates a new World and adds it to the Worlds array of the User with the given ownerId",
             args: {
                 ownerId: { type: GraphQLNonNull(GraphQLID) },
                 name: { type: GraphQLNonNull(GraphQLString) },
                 description: { type: GraphQLNonNull(GraphQLString) },
                 genres: { type: GraphQLNonNull(GraphQLList(GraphQLString)) },
             },
-            resolve: async (parent, args, context) => {
+            resolve: async (_parent, args, context) => {
                 authService.authenticateToken(context); // should throw an error if user is not authenticated
-                console.log();
-                // const request = {
-                //     ownerId: args.ownerId,
-                //     name: args.name,
-                //     description: args.description,
-                //     genres: args.genres,
-                // };
-                // return worldService.createWorld(request);
-                return `Your user id is ${context.user.id} and your name is ${context.user.name}`;
+                return createWorldResolver(args);
             },
         },
         login: {
             type: AccessToken,
-            description: "Log a user in, giving them a token",
+            description: "Logs a User in, giving them an AccessToken",
             args: {
                 email: { type: GraphQLNonNull(GraphQLString) },
                 password: { type: GraphQLNonNull(GraphQLString) },
             },
-            resolve: async (parent, args, context) => {
-                const request = {
-                    email: args.email,
-                    password: args.password,
-                };
-                return authService.login(request, context.res);
+            resolve: async (_parent, args, context) => {
+                return loginResolver(args, context);
             },
         },
         logout: {
             type: GraphQLBoolean,
-            description: "Log a user out",
+            description: "Logs a User out by clearing the refresh token",
             resolve: async (_parent, _args, context) => {
-                const res: Response = context.res;
-                res.clearCookie("rjid");
-                return true;
+                return logoutResolver(context);
             },
         },
     }),
