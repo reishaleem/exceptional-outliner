@@ -5,12 +5,22 @@ import Toolbar from "@material-ui/core/Toolbar";
 
 import NavbarButtonList from "../../../molecules/NavbarButtonList/NavbarButtonList";
 import NavbarTitle from "../../../atoms/NavbarTitle/NavbarTitle";
+import { Button } from "@material-ui/core";
+import { useLogoutMutation } from "../../../../graphql/generated/graphql";
+import { setAccessToken } from "../../../../utilities/auth";
 
 interface PropTypes {
     transparent?: boolean;
 }
 
 const Navbar: React.FC<PropTypes> = ({ transparent }) => {
+    const [logout, { client }] = useLogoutMutation();
+
+    async function clicked() {
+        await logout();
+        setAccessToken("");
+        await client.resetStore();
+    }
     return (
         <AppBar
             position="static"
@@ -24,10 +34,15 @@ const Navbar: React.FC<PropTypes> = ({ transparent }) => {
                         destination="/"
                     />
                     <NavbarButtonList
-                        buttonNames={["Sign Up", "Login"]}
-                        buttonDestinations={["/register", "/login"]}
+                        buttonNames={["Sign Up", "Login", "Dashboard"]}
+                        buttonDestinations={[
+                            "/register",
+                            "/login",
+                            "/dashboard",
+                        ]}
                         align="left"
                     />
+                    <Button onClick={() => clicked()}>Logout</Button>
                 </Toolbar>
             </Container>
         </AppBar>

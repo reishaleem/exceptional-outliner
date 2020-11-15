@@ -5,13 +5,15 @@ import {
     GraphQLObjectType,
     GraphQLString,
     GraphQLSchema,
+    GraphQLBoolean,
 } from "graphql";
 import User from "../models/user.model";
 import authService from "../services/auth.service";
-import { NextFunction } from "express";
+import { NextFunction, Response } from "express";
 
 import userService from "../services/user.service";
 import worldService from "../services/world.service";
+import { resolve } from "path";
 
 const UserType = new GraphQLObjectType({
     name: "User",
@@ -69,7 +71,8 @@ const RootQuery = new GraphQLObjectType({
         users: {
             type: GraphQLList(UserType),
             description: "List of users",
-            resolve: () => {
+            resolve: (_parent, _args, context) => {
+                authService.authenticateToken(context); // should throw an error if user is not authenticated
                 try {
                     return userService.getAllUsers();
                 } catch (error) {
@@ -163,6 +166,15 @@ const RootMutation = new GraphQLObjectType({
                     password: args.password,
                 };
                 return authService.login(request, context.res);
+            },
+        },
+        logout: {
+            type: GraphQLBoolean,
+            description: "Log a user out",
+            resolve: async (_parent, _args, context) => {
+                const res: Response = context.res;
+                res.clearCookie("rjid");
+                return true;
             },
         },
     }),

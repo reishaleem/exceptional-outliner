@@ -43,6 +43,7 @@ async function login(request: LoginRequest, res: Response) {
         // rjid means refresh jwt id
         res.cookie("rjid", refreshToken, {
             httpOnly: true,
+            maxAge: 7 * 24 * 3600000,
         });
 
         // RefreshTokens({

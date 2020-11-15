@@ -1,5 +1,8 @@
 import React from "react";
-import { gql, useQuery } from "@apollo/client";
+import { defaultDataIdFromObject, gql, useQuery } from "@apollo/client";
+import { useUsersQuery } from "../../../../graphql/generated/graphql";
+import { getCurrentUser, setAccessToken } from "../../../../utilities/auth";
+import Navbar from "../../../organisms/Navbar/Public/Navbar";
 
 const user_query = gql`
     query User($id: ID!) {
@@ -10,18 +13,27 @@ const user_query = gql`
 `;
 
 const UserDashboard: React.FC = () => {
-    const resp = useQuery(user_query, {
-        variables: {
-            id: "5fa84b8749c2c62b5a48b31c",
-        },
-    });
-    console.log(resp);
+    const { error, loading, data, client } = useUsersQuery();
+    console.log(data);
     //console.log(error);
+    console.log(getCurrentUser());
+    async function logout() {
+        setAccessToken("");
+        await client.resetStore(); // this will also need to clear the refresh token for the user...
+    }
     return (
         <>
-            {resp.loading && <p>Loading...</p>}
-            {resp.error && <p>Error</p>}
-            {resp.data && resp.data.user.name}
+            <Navbar />
+            {loading && <p>Loading...</p>}
+            {error && <p>{error.message}</p>}
+            {data && (
+                <>
+                    {data.users?.map((user) => {
+                        return <p>user.name</p>;
+                    })}
+                    <button onClick={() => logout()}>logout</button>
+                </>
+            )}
         </>
     );
 };

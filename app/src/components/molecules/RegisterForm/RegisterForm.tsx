@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import { useFormik } from "formik";
 
 import { gql, useMutation } from "@apollo/client";
+import { useCreateUserMutation } from "../../../graphql/generated/graphql";
 
 interface FormFields {
     name: string;
@@ -29,10 +30,8 @@ const test = gql`
 
 const RegisterForm: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState("");
-    const [createUser, { data }] = useMutation(test, {
-        onError: (error) => {
-            setErrorMessage(error.message);
-        },
+    const [createUser] = useCreateUserMutation({
+        onError: (error) => setErrorMessage(error.message),
     });
 
     const formik = useFormik({
@@ -76,14 +75,15 @@ const RegisterForm: React.FC = () => {
         },
     });
 
-    function handleSubmit(user: FormFields, setSubmitting: any) {
-        createUser({
+    async function handleSubmit(user: FormFields, setSubmitting: any) {
+        const response = await createUser({
             variables: {
                 name: user.name,
                 email: user.email,
                 password: user.password,
             },
         });
+        console.log(response);
         // then redirect with the data? Maybe we don't even need any data returned
         setSubmitting(false);
     }

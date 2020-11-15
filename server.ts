@@ -15,9 +15,14 @@ const port = process.env.PORT || 5000;
 
 app.use(express.static(path.join(__dirname, "app", "build")));
 
-app.use(cors());
+app.use(
+    cors({
+        origin: process.env.FRONTEND_URL || "http://localhost:3000",
+        credentials: true,
+    })
+);
 app.use(express.json());
-app.use(cookieParser());
+app.use("/refresh-token", cookieParser());
 
 const mongoURI =
     process.env.MONGO_URI || "mongodb://localhost:27017/outliner_test_db";
@@ -30,15 +35,11 @@ connectionPool.once("open", () => {
     console.log("MongoDB connection pool established");
 });
 
-// only while testing. once we hook up the front end we won't need to manually hard code the header
-app.use((req, res, next) => {
-    req.headers.authorization =
-        "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYTg0Yjg3NDljMmM2MmI1YTQ4YjMxYyIsIm5hbWUiOiJSZWlzIiwiZW1haWwiOiJyZWlzaGFsZWVtQGdtYWlsLmNvbSIsInBlbk5hbWUiOiJyZWlzaGFsZWVtQGdtYWlsLmNvbSIsImlhdCI6MTYwNTM4MDg3MCwiZXhwIjoxNjA1MzgwOTkwfQ.RiFsWWN1HCob-oTpooSHKg-3dj7B4XxCleTs0r6JSaU";
-    next();
-});
+// for revoking refresh tokens, go back to the tutorial later when setting up forgot password.
 
 app.post("/refresh-token", async (req, res) => {
     const token = req.cookies.rjid;
+    console.log(token);
     if (!token) {
         return res.send({ ok: false, accessToken: "" }); // don't send an access token
     }
@@ -73,6 +74,7 @@ app.post("/refresh-token", async (req, res) => {
     // rjid means refresh jwt id
     res.cookie("rjid", refreshToken, {
         httpOnly: true,
+        maxAge: 7 * 24 * 3600000,
     });
     return res.send({ ok: true, accessToken: newAccessToken }); // don't send an access token
 });
