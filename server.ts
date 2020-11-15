@@ -13,7 +13,7 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(express.static(path.join(__dirname, "app", "build")));
+app.use(express.static(path.join(__dirname, "../../app", "build")));
 
 app.use(
     cors({
@@ -53,7 +53,7 @@ app.use(
 
 // not sure why I can't set req and res to Request and Response...will need to update it later...
 app.get("/*", (req: any, res: any) => {
-    res.sendFile(path.resolve(__dirname, "app", "build", "index.html"));
+    res.sendFile(path.resolve(__dirname, "../../app", "build", "index.html"));
 });
 
 app.listen(port, () => {
