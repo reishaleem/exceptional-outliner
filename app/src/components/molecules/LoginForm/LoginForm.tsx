@@ -55,7 +55,6 @@ const LoginForm: React.FC = () => {
                 password: user.password,
             },
         });
-        console.log(response);
         if (response && response.data) {
             // @ts-ignore: Object is possibly 'null'.
             AuthService.setAccessToken(response.data.login.accessToken);

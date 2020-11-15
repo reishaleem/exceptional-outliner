@@ -7,7 +7,7 @@ interface Props {
     children: any;
 }
 
-const AppRoute: React.FC<Props> = ({ path, children, ...rest }: Props) => {
+const AuthRoute: React.FC<Props> = ({ path, children, ...rest }: Props) => {
     const isLoggedIn = AuthService.isLoggedIn();
     return (
         <Route
@@ -15,12 +15,12 @@ const AppRoute: React.FC<Props> = ({ path, children, ...rest }: Props) => {
             {...rest}
             exact
             render={({ location }) =>
-                isLoggedIn ? (
+                !isLoggedIn ? (
                     children
                 ) : (
                     <Redirect
                         to={{
-                            pathname: "/login",
+                            pathname: "/dashboard",
                             state: { from: location },
                         }}
                     />
@@ -30,4 +30,4 @@ const AppRoute: React.FC<Props> = ({ path, children, ...rest }: Props) => {
     );
 };
 
-export default AppRoute;
+export default AuthRoute;

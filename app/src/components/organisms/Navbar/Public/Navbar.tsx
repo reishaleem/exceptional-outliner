@@ -10,6 +10,7 @@ import NavbarTitle from "../../../atoms/NavbarTitle/NavbarTitle";
 import AuthService from "../../../../services/auth.service";
 
 import { useLogoutMutation } from "../../../../graphql/generated/graphql";
+import { useHistory, withRouter, Link } from "react-router-dom";
 
 interface PropTypes {
     transparent?: boolean;
@@ -17,11 +18,13 @@ interface PropTypes {
 
 const Navbar: React.FC<PropTypes> = ({ transparent }) => {
     const [logout, { client }] = useLogoutMutation();
+    const history = useHistory();
 
     async function clicked() {
         await logout();
         AuthService.setAccessToken("");
         await client.resetStore();
+        history.push("/");
     }
     return (
         <AppBar

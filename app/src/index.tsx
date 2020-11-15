@@ -21,7 +21,6 @@ const httpLink = createHttpLink({
 
 const authMiddleware = new ApolloLink((operation, forward) => {
     const token = AuthService.getAccessToken();
-    console.log("Token ", token);
     // add the authorization to the headers
     operation.setContext({
         headers: {
