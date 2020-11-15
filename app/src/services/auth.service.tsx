@@ -1,17 +1,44 @@
-import axios, { AxiosResponse } from "axios";
+import { decode } from "jsonwebtoken";
 
-const API_URL = "/api/auth";
+let accessToken = "";
 
-async function login(email: string, password: string) {
-    const response = await axios.post(API_URL + "/login", {
-        email: email,
-        password: password,
-    });
-    return response;
+function getAccessToken() {
+    return accessToken;
 }
 
-const exports = {
-    login,
+function setAccessToken(token: string) {
+    accessToken = token;
+}
+
+async function refreshAccessToken() {
+    const response = await fetch("http://localhost:5000/refresh-token", {
+        method: "POST",
+        credentials: "include",
+    });
+    const x = await response.json();
+    setAccessToken(x.accessToken);
+}
+
+// the issue with doing things this way, particularly with fetching the current user, is that when the accessToken changes, the react app does not refresh
+// but does that matter? For now, just go without it. If it ends up being an issue, refer back to the tutorial
+function getCurrentUser() {
+    const user: any = decode(accessToken);
+
+    return user;
+}
+
+function isLoggedIn() {
+    const user = getCurrentUser();
+
+    return Boolean(user);
+}
+
+const AuthService = {
+    getAccessToken,
+    setAccessToken,
+    refreshAccessToken,
+    getCurrentUser,
+    isLoggedIn,
 };
 
-export default exports;
+export default AuthService;

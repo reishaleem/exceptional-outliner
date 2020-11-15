@@ -14,16 +14,16 @@ import {
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import reportWebVitals from "./reportWebVitals";
-import axios from "axios";
 import { TokenRefreshLink } from "apollo-link-token-refresh";
-import { getAccessToken, setAccessToken } from "./utilities/auth";
+import AuthService from "./services/auth.service";
 import { decode } from "jsonwebtoken";
 
 const httpLink = createHttpLink({
     uri: "/graphql",
 });
+
 const authMiddleware = new ApolloLink((operation, forward) => {
-    const token = getAccessToken();
+    const token = AuthService.getAccessToken();
     console.log("Token ", token);
     // add the authorization to the headers
     operation.setContext({
@@ -38,7 +38,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 const tokenRefreshLink = new TokenRefreshLink({
     accessTokenField: "accessToken",
     isTokenValidOrUndefined: () => {
-        const token = getAccessToken();
+        const token = AuthService.getAccessToken();
         if (!token) return true;
 
         try {
@@ -55,7 +55,7 @@ const tokenRefreshLink = new TokenRefreshLink({
         });
     },
     handleFetch: (accessToken) => {
-        setAccessToken(accessToken);
+        AuthService.setAccessToken(accessToken);
     },
     handleError: (err) => {
         // full control over handling token fetch Error

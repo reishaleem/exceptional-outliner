@@ -4,9 +4,14 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { useFormik } from "formik";
+import { Redirect, useHistory } from "react-router-dom";
 
-import { gql, useMutation } from "@apollo/client";
-import { useCreateUserMutation } from "../../../graphql/generated/graphql";
+import AuthService from "../../../services/auth.service";
+
+import {
+    useCreateUserMutation,
+    useLoginMutation,
+} from "../../../graphql/generated/graphql";
 
 interface FormFields {
     name: string;
@@ -15,23 +20,17 @@ interface FormFields {
     confirmPassword: string;
 }
 
-const test = gql`
-    mutation CreateUser($name: String!, $email: String!, $password: String!) {
-        createUser(name: $name, email: $email, password: $password) {
-            id
-            name
-            email
-            password
-            penName
-            bio
-        }
-    }
-`;
-
 const RegisterForm: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState("");
+    const history = useHistory();
+
     const [createUser] = useCreateUserMutation({
         onError: (error) => setErrorMessage(error.message),
+    });
+    const [login] = useLoginMutation({
+        onError: () => {
+            <Redirect to="/login" />;
+        },
     });
 
     const formik = useFormik({
@@ -76,17 +75,27 @@ const RegisterForm: React.FC = () => {
     });
 
     async function handleSubmit(user: FormFields, setSubmitting: any) {
-        const response = await createUser({
+        await createUser({
             variables: {
                 name: user.name,
                 email: user.email,
                 password: user.password,
             },
         });
-        console.log(response);
-        // then redirect with the data? Maybe we don't even need any data returned
+        const response = await login({
+            variables: {
+                email: user.email,
+                password: user.password,
+            },
+        });
+        if (response && response.data) {
+            // @ts-ignore: Object is possibly 'null'.
+            AuthService.setAccessToken(response.data.login.accessToken);
+            history.push("/dashboard");
+        }
         setSubmitting(false);
     }
+
     return (
         <>
             {errorMessage && (

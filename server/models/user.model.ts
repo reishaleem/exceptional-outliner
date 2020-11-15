@@ -34,10 +34,10 @@ const userSchema = new Schema(
         },
         penName: {
             type: String,
-            unique: true,
             trim: true,
             minlength: 4,
-            maxlength: 20,
+            maxlength: 50,
+            unique: true,
         },
         bio: {
             type: String,
@@ -45,9 +45,6 @@ const userSchema = new Schema(
             maxlength: 255,
         },
         worlds: [worldSchema],
-        // refreshToken: {
-        //     type: String,
-        // },
     },
     {
         timestamps: true,

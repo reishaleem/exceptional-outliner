@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 import { useFormik } from "formik";
+import { useHistory } from "react-router-dom";
 
 import AuthService from "../../../services/auth.service";
+
 import { useLoginMutation } from "../../../graphql/generated/graphql";
-import Typography from "@material-ui/core/Typography";
-import { setAccessToken } from "../../../utilities/auth";
-import { useHistory } from "react-router-dom";
 
 interface FormFields {
     email: string;
@@ -17,7 +17,9 @@ interface FormFields {
 
 const LoginForm: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState("");
+
     const history = useHistory();
+
     const [login] = useLoginMutation({
         onError: (error) => {
             setErrorMessage(error.message);
@@ -47,7 +49,6 @@ const LoginForm: React.FC = () => {
     });
 
     async function handleSubmit(user: FormFields, setSubmitting: any) {
-        //const response = await AuthService.login(user.email, user.password);
         const response = await login({
             variables: {
                 email: user.email,
@@ -57,7 +58,7 @@ const LoginForm: React.FC = () => {
         console.log(response);
         if (response && response.data) {
             // @ts-ignore: Object is possibly 'null'.
-            setAccessToken(response.data.login.accessToken);
+            AuthService.setAccessToken(response.data.login.accessToken);
             history.push("/dashboard");
         }
 

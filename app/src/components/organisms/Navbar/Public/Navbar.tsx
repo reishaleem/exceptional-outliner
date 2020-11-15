@@ -1,13 +1,15 @@
 import React from "react";
 import AppBar from "@material-ui/core/AppBar";
+import { Button } from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 import Toolbar from "@material-ui/core/Toolbar";
 
 import NavbarButtonList from "../../../molecules/NavbarButtonList/NavbarButtonList";
 import NavbarTitle from "../../../atoms/NavbarTitle/NavbarTitle";
-import { Button } from "@material-ui/core";
+
+import AuthService from "../../../../services/auth.service";
+
 import { useLogoutMutation } from "../../../../graphql/generated/graphql";
-import { setAccessToken } from "../../../../utilities/auth";
 
 interface PropTypes {
     transparent?: boolean;
@@ -18,7 +20,7 @@ const Navbar: React.FC<PropTypes> = ({ transparent }) => {
 
     async function clicked() {
         await logout();
-        setAccessToken("");
+        AuthService.setAccessToken("");
         await client.resetStore();
     }
     return (

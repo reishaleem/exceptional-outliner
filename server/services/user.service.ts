@@ -27,7 +27,7 @@ async function getUserById(id: string) {
 async function createUser(user: CreateUserRequest) {
     const email: string = user.email;
     const name: string = user.name;
-    const penName: string = ""; // users do not edit their pen names when creating, so it starts as the email
+    const penName: string = email; // users do not edit their pen names when creating, so it starts as the email
     const bio: string = ""; // users do not edit their bios when creating, so it starts empty
     const worlds: WorldFields[] = [];
 
@@ -42,6 +42,8 @@ async function createUser(user: CreateUserRequest) {
         name,
         email,
         password,
+        penName,
+        bio,
         worlds,
     });
 
