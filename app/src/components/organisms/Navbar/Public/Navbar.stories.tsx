@@ -5,7 +5,7 @@ import { MemoryRouter } from "react-router-dom";
 import Navbar from "./Navbar";
 
 const storyDetails = {
-    title: "PublicNavbar",
+    title: "Organisms/PublicNavbar",
     component: Navbar,
     decorators: [(getStory: any) => <MemoryRouter>{getStory()}</MemoryRouter>],
 };

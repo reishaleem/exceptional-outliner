@@ -13,6 +13,7 @@ import ExploreIcon from "@material-ui/icons/Explore";
 import HelpIcon from "@material-ui/icons/Help";
 import React from "react";
 import { Explore } from "@material-ui/icons";
+import SidebarButtonList from "../../../molecules/SidebarButtonList/SidebarButtonList";
 
 interface Props {
     open: boolean;
@@ -52,29 +53,17 @@ const MainDrawer: React.FC<Props> = ({ open }: Props) => {
             <div className={classes.drawerHeader}>
                 Will need to decide what to put here
             </div>
-            <List>
-                <ListItem button key={"Worlds"}>
-                    <ListItemIcon>
-                        <PublicIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={"Worlds"} />
-                </ListItem>
-                <ListItem button key={"Explore"}>
-                    <ListItemIcon>
-                        <ExploreIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={"Explore"} />
-                </ListItem>
-            </List>
+            <SidebarButtonList
+                buttonNames={["Worlds", "Explore"]}
+                icons={[<PublicIcon />, <ExploreIcon />]}
+                destinations={["/worlds", "/explore"]}
+            />
             <Divider />
-            <List>
-                <ListItem button key={"Help"}>
-                    <ListItemIcon>
-                        <HelpIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={"Help"} />
-                </ListItem>
-            </List>
+            <SidebarButtonList
+                buttonNames={["Help"]}
+                icons={[<HelpIcon />]}
+                destinations={["/help"]}
+            />
         </Drawer>
     );
 };
