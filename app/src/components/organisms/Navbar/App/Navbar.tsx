@@ -3,7 +3,7 @@ import React from "react";
 import clsx from "clsx";
 import MenuIcon from "@material-ui/icons/Menu";
 import NavbarTitle from "../../../atoms/NavbarTitle/NavbarTitle";
-import NavbarButtonList from "../../../molecules/NavbarButtonList/NavbarButtonList";
+import AvatarDropdown from "../../../molecules/AvatarDropdown/AvatarDropdown";
 
 interface Props {
     drawerWidth: number;
@@ -57,11 +57,7 @@ const Navbar: React.FC<Props> = ({
                     <MenuIcon />
                 </IconButton>
                 <NavbarTitle title="The Exceptional Outliner" />
-                <NavbarButtonList
-                    buttonNames={["Profile"]}
-                    buttonDestinations={["/profile"]}
-                    align="left"
-                />
+                <AvatarDropdown />
             </Toolbar>
         </AppBar>
     );
