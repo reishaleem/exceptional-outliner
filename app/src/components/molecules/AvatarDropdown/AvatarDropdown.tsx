@@ -1,8 +1,7 @@
 import React from "react";
 import Avatar from "@material-ui/core/Avatar";
-import { Box, Menu, MenuItem } from "@material-ui/core";
-
-interface Props {}
+import { Box, Divider, Menu, MenuItem } from "@material-ui/core";
+import LogoutMenuItem from "../../atoms/LogoutMenuItem/LogoutMenuItem";
 
 const AvatarDropdown: React.FC = () => {
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
@@ -43,9 +42,9 @@ const AvatarDropdown: React.FC = () => {
                 getContentAnchorEl={null}
                 elevation={1}
             >
-                <MenuItem onClick={handleClose}>Hello, User</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <Divider />
+                <LogoutMenuItem />
             </Menu>
         </>
     );
