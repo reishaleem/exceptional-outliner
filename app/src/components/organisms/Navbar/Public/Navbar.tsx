@@ -1,6 +1,5 @@
 import React from "react";
 import AppBar from "@material-ui/core/AppBar";
-import { Button } from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 import Toolbar from "@material-ui/core/Toolbar";
 
@@ -9,23 +8,15 @@ import NavbarTitle from "../../../atoms/NavbarTitle/NavbarTitle";
 
 import AuthService from "../../../../services/auth.service";
 
-import { useLogoutMutation } from "../../../../graphql/generated/graphql";
-import { useHistory } from "react-router-dom";
+import ButtonDropdown from "../../../molecules/ButtonDropdown/ButtonDropdown";
 
 interface PropTypes {
     transparent?: boolean;
 }
 
 const Navbar: React.FC<PropTypes> = ({ transparent }) => {
-    const [logout, { client }] = useLogoutMutation();
-    const history = useHistory();
+    const loggedIn = AuthService.isLoggedIn();
 
-    async function clicked() {
-        await logout();
-        AuthService.setAccessToken("");
-        await client.resetStore();
-        history.push("/");
-    }
     return (
         <AppBar
             position="static"
@@ -38,16 +29,15 @@ const Navbar: React.FC<PropTypes> = ({ transparent }) => {
                         title="The Exceptional Outliner"
                         destination="/"
                     />
-                    <NavbarButtonList
-                        buttonNames={["Sign Up", "Login", "Dashboard"]}
-                        buttonDestinations={[
-                            "/register",
-                            "/login",
-                            "/dashboard",
-                        ]}
-                        align="left"
-                    />
-                    <Button onClick={() => clicked()}>Logout</Button>
+                    {loggedIn ? (
+                        <ButtonDropdown />
+                    ) : (
+                        <NavbarButtonList
+                            buttonNames={["Sign Up", "Login"]}
+                            buttonDestinations={["/register", "/login"]}
+                            align="left"
+                        />
+                    )}
                 </Toolbar>
             </Container>
         </AppBar>

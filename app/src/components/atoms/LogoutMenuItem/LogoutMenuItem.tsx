@@ -4,7 +4,10 @@ import { useLogoutMutation } from "../../../graphql/generated/graphql";
 import AuthService from "../../../services/auth.service";
 import { useHistory } from "react-router-dom";
 
-const LogoutMenuItem = () => {
+interface Props {
+    refreshOnClick?: boolean;
+}
+const LogoutMenuItem: React.FC<Props> = ({ refreshOnClick }: Props) => {
     const [logout, { client }] = useLogoutMutation();
     const history = useHistory();
 
@@ -12,7 +15,11 @@ const LogoutMenuItem = () => {
         await logout();
         AuthService.setAccessToken("");
         await client.resetStore();
-        history.push("/");
+        if (refreshOnClick) {
+            window.location.reload();
+        } else {
+            history.push("/");
+        }
     }
 
     return <MenuItem onClick={logoutUser}>Logout</MenuItem>;
