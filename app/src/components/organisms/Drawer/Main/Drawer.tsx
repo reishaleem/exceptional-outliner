@@ -1,18 +1,9 @@
-import {
-    Divider,
-    List,
-    ListItem,
-    ListItemIcon,
-    ListItemText,
-    makeStyles,
-    Drawer,
-} from "@material-ui/core";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
+import React from "react";
+import { Divider, makeStyles, Drawer } from "@material-ui/core";
 import PublicIcon from "@material-ui/icons/Public";
 import ExploreIcon from "@material-ui/icons/Explore";
 import HelpIcon from "@material-ui/icons/Help";
-import React from "react";
-import { Explore } from "@material-ui/icons";
+
 import SidebarButtonList from "../../../molecules/SidebarButtonList/SidebarButtonList";
 
 interface Props {
@@ -50,9 +41,8 @@ const MainDrawer: React.FC<Props> = ({ open }: Props) => {
                 paper: classes.drawerPaper,
             }}
         >
-            <div className={classes.drawerHeader}>
-                Will need to decide what to put here
-            </div>
+            <div className={classes.drawerHeader}>Brand Logo</div>
+            {/* <Divider /> */}
             <SidebarButtonList
                 buttonNames={["Worlds", "Explore"]}
                 icons={[<PublicIcon />, <ExploreIcon />]}

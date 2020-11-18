@@ -10,7 +10,7 @@ import NavbarTitle from "../../../atoms/NavbarTitle/NavbarTitle";
 import AuthService from "../../../../services/auth.service";
 
 import { useLogoutMutation } from "../../../../graphql/generated/graphql";
-import { useHistory, withRouter, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 interface PropTypes {
     transparent?: boolean;

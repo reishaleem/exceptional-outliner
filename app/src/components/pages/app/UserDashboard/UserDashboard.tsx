@@ -1,14 +1,11 @@
 import React from "react";
 
-import Navbar from "../../../organisms/Navbar/Public/Navbar";
-
-import { useUsersQuery } from "../../../../graphql/generated/graphql";
+import MainWrapper from "../../../organisms/Wrapper/Main/MainWrapper";
 
 const UserDashboard: React.FC = () => {
     return (
         <>
-            <Navbar />
-            <p>hi</p>
+            <MainWrapper>hi</MainWrapper>
         </>
     );
 };

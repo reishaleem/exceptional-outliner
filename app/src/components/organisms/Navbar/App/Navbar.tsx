@@ -1,29 +1,62 @@
-import {
-    AppBar,
-    IconButton,
-    makeStyles,
-    Toolbar,
-    useTheme,
-} from "@material-ui/core";
+import { AppBar, IconButton, makeStyles, Toolbar } from "@material-ui/core";
 import React from "react";
 import clsx from "clsx";
+import MenuIcon from "@material-ui/icons/Menu";
 import NavbarTitle from "../../../atoms/NavbarTitle/NavbarTitle";
 import NavbarButtonList from "../../../molecules/NavbarButtonList/NavbarButtonList";
 
 interface Props {
-    children?: any;
+    drawerWidth: number;
+    open: boolean;
+    closeDrawer: any; // function to close the drawer attached
+    openDrawer: any; // function to open the drawer attached
 }
 
-const Navbar: React.FC<Props> = ({ children }: Props) => {
+const useStyles = (drawerWidth: number) =>
+    makeStyles((theme) => ({
+        appBar: {
+            transition: theme.transitions.create(["margin", "width"], {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen,
+            }),
+        },
+        appBarShift: {
+            width: `calc(100% - ${drawerWidth}px)`,
+            marginLeft: drawerWidth,
+            transition: theme.transitions.create(["margin", "width"], {
+                easing: theme.transitions.easing.easeOut,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+        },
+    }));
+
+const Navbar: React.FC<Props> = ({
+    drawerWidth,
+    open,
+    closeDrawer,
+    openDrawer,
+}: Props) => {
+    const classes = useStyles(drawerWidth)();
+
     return (
-        <AppBar position="static" elevation={0}>
+        <AppBar
+            position="fixed"
+            className={clsx(classes.appBar, {
+                [classes.appBarShift]: open,
+            })}
+            elevation={0}
+        >
             <Toolbar>
-                {/* will be the menu icon for closing the drawer */}
-                {children}
-                <NavbarTitle
-                    title="The Exceptional Outliner"
-                    destination="/dashboard"
-                />
+                <IconButton
+                    color="inherit"
+                    aria-label="open drawer"
+                    onClick={open ? closeDrawer : openDrawer}
+                    edge="start"
+                    //className={clsx(classes.menuButton)}
+                >
+                    <MenuIcon />
+                </IconButton>
+                <NavbarTitle title="The Exceptional Outliner" />
                 <NavbarButtonList
                     buttonNames={["Profile"]}
                     buttonDestinations={["/profile"]}
