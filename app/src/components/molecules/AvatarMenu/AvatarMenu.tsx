@@ -2,11 +2,14 @@ import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import { Box, Divider, Menu, MenuItem } from "@material-ui/core";
 import LogoutMenuItem from "../../atoms/LogoutMenuItem/LogoutMenuItem";
+import AuthService from "../../../services/auth.service";
 
 const AvatarDropdown: React.FC = () => {
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
         null
     );
+
+    const currentUser = AuthService.getCurrentUser();
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -20,7 +23,7 @@ const AvatarDropdown: React.FC = () => {
         <>
             <Box onClick={handleClick} marginLeft="auto">
                 <Avatar
-                    alt="First letter of user's Name"
+                    alt={currentUser.name[0]}
                     src="User profile image"
                     style={{ marginLeft: "auto", cursor: "pointer" }}
                 />
