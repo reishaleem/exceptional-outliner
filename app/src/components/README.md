@@ -1,6 +1,6 @@
 # Components
 
-The components directory is structured using principles from Atomic Design. They are broken up into Atoms, Molecules, Organisms, and Pages. I try to adhere to my definitions of each module below, but some of them are fuzzy, or I may make a misjudgment here or there. But overall, the structure is based on the following.
+The `components` directory is structured using principles from Atomic Design. They are broken up into Atoms, Molecules, Organisms, and Pages. I try to adhere to my definitions of each module below, but some of them are fuzzy, or I may make a misjudgment here or there. But overall, the structure is based on the following.
 
 ## Atom
 
