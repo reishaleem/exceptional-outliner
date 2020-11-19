@@ -26,7 +26,7 @@ const AvatarDropdown: React.FC = () => {
                 />
             </Box>
             <Menu
-                id="simple-menu"
+                id="account-menu"
                 anchorEl={anchorEl}
                 keepMounted
                 open={Boolean(anchorEl)}

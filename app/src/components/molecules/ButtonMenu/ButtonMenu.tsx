@@ -22,7 +22,7 @@ const ButtonDropdown: React.FC = () => {
                 <Button style={{ marginLeft: "auto" }}>User's Name</Button>
             </Box>
             <Menu
-                id="simple-menu"
+                id="app-menu"
                 anchorEl={anchorEl}
                 keepMounted
                 open={Boolean(anchorEl)}

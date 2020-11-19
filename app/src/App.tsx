@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import AppRoute from "./components/atoms/AppRoute/AppRoute";
+import AuthRoute from "./components/atoms/AuthRoute/AuthRoute";
 import Home from "./components/pages/public/Home/Home";
 import Login from "./components/pages/public/Login/Login";
 import Register from "./components/pages/public/Register/Register";
 import UserDashboard from "./components/pages/app/UserDashboard/UserDashboard";
 
 import AuthService from "./services/auth.service";
-import AuthRoute from "./components/atoms/AuthRoute/AuthRoute";
 
 function App() {
     const [loading, setLoading] = useState(true);

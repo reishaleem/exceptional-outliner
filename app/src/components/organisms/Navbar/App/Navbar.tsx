@@ -3,7 +3,7 @@ import React from "react";
 import clsx from "clsx";
 import MenuIcon from "@material-ui/icons/Menu";
 import NavbarTitle from "../../../atoms/NavbarTitle/NavbarTitle";
-import AvatarDropdown from "../../../molecules/AvatarDropdown/AvatarDropdown";
+import AvatarDropdown from "../../../molecules/AvatarMenu/AvatarMenu";
 
 interface Props {
     drawerWidth: number;

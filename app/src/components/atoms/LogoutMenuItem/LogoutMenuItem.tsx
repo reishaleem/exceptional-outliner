@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 interface Props {
     refreshOnClick?: boolean;
 }
+
 const LogoutMenuItem: React.FC<Props> = ({ refreshOnClick }: Props) => {
     const [logout, { client }] = useLogoutMutation();
     const history = useHistory();
