@@ -4,15 +4,15 @@ The `components` directory is structured using principles from Atomic Design. Th
 
 ## Atom
 
-My take on an Atom is essentially a component that is small enough that it is generally rendering one thing. For example, the AuthRoute component only renders a Route, just with some tweaks to redirect at certain times.
+My take on an Atom is essentially a component that is small enough that it is generally rendering one thing. For example, the AuthRoute component only renders a Route, just with some tweaks to redirect at certain times. An Atom is not useful on its own.
 
 ## Molecule
 
-I see a Molecule as a combination of Atoms and only Atoms. It's a bit confusing and fuzzy for certain things, but something like a NavbarButtonList, which only renders multiple Buttons, is a molecule.
+I see a Molecule as a combination of Atoms and only Atoms. It's a bit confusing and fuzzy for certain things, but something like a NavbarButtonList, which only renders multiple Buttons, is a molecule. It is something functional, but on its own, it might look bare or out of place. It needs to belong somewhere.
 
 ## Organism
 
-An Organism is a combination of Organisms, Molecules, and Atoms, but it is still a component and not an actual page. The MainWrapper is a good example of this, as it is a fairly complex component with a few different smaller components being combined, but it is never a page on its own.
+An Organism is a combination of Organisms, Molecules, and Atoms, but it is still a component and not an actual page. The MainWrapper is a good example of this, as it is a fairly complex component with a few different smaller components being combined, but it is never a page on its own. It is a distinct part of the interface, but it is not the entire page.
 
 ## Page
 
