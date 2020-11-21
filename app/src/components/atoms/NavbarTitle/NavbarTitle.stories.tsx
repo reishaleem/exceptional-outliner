@@ -15,13 +15,13 @@ const Template: Story<ComponentProps<typeof NavbarTitle>> = (args) => {
     return <NavbarTitle {...args} />;
 };
 
-export const WithoutLink = Template.bind({});
-WithoutLink.args = {
+export const withoutLink = Template.bind({});
+withoutLink.args = {
     title: "Title that is not a link",
 };
 
-export const WithLink = Template.bind({});
-WithLink.args = {
+export const withLink = Template.bind({});
+withLink.args = {
     link: true,
     to: "#",
     title: "Title that is a link",
