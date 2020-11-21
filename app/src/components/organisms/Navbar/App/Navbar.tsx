@@ -9,13 +9,13 @@ import UserMenu from "../../../molecules/UserMenu/UserMenu";
 import AuthService from "../../../../services/auth.service";
 
 interface Props {
-    drawerWidth: number;
-    open: boolean;
+    shiftAmount: number;
+    shifted: boolean;
     closeDrawer: any; // function to close the drawer attached
     openDrawer: any; // function to open the drawer attached
 }
 
-const useStyles = (drawerWidth: number) =>
+const useStyles = (shiftAmount: number) =>
     makeStyles((theme) => ({
         appBar: {
             transition: theme.transitions.create(["margin", "width"], {
@@ -24,8 +24,8 @@ const useStyles = (drawerWidth: number) =>
             }),
         },
         appBarShift: {
-            width: `calc(100% - ${drawerWidth}px)`,
-            marginLeft: drawerWidth,
+            width: `calc(100% - ${shiftAmount}px)`,
+            marginLeft: shiftAmount,
             transition: theme.transitions.create(["margin", "width"], {
                 easing: theme.transitions.easing.easeOut,
                 duration: theme.transitions.duration.enteringScreen,
@@ -34,12 +34,12 @@ const useStyles = (drawerWidth: number) =>
     }));
 
 const Navbar: React.FC<Props> = ({
-    drawerWidth,
-    open,
+    shiftAmount,
+    shifted,
     closeDrawer,
     openDrawer,
 }: Props) => {
-    const classes = useStyles(drawerWidth)();
+    const classes = useStyles(shiftAmount)();
 
     const currentUser = AuthService.getCurrentUser();
 
@@ -47,7 +47,7 @@ const Navbar: React.FC<Props> = ({
         <AppBar
             position="fixed"
             className={clsx(classes.appBar, {
-                [classes.appBarShift]: open,
+                [classes.appBarShift]: shifted,
             })}
             elevation={0}
         >
@@ -55,9 +55,8 @@ const Navbar: React.FC<Props> = ({
                 <IconButton
                     color="inherit"
                     aria-label="open drawer"
-                    onClick={open ? closeDrawer : openDrawer}
+                    onClick={shifted ? closeDrawer : openDrawer}
                     edge="start"
-                    //className={clsx(classes.menuButton)}
                 >
                     <MenuIcon />
                 </IconButton>

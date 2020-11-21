@@ -16,4 +16,9 @@ const Template: Story<ComponentProps<typeof Navbar>> = (args) => {
 };
 
 export const PrimaryNavbarWithMenuIcon = Template.bind({});
-PrimaryNavbarWithMenuIcon.args = {};
+PrimaryNavbarWithMenuIcon.args = {
+    shiftAmount: 240,
+    closeDrawer: () => console.log("CLOSE test"),
+    openDrawer: () => console.log("OPEN test"),
+    shifted: false,
+};

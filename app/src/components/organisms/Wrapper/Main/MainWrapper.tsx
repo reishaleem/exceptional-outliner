@@ -56,10 +56,10 @@ const MainWrapper: React.FC<Props> = ({ children }: Props) => {
         <Box display="flex">
             <CssBaseline />
             <Navbar
-                drawerWidth={drawerWidth}
+                shiftAmount={drawerWidth}
                 closeDrawer={handleDrawerClose}
                 openDrawer={handleDrawerOpen}
-                open={open}
+                shifted={open}
             />
             <MainDrawer open={open} />
             <main
