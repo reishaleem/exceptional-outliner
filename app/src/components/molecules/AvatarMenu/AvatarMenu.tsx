@@ -5,7 +5,7 @@ import Divider from "@material-ui/core/Divider";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 
-import LogoutMenuItem from "../../atoms/LogoutMenuItem/LogoutMenuItem";
+import Logout from "../../atoms/Logout/Logout";
 
 import AuthService from "../../../services/auth.service";
 
@@ -52,7 +52,9 @@ const AvatarDropdown: React.FC = () => {
             >
                 <MenuItem onClick={handleClose}>My account</MenuItem>
                 <Divider />
-                <LogoutMenuItem />
+                <Logout>
+                    <MenuItem>Logout</MenuItem>
+                </Logout>
             </Menu>
         </>
     );

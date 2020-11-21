@@ -1,5 +1,5 @@
 import React from "react";
-import MenuItem from "@material-ui/core/MenuItem";
+import Box from "@material-ui/core/Box";
 import { useHistory } from "react-router-dom";
 
 import AuthService from "../../../services/auth.service";
@@ -8,9 +8,10 @@ import { useLogoutMutation } from "../../../graphql/generated/graphql";
 
 interface Props {
     refreshOnClick?: boolean;
+    children: React.ReactNode;
 }
 
-const LogoutMenuItem: React.FC<Props> = ({ refreshOnClick }: Props) => {
+const Logout: React.FC<Props> = ({ refreshOnClick, children }: Props) => {
     const [logout, { client }] = useLogoutMutation();
     const history = useHistory();
 
@@ -28,7 +29,7 @@ const LogoutMenuItem: React.FC<Props> = ({ refreshOnClick }: Props) => {
         }
     }
 
-    return <MenuItem onClick={logoutUser}>Logout</MenuItem>;
+    return <Box onClick={logoutUser}>{children}</Box>;
 };
 
-export default LogoutMenuItem;
+export default Logout;

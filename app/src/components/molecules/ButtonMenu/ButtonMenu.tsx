@@ -6,7 +6,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { Link } from "react-router-dom";
 
-import LogoutMenuItem from "../../atoms/LogoutMenuItem/LogoutMenuItem";
+import Logout from "../../atoms/Logout/Logout";
 
 const ButtonDropdown: React.FC = () => {
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
@@ -51,7 +51,9 @@ const ButtonDropdown: React.FC = () => {
                     Dashboard
                 </MenuItem>
                 <Divider />
-                <LogoutMenuItem refreshOnClick />
+                <Logout refreshOnClick>
+                    <MenuItem>Logout</MenuItem>
+                </Logout>
             </Menu>
         </>
     );
