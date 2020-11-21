@@ -4,8 +4,7 @@ I see a Molecule as a combination of Atoms and only Atoms. It's a bit confusing 
 
 ## List of components
 
--   [AvatarMenu](#AvatarMenu)
--   [ButtonMenu](#ButtonMenu)
+-   [UserMenu](#UserMenu)
 -   [CircularCard](#CircularCard)
 -   [Footer](#Footer)
 -   [LoginForm](#LoginForm)
@@ -13,13 +12,9 @@ I see a Molecule as a combination of Atoms and only Atoms. It's a bit confusing 
 -   [NavbarButtonList](#NavbarButtonList)
 -   [SidebarButtonList](#SidebarButtonList)
 
-### AvatarMenu
+### UserMenu
 
-Renders a `Material-UI` `Menu` with an `Avatar` as the button that triggers it. This menu is only used on the app side and in all the same way, so its content is included in the component.
-
-### ButtonMenu
-
-Renders a `Material-UI` `Menu` with an `Button` as the button that triggers it. This menu is only used on the public side and in all the same way, so its content is included in the component.
+Renders a `Material-UI` `Menu` with either an `Avatar` or `Button` as the button that triggers it. It takes in an `items` prop to include any of the items that belong in the menu, and it by default adds a `Divider` and `Logout` item at the end of the list.
 
 ### CircularCard
 

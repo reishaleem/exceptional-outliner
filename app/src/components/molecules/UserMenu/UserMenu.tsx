@@ -1,5 +1,6 @@
 import React from "react";
 import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import Divider from "@material-ui/core/Divider";
 import Menu from "@material-ui/core/Menu";
@@ -7,14 +8,24 @@ import MenuItem from "@material-ui/core/MenuItem";
 
 import Logout from "../../atoms/Logout/Logout";
 
-import AuthService from "../../../services/auth.service";
+interface Props {
+    items: string[];
+    profilePicture?: string;
+    name: string;
+    variant?: "avatar" | "button";
+    refreshLogout?: boolean;
+}
 
-const AvatarDropdown: React.FC = () => {
+const UserMenu: React.FC<Props> = ({
+    items,
+    profilePicture,
+    name,
+    variant,
+    refreshLogout,
+}: Props) => {
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
         null
     );
-
-    const currentUser = AuthService.getCurrentUser();
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -27,11 +38,15 @@ const AvatarDropdown: React.FC = () => {
     return (
         <>
             <Box onClick={handleClick} marginLeft="auto">
-                <Avatar
-                    alt={currentUser.name[0]}
-                    src="User profile image"
-                    style={{ marginLeft: "auto", cursor: "pointer" }}
-                />
+                {variant === "avatar" ? (
+                    <Avatar
+                        alt={name[0]}
+                        src={profilePicture}
+                        style={{ cursor: "pointer" }}
+                    />
+                ) : (
+                    <Button>{name}</Button>
+                )}
             </Box>
             <Menu
                 id="account-menu"
@@ -50,9 +65,15 @@ const AvatarDropdown: React.FC = () => {
                 getContentAnchorEl={null}
                 elevation={1}
             >
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                {items.map((item) => {
+                    return (
+                        <MenuItem onClick={handleClose} key={item}>
+                            {item}
+                        </MenuItem>
+                    );
+                })}
                 <Divider />
-                <Logout>
+                <Logout refreshOnClick={refreshLogout}>
                     <MenuItem>Logout</MenuItem>
                 </Logout>
             </Menu>
@@ -60,4 +81,4 @@ const AvatarDropdown: React.FC = () => {
     );
 };
 
-export default AvatarDropdown;
+export default UserMenu;

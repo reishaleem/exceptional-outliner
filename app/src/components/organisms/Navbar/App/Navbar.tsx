@@ -2,8 +2,11 @@ import { AppBar, IconButton, makeStyles, Toolbar } from "@material-ui/core";
 import React from "react";
 import clsx from "clsx";
 import MenuIcon from "@material-ui/icons/Menu";
+
 import NavbarTitle from "../../../atoms/NavbarTitle/NavbarTitle";
-import AvatarDropdown from "../../../molecules/AvatarMenu/AvatarMenu";
+import UserMenu from "../../../molecules/UserMenu/UserMenu";
+
+import AuthService from "../../../../services/auth.service";
 
 interface Props {
     drawerWidth: number;
@@ -38,6 +41,8 @@ const Navbar: React.FC<Props> = ({
 }: Props) => {
     const classes = useStyles(drawerWidth)();
 
+    const currentUser = AuthService.getCurrentUser();
+
     return (
         <AppBar
             position="fixed"
@@ -57,7 +62,12 @@ const Navbar: React.FC<Props> = ({
                     <MenuIcon />
                 </IconButton>
                 <NavbarTitle title="The Exceptional Outliner" />
-                <AvatarDropdown />
+                <UserMenu
+                    items={["App"]}
+                    profilePicture="User profile"
+                    name={currentUser.name}
+                    variant="avatar"
+                />
             </Toolbar>
         </AppBar>
     );

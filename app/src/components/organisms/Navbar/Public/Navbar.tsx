@@ -5,10 +5,9 @@ import Toolbar from "@material-ui/core/Toolbar";
 
 import NavbarButtonList from "../../../molecules/NavbarButtonList/NavbarButtonList";
 import NavbarTitle from "../../../atoms/NavbarTitle/NavbarTitle";
+import UserMenu from "../../../molecules/UserMenu/UserMenu";
 
 import AuthService from "../../../../services/auth.service";
-
-import ButtonDropdown from "../../../molecules/ButtonMenu/ButtonMenu";
 
 interface PropTypes {
     transparent?: boolean;
@@ -16,6 +15,7 @@ interface PropTypes {
 
 const Navbar: React.FC<PropTypes> = ({ transparent }) => {
     const loggedIn = AuthService.isLoggedIn();
+    const currentUser = AuthService.getCurrentUser();
 
     return (
         <AppBar
@@ -27,7 +27,12 @@ const Navbar: React.FC<PropTypes> = ({ transparent }) => {
                 <Toolbar>
                     <NavbarTitle link to="/" title="The Exceptional Outliner" />
                     {loggedIn ? (
-                        <ButtonDropdown />
+                        <UserMenu
+                            items={["App"]}
+                            name={currentUser.name}
+                            variant="button"
+                            refreshLogout
+                        />
                     ) : (
                         <NavbarButtonList
                             buttonNames={["Sign Up", "Login"]}
