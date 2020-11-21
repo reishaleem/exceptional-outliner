@@ -13,10 +13,6 @@ import ButtonDropdown from "../../../molecules/ButtonMenu/ButtonMenu";
 interface PropTypes {
     transparent?: boolean;
 }
-/*
-Next step should be going over the organization structure again and moving stuff around. The components are getting a bit out of hand
-And maybe we can make more modularity with the folders. Make a folder called 'Menu' and put the AvatarMenu then ButtonMenu in it, etc...
-*/
 
 const Navbar: React.FC<PropTypes> = ({ transparent }) => {
     const loggedIn = AuthService.isLoggedIn();
@@ -29,10 +25,7 @@ const Navbar: React.FC<PropTypes> = ({ transparent }) => {
         >
             <Container maxWidth="lg">
                 <Toolbar>
-                    <NavbarTitle
-                        title="The Exceptional Outliner"
-                        destination="/"
-                    />
+                    <NavbarTitle link to="/" title="The Exceptional Outliner" />
                     {loggedIn ? (
                         <ButtonDropdown />
                     ) : (

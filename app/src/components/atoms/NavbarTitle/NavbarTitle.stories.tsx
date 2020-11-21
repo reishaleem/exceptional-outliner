@@ -22,6 +22,7 @@ WithoutLink.args = {
 
 export const WithLink = Template.bind({});
 WithLink.args = {
+    link: true,
+    to: "#",
     title: "Title that is a link",
-    destination: "/",
 };
