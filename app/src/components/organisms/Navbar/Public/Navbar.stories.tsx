@@ -18,7 +18,28 @@ const Template: Story<ComponentProps<typeof Navbar>> = (args) => {
 export const PrimaryNavbar = Template.bind({});
 PrimaryNavbar.args = {};
 
-export const TransparentNavbar = Template.bind({});
-TransparentNavbar.args = {
+export const withTransparentLoggedIn = Template.bind({});
+withTransparentLoggedIn.args = {
     transparent: true,
+    userName: "Reis Haleem",
+    userLoggedIn: true,
+};
+
+export const withTransparentLoggedOut = Template.bind({});
+withTransparentLoggedOut.args = {
+    transparent: true,
+    userName: "Reis Haleem",
+    userLoggedIn: false,
+};
+
+export const withPrimaryColorLoggedIn = Template.bind({});
+withPrimaryColorLoggedIn.args = {
+    userName: "Reis Haleem",
+    userLoggedIn: true,
+};
+
+export const withPrimaryColorLoggedOut = Template.bind({});
+withPrimaryColorLoggedOut.args = {
+    userName: "Reis Haleem",
+    userLoggedIn: false,
 };

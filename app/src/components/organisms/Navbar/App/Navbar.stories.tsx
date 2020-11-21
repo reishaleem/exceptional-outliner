@@ -2,6 +2,8 @@ import React, { ComponentProps } from "react";
 import { Story } from "@storybook/react/types-6-0";
 import { MemoryRouter } from "react-router-dom";
 
+import OnePiece from "../../../images/onepieceworldbright.jpg";
+
 import Navbar from "./Navbar";
 
 const storyDetails = {
@@ -21,4 +23,6 @@ PrimaryNavbarWithMenuIcon.args = {
     closeDrawer: () => console.log("CLOSE test"),
     openDrawer: () => console.log("OPEN test"),
     shifted: false,
+    userName: "Reis Haleem",
+    userProfilePicture: OnePiece,
 };

@@ -7,6 +7,7 @@ import clsx from "clsx";
 
 import MainDrawer from "../../Drawer/Main/Drawer";
 import Navbar from "../../Navbar/App/Navbar";
+import AuthService from "../../../../services/auth.service";
 
 interface Props {
     children?: any;
@@ -44,6 +45,8 @@ const MainWrapper: React.FC<Props> = ({ children }: Props) => {
     const classes = useStyles();
     const [open, setOpen] = useState(true);
 
+    const currentUser = AuthService.getCurrentUser();
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -60,6 +63,8 @@ const MainWrapper: React.FC<Props> = ({ children }: Props) => {
                 closeDrawer={handleDrawerClose}
                 openDrawer={handleDrawerOpen}
                 shifted={open}
+                userName={currentUser.name}
+                userProfilePicture={"User profile image"}
             />
             <MainDrawer open={open} />
             <main

@@ -6,13 +6,13 @@ import MenuIcon from "@material-ui/icons/Menu";
 import NavbarTitle from "../../../atoms/NavbarTitle/NavbarTitle";
 import UserMenu from "../../../molecules/UserMenu/UserMenu";
 
-import AuthService from "../../../../services/auth.service";
-
 interface Props {
     shiftAmount: number;
     shifted: boolean;
     closeDrawer: any; // function to close the drawer attached
     openDrawer: any; // function to open the drawer attached
+    userName: string;
+    userProfilePicture: string;
 }
 
 const useStyles = (shiftAmount: number) =>
@@ -38,10 +38,10 @@ const Navbar: React.FC<Props> = ({
     shifted,
     closeDrawer,
     openDrawer,
+    userName,
+    userProfilePicture,
 }: Props) => {
     const classes = useStyles(shiftAmount)();
-
-    const currentUser = AuthService.getCurrentUser();
 
     return (
         <AppBar
@@ -63,8 +63,8 @@ const Navbar: React.FC<Props> = ({
                 <NavbarTitle title="The Exceptional Outliner" />
                 <UserMenu
                     items={["App"]}
-                    profilePicture="User profile"
-                    name={currentUser.name}
+                    profilePicture={userProfilePicture}
+                    name={userName}
                     variant="avatar"
                 />
             </Toolbar>

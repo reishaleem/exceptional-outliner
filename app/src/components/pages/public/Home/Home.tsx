@@ -16,6 +16,7 @@ import OverlayImage from "../../../atoms/OverlayImage/OverlayImage";
 
 import OnePiece from "../../../../images/onepieceworld.jpg";
 import { Link } from "react-router-dom";
+import AuthService from "../../../../services/auth.service";
 
 const useStyles = makeStyles(() => ({
     positionInTheDistance: {
@@ -32,10 +33,17 @@ const useStyles = makeStyles(() => ({
 const Home: React.FC = () => {
     const classes = useStyles();
 
+    const currentUser = AuthService.getCurrentUser();
+    const loggedIn = AuthService.isLoggedIn();
+
     return (
         <>
             <OverlayImage image={OnePiece} fullPage>
-                <Navbar transparent />
+                <Navbar
+                    transparent
+                    userLoggedIn={loggedIn}
+                    userName={currentUser ? currentUser.name : "N/A"}
+                />
                 <div className={classes.positionInTheDistance}>
                     <Typography variant="h3" component="h1">
                         Here is some text
