@@ -1,8 +1,8 @@
 import React from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import clsx from "clsx";
+import Box from "@material-ui/core/Box";
 
-interface PropTypes {
+interface Props {
     image: string;
     fullPage?: boolean;
     children?: any;
@@ -19,19 +19,17 @@ const useStyles = (image: string) =>
         },
     }));
 
-const OverlayImage: React.FC<PropTypes> = ({
+const OverlayImage: React.FC<Props> = ({
     image,
     fullPage,
     children,
-}: PropTypes) => {
+}: Props) => {
     const classes = useStyles(image)();
 
     return (
-        <div
-            className={clsx(classes.overlay, { [classes.fullPage]: fullPage })}
-        >
+        <Box height={fullPage ? "100vh" : "auto"} className={classes.overlay}>
             {children}
-        </div>
+        </Box>
     );
 };
 
