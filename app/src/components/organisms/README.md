@@ -28,7 +28,7 @@ Renders a `Material-UI` `AppBar` with styling to make it able to slide along wit
 
 ### PublicNavbar
 
-Renders a `Material-UI` `AppBar` that appears on the public page. It can become transparent and includes a `NavbarTitle` and `NavbarButtonList`.
+Renders a `Material-UI` `AppBar` that appears on the public page. It can become transparent and includes a `NavbarTitle` and `NavbarButtonList` or `UserMenu`, depending if the user is logged in.
 
 ### MainWrapper
 
