@@ -20,7 +20,7 @@ const LogoutMenuItem: React.FC<Props> = ({ refreshOnClick }: Props) => {
         await client.resetStore();
         // The refreshOnClick case is solely for if the user logs out from the home screen, because the app will
         // not re-render, which specifically means the Navbar won't update and will still show the logged in version
-        // Issue here: https://github.com/reishaleem/outliner-design/issues/2
+        // Issue here: https://github.com/reishaleem/exceptional-outliner/issues/3
         if (refreshOnClick) {
             window.location.reload();
         } else {
