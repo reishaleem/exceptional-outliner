@@ -56,8 +56,7 @@ const LoginForm: React.FC = () => {
             },
         });
         if (response && response.data) {
-            // @ts-ignore: Object is possibly 'null'.
-            AuthService.setAccessToken(response.data.login.accessToken);
+            AuthService.setAccessToken(response.data.login!.accessToken!);
             history.push("/dashboard");
         }
 
@@ -67,9 +66,11 @@ const LoginForm: React.FC = () => {
     return (
         <>
             {errorMessage && (
-                <Typography variant="h6" component="h3" color="error">
-                    {errorMessage}
-                </Typography>
+                <Box m={1}>
+                    <Typography variant="h6" component="h3" color="error">
+                        {errorMessage}
+                    </Typography>
+                </Box>
             )}
 
             <form onSubmit={formik.handleSubmit}>

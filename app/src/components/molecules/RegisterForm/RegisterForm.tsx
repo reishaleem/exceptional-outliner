@@ -104,9 +104,11 @@ const RegisterForm: React.FC = () => {
     return (
         <>
             {errorMessage && (
-                <Typography variant="h6" component="h3" color="error">
-                    {errorMessage}
-                </Typography>
+                <Box m={1}>
+                    <Typography variant="h6" component="h3" color="error">
+                        {errorMessage}
+                    </Typography>
+                </Box>
             )}
 
             <form onSubmit={formik.handleSubmit}>
