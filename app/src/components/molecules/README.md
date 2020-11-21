@@ -20,10 +20,6 @@ Renders a `Material-UI` `Menu` with either an `Avatar` or `Button` as the button
 
 Renders a `Material-UI` `Card` with styling to make it a circle. The size of the circle is passed in through the `props`, along with the icon (optional), title (optional), and body. It is used only on the public page, so its layout is designed with that in mind.
 
-### Footer
-
-Renders a `Material-UI` `Box` that includes a few `IconButtons` and a copyright symbol. It does not actually sit at the bottom of the screen; the page it is used in is meant to take up the height of the viewport.
-
 ### LoginForm
 
 Renders a `form` using `Material-UI` `TextFields` as well as `Formik`. The `useFormik` hook is used to work with the `Material-UI` components. When submitted, it sends a login request to the server.

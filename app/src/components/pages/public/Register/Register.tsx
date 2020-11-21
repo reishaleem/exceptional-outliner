@@ -3,7 +3,7 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 
 import CardImageForm from "../../../organisms/CardImageForm/CardImageForm";
-import Footer from "../../../molecules/Footer/Footer";
+import Footer from "../../../organisms/Footer/Footer";
 import Navbar from "../../../organisms/Navbar/Public/Navbar";
 import RegisterForm from "../../../molecules/RegisterForm/RegisterForm";
 

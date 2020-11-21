@@ -14,6 +14,10 @@ An Organism is a combination of Organisms, Molecules, and Atoms, but it is still
 
 Renders a `Material-UI` `Card` and splits it into a `Grid` where one half of the grid is an image and the other half is a form. In the app, it is used for the `LoginForm` and `RegisterForm`.
 
+### Footer
+
+Renders a `Material-UI` `Box` that includes a few `IconButtons` and a copyright symbol. It does not actually sit at the bottom of the screen; the page it is used in is meant to take up the height of the viewport.
+
 ### MainDrawer
 
 Renders a `Material-UI` `Drawer` with a `SidebarButtonList`. The MainDrawer appears on the `UserDashboard` page and any page that has that same wrapper.

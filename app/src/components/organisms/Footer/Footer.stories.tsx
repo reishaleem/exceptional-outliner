@@ -4,7 +4,7 @@ import { Story } from "@storybook/react/types-6-0";
 import Footer from "./Footer";
 
 const storyDetails = {
-    title: "Molecules/Footer",
+    title: "Organisms/Footer",
     component: Footer,
 };
 export default storyDetails;
