@@ -24,8 +24,7 @@ app.use(
 app.use(express.json());
 app.use("/refresh-token", cookieParser());
 
-const mongoURI =
-    process.env.MONGO_URI || "mongodb://localhost:27017/outliner_test_db";
+const mongoURI = process.env.MONGO_URI!;
 mongoose.connect(mongoURI, {
     useNewUrlParser: true,
     useCreateIndex: true,
@@ -53,6 +52,7 @@ app.use(
 
 // not sure why I can't set req and res to Request and Response...will need to update it later...
 app.get("/*", (req: any, res: any) => {
+    // the ../../ is because when compiled, the server.js file will live within server/build
     res.sendFile(path.resolve(__dirname, "../../app", "build", "index.html"));
 });
 

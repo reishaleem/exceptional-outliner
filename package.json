@@ -7,7 +7,8 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "dev": "nodemon server.ts",
         "start": "npm run dev",
-        "prod": "cd app && npm install && npm run build && cd ../ && tsc && node ./server/build/server.js"
+        "prod": "cd app && npm install && npm run build && cd ../ && npm install && tsc && node ./server/build/server.js",
+        "prod-without-install": "cd app && npm run build && cd ../ && tsc && node ./server/build/server.js"
     },
     "repository": {
         "type": "git",

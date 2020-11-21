@@ -1,7 +1,12 @@
 import React from "react";
-import { Box, Button, Divider, Menu, MenuItem } from "@material-ui/core";
-import LogoutMenuItem from "../../atoms/LogoutMenuItem/LogoutMenuItem";
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+import Divider from "@material-ui/core/Divider";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 import { Link } from "react-router-dom";
+
+import LogoutMenuItem from "../../atoms/LogoutMenuItem/LogoutMenuItem";
 
 const ButtonDropdown: React.FC = () => {
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(

@@ -1,7 +1,12 @@
 import React from "react";
 import Avatar from "@material-ui/core/Avatar";
-import { Box, Divider, Menu, MenuItem } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
+import Divider from "@material-ui/core/Divider";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+
 import LogoutMenuItem from "../../atoms/LogoutMenuItem/LogoutMenuItem";
+
 import AuthService from "../../../services/auth.service";
 
 const AvatarDropdown: React.FC = () => {
