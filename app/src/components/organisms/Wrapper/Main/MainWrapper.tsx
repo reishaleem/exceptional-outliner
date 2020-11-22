@@ -7,10 +7,11 @@ import clsx from "clsx";
 
 import MainDrawer from "../../Drawer/Main/Drawer";
 import Navbar from "../../Navbar/App/Navbar";
+
 import AuthService from "../../../../services/auth.service";
 
 interface Props {
-    children?: any;
+    children?: React.ReactNode;
 }
 
 const drawerWidth = 240;
@@ -43,16 +44,16 @@ const useStyles = makeStyles((theme) => ({
 
 const MainWrapper: React.FC<Props> = ({ children }: Props) => {
     const classes = useStyles();
-    const [open, setOpen] = useState(true);
+    const [drawerOpen, setDrawerOpen] = useState(true);
 
     const currentUser = AuthService.getCurrentUser();
 
     const handleDrawerOpen = () => {
-        setOpen(true);
+        setDrawerOpen(true);
     };
 
     const handleDrawerClose = () => {
-        setOpen(false);
+        setDrawerOpen(false);
     };
 
     return (
@@ -62,14 +63,14 @@ const MainWrapper: React.FC<Props> = ({ children }: Props) => {
                 shiftAmount={drawerWidth}
                 closeDrawer={handleDrawerClose}
                 openDrawer={handleDrawerOpen}
-                shifted={open}
+                shifted={drawerOpen}
                 userName={currentUser.name}
                 userProfilePicture={"User profile image"}
             />
-            <MainDrawer open={open} />
+            <MainDrawer open={drawerOpen} />
             <main
                 className={clsx(classes.content, {
-                    [classes.contentShift]: open,
+                    [classes.contentShift]: drawerOpen,
                 })}
             >
                 <div className={classes.drawerHeader} />
