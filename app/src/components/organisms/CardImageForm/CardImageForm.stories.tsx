@@ -7,7 +7,7 @@ import CardImageForm from "./CardImageForm";
 import OnePiece from "../../../images/onepieceworldbright.jpg";
 
 const storyDetails = {
-    title: "CardImageForm",
+    title: "Organisms/CardImageForm",
     component: CardImageForm,
     decorators: [
         (getStory: any) => (

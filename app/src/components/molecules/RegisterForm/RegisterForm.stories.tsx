@@ -4,7 +4,7 @@ import { Story } from "@storybook/react/types-6-0";
 import RegisterForm from "./RegisterForm";
 
 const storyDetails = {
-    title: "RegisterForm",
+    title: "Molecules/RegisterForm",
     component: RegisterForm,
 };
 export default storyDetails;

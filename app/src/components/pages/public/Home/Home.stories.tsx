@@ -5,7 +5,7 @@ import { MemoryRouter } from "react-router-dom";
 import Home from "./Home";
 
 const storyDetails = {
-    title: "Home Page",
+    title: "Pages/HomePage",
     component: Home,
     decorators: [(getStory: any) => <MemoryRouter>{getStory()}</MemoryRouter>],
 };

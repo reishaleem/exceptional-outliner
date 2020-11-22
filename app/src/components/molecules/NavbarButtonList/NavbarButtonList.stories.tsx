@@ -5,7 +5,7 @@ import { MemoryRouter } from "react-router-dom";
 import NavbarButtonList from "./NavbarButtonList";
 
 const storyDetails = {
-    title: "NavbarButtonList",
+    title: "Molecules/NavbarButtonList",
     component: NavbarButtonList,
     decorators: [
         (getStory: any) => (

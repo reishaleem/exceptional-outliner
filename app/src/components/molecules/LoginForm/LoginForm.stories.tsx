@@ -4,7 +4,7 @@ import { Story } from "@storybook/react/types-6-0";
 import LoginForm from "./LoginForm";
 
 const storyDetails = {
-    title: "LoginForm",
+    title: "Molecules/LoginForm",
     component: LoginForm,
 };
 export default storyDetails;
