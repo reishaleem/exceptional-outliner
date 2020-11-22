@@ -7,6 +7,7 @@ import Home from "./components/pages/public/Home/Home";
 import Login from "./components/pages/public/Login/Login";
 import Register from "./components/pages/public/Register/Register";
 import UserDashboard from "./components/pages/app/UserDashboard/UserDashboard";
+import UserSettings from "./components/pages/app/UserSettings/UserSettings";
 
 import AuthService from "./services/auth.service";
 
@@ -38,11 +39,11 @@ function App() {
                 </AuthRoute>
 
                 {/* application routes (must be logged in to access) */}
-                {/* <Route path="/dashboard" exact>
+                <AppRoute path="/dashboard" exact>
                     <UserDashboard />
-                </Route> */}
-                <AppRoute path="/dashboard">
-                    <UserDashboard />
+                </AppRoute>
+                <AppRoute path="/settings" exact>
+                    <UserSettings />
                 </AppRoute>
             </Switch>
         </BrowserRouter>

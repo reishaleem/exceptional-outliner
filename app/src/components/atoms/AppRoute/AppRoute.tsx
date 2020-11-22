@@ -5,6 +5,7 @@ import AuthService from "../../../services/auth.service";
 
 interface Props {
     path: string;
+    exact?: boolean;
     children: React.ReactNode;
 }
 
@@ -14,8 +15,6 @@ const AppRoute: React.FC<Props> = ({ path, children, ...rest }: Props) => {
     return (
         <Route
             path={path}
-            {...rest}
-            exact
             render={({ location }) =>
                 isLoggedIn ? (
                     children
@@ -28,6 +27,7 @@ const AppRoute: React.FC<Props> = ({ path, children, ...rest }: Props) => {
                     />
                 )
             }
+            {...rest}
         />
     );
 };
