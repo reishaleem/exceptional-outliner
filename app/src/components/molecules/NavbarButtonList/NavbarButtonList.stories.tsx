@@ -25,5 +25,5 @@ export const Default = Template.bind({});
 Default.args = {
     buttonNames: ["Test1", "Test2"],
     buttonDestinations: ["/testPath1", "/testPath2"],
-    align: "left",
+    align: "right",
 };

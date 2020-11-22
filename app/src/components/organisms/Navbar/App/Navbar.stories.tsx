@@ -2,7 +2,7 @@ import React, { ComponentProps } from "react";
 import { Story } from "@storybook/react/types-6-0";
 import { MemoryRouter } from "react-router-dom";
 
-import OnePiece from "../../../images/onepieceworldbright.jpg";
+import OnePiece from "../../../../images/onepieceworldbright.jpg";
 
 import Navbar from "./Navbar";
 

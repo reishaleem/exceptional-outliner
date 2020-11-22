@@ -38,7 +38,7 @@ const Navbar: React.FC<Props> = ({
                         <NavbarButtonList
                             buttonNames={["Sign Up", "Login"]}
                             buttonDestinations={["/register", "/login"]}
-                            align="left"
+                            align="right"
                         />
                     )}
                 </Toolbar>
