@@ -3,7 +3,6 @@ import React from "react";
 interface Props {
     value: number;
     index: number;
-    dir?: string;
     children: React.ReactNode;
 }
 

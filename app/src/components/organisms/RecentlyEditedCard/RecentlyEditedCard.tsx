@@ -148,11 +148,7 @@ const RecentlyEditedCard: React.FC = () => {
                 <p>Loading...</p>
             ) : (
                 <>
-                    <TabPanel
-                        value={recentlyEditedTabsValue}
-                        index={0}
-                        dir={theme.direction}
-                    >
+                    <TabPanel value={recentlyEditedTabsValue} index={0}>
                         <Box height={250} position="relative">
                             {worlds!.length > 0 ? (
                                 <Box overflow="auto">
@@ -209,11 +205,7 @@ const RecentlyEditedCard: React.FC = () => {
                             </Zoom>
                         </Box>
                     </TabPanel>
-                    <TabPanel
-                        value={recentlyEditedTabsValue}
-                        index={1}
-                        dir={theme.direction}
-                    >
+                    <TabPanel value={recentlyEditedTabsValue} index={1}>
                         <Box position="relative" height={250}>
                             {pages!.length > 0 ? (
                                 <>
