@@ -4,6 +4,14 @@ This directory houses all code related to the GraphQL API. It acts as something 
 
 ## Folder Structure
 
+### `mutations`
+
+The `mutations` directory contains all Mutations that are used in the API. It is split between functions, like other directories.
+
+### `queries`
+
+The `queries` directory contains all Queries that are used in the API. Like other folders, it is split into different files for different functions.
+
 ### `resolvers`
 
 The `resolvers` directory includes resolver methods for each API request. It is split between functions, just like the services might be. These resolvers take the incoming `args` from the request and put them into an actual, typed request, before calling the proper service.

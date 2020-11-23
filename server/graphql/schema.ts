@@ -23,38 +23,16 @@ import {
 } from "./resolvers/user-resolvers";
 import { createWorldResolver } from "./resolvers/world-resolvers";
 import { loginResolver, logoutResolver } from "./resolvers/auth-resolvers";
+import { getAllUsersQuery, getSingleUserQuery } from "./queries/user-queries";
+import { getAllWorldsQuery } from "./queries/world-queries";
 
 const RootQuery = new GraphQLObjectType({
     name: "Query",
     description: "Root query for gets",
     fields: () => ({
-        users: {
-            type: GraphQLList(UserType),
-            description: "A list of all Users",
-            resolve: (_parent, _args, context) => {
-                authService.authenticateToken(context); // should throw an error if user is not authenticated
-                return usersResolver();
-            },
-        },
-        user: {
-            type: UserType,
-            description: "A single User",
-            args: {
-                id: { type: GraphQLID },
-            },
-            resolve: async (_parent, args) => {
-                return userResolver(args);
-            },
-        },
-        world: {
-            type: WorldType,
-            description: "A single World",
-            args: {
-                ownerId: { type: GraphQLString },
-                worldId: { type: GraphQLID },
-            },
-            resolve: async () => {},
-        },
+        users: getAllUsersQuery,
+        user: getSingleUserQuery,
+        world: getAllWorldsQuery,
     }),
 });
 
