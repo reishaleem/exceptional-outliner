@@ -23,7 +23,7 @@ async function login(request: LoginRequest, res: Response) {
 
     let passwordMatches = null;
     try {
-        passwordMatches = await bcrypt.compare(request.password, user.password);
+        passwordMatches = await verifyPassword(request.password, user.password);
     } catch (error) {
         throw new Error("Email or password is incorrect");
     }
@@ -61,6 +61,14 @@ async function login(request: LoginRequest, res: Response) {
         };
     } else {
         throw new Error("Email or password is incorrect");
+    }
+}
+
+async function verifyPassword(password1: string, password2: string) {
+    try {
+        return await bcrypt.compare(password1, password2);
+    } catch (error) {
+        throw error;
     }
 }
 
@@ -141,4 +149,5 @@ export default {
     authenticateToken,
     encryptPassword,
     refreshToken,
+    verifyPassword,
 };

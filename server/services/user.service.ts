@@ -78,6 +78,46 @@ async function updateUser(request: any) {
     }
 }
 
+async function changePassword(request: any) {
+    const oldPassword = request.oldPassword;
+    const newPassword = request.newPassword;
+
+    let user = null;
+    try {
+        user = await Users.findById(request.id);
+    } catch (error) {
+        throw error;
+    }
+
+    let passwordMatches = null;
+    try {
+        passwordMatches = await authService.verifyPassword(
+            oldPassword,
+            user!.password
+        );
+    } catch (error) {
+        throw new Error("Current password is incorrect");
+    }
+
+    if (passwordMatches) {
+        let password = null;
+        try {
+            password = await authService.encryptPassword(newPassword);
+        } catch (error) {
+            throw new Error("Something went wrong. Please try again.");
+        }
+
+        user!.password = password;
+        try {
+            return await user!.save();
+        } catch (error) {
+            throw error;
+        }
+    } else {
+        throw new Error("Current password is incorrect");
+    }
+}
+
 async function checkUsernameExists(username: string) {
     try {
         return await Users.exists({ username: username });
@@ -92,4 +132,5 @@ export default {
     getAllUsers,
     getUserById,
     updateUser,
+    changePassword,
 };

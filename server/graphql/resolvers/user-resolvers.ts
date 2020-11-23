@@ -31,3 +31,13 @@ export function updateUserResolver(args: any) {
 
     return userService.updateUser(request);
 }
+
+export function updateUserPasswordResolver(args: any) {
+    const request = {
+        id: args.id,
+        oldPassword: args.oldPassword,
+        newPassword: args.newPassword,
+    };
+
+    return userService.changePassword(request);
+}

@@ -16,6 +16,7 @@ import WorldType from "./typeDefs/World";
 
 import {
     createUserResolver,
+    updateUserPasswordResolver,
     updateUserResolver,
     userResolver,
     usersResolver,
@@ -85,6 +86,18 @@ const RootMutation = new GraphQLObjectType({
             },
             resolve: async (_parent, args) => {
                 return updateUserResolver(args);
+            },
+        },
+        updateUserPassword: {
+            type: UserType,
+            description: "Change a user's password",
+            args: {
+                id: { type: GraphQLNonNull(GraphQLID) },
+                oldPassword: { type: GraphQLNonNull(GraphQLString) },
+                newPassword: { type: GraphQLNonNull(GraphQLString) },
+            },
+            resolve: async (_parent, args) => {
+                return updateUserPasswordResolver(args);
             },
         },
         createWorld: {
