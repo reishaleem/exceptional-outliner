@@ -1,46 +1,38 @@
-# Getting Started with Create React App
+# Exceptional Outliner Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). The project uses Typescript.
 
-## Available Scripts
+## Folder Structure
 
-In the project directory, you can run:
+### `.storybook`
 
-### `yarn start`
+The `.storybook` directory contains the confirguation for Storybook, which is used to test components in isolation.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### `src`
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+The `src` directory contains all of the actual frontend code.
 
-### `yarn test`
+#### `components`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The `components` directory contains all of the React components that are rendered on the different pages. It is organized using Atomic Design. More information on the different components can be found in the readme (link it) and in each subdirectory.
 
-### `yarn build`
+#### `graphql`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The `graphql` directory contains all of the GraphQL queries and mutations that are used with the Apollo client. The `graphql-codegen` library is used to take the queries and mutations and generate hooks to use within the application.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### `services`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The `services` directory contains any code that is unrelated to the actual rendering of the component and focus more on business logic sort of operations. This includes a lot with authentiation and authorization. More information can be found here (link to Security section of the main readme).
 
-### `yarn eject`
+## Storybook
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+The `storybook` library is used for building components more quickly and keeping them maintainable. It is very useful for testing without needing to render the entire project.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Material-UI
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+The Material-UI framework is used throughout the application to make life easier when it comes to reusing some of the great components they have already made. The old project used Bootstrap, but I wanted to use MUI as it is so popular and for me has some more useful components to make the application look a lot better.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Testing
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Tests needs to be added, but it'll use Jest and react testing library.
+`
