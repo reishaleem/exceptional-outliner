@@ -38,3 +38,22 @@ mutation UpdateUser(
         bio
     }
 }
+
+mutation UpdateUserPassword(
+    $id: ID!
+    $oldPassword: String!
+    $newPassword: String!
+) {
+    updateUserPassword(
+        id: $id
+        oldPassword: $oldPassword
+        newPassword: $newPassword
+    ) {
+        id
+        name
+        email
+        password
+        penName
+        bio
+    }
+}

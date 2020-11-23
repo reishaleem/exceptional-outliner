@@ -5,6 +5,7 @@ import Tab from "@material-ui/core/Tab/Tab";
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import React from "react";
 import TabPanel from "../../../atoms/TabPanel/TabPanel";
+import ChangePasswordForm from "../../../molecules/ChangePasswordForm/ChangePasswordForm";
 import ChangeProfileForm from "../../../molecules/ChangeProfileForm/ChangeProfileForm";
 
 import MainWrapper from "../../../organisms/Wrapper/Main/MainWrapper";
@@ -101,10 +102,31 @@ const UserSettings: React.FC = () => {
                         </Grid>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        there
+                        <Grid container spacing={2}>
+                            <Grid item md={12}>
+                                <Typography variant="h3" component="h2">
+                                    Change password
+                                </Typography>
+                                <Divider />
+                            </Grid>
+                            <Grid item md={8}>
+                                <ChangePasswordForm />
+                            </Grid>
+                            <Grid item md={4}></Grid>
+                        </Grid>
                     </TabPanel>
                     <TabPanel value={value} index={2}>
-                        e
+                        <Grid container spacing={2}>
+                            <Grid item md={12}>
+                                <Typography variant="h3" component="h2">
+                                    Delete account
+                                </Typography>
+                                <Divider />
+                            </Grid>
+                            <Grid item md={12}>
+                                <ChangeProfileForm />
+                            </Grid>
+                        </Grid>
                     </TabPanel>
                 </Grid>
                 <Grid item xs={12} sm={12} md={1}></Grid>
