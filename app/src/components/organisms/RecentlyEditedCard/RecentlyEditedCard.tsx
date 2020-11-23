@@ -206,10 +206,10 @@ const RecentlyEditedCard: React.FC = () => {
                         </Box>
                     </TabPanel>
                     <TabPanel value={recentlyEditedTabsValue} index={1}>
-                        <Box position="relative" height={250}>
+                        <Box position="relative">
                             {pages!.length > 0 ? (
                                 <>
-                                    <Box overflow="auto">
+                                    <Box height={250} overflow="auto">
                                         <List>
                                             {pages!.map((page) => {
                                                 return (

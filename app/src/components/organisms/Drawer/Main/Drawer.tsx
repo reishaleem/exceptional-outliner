@@ -3,6 +3,7 @@ import { Divider, makeStyles, Drawer } from "@material-ui/core";
 import PublicIcon from "@material-ui/icons/Public";
 import ExploreIcon from "@material-ui/icons/Explore";
 import HelpIcon from "@material-ui/icons/Help";
+import HomeIcon from "@material-ui/icons/Home";
 
 import SidebarButtonList from "../../../molecules/SidebarButtonList/SidebarButtonList";
 
@@ -44,9 +45,9 @@ const MainDrawer: React.FC<Props> = ({ open }: Props) => {
             <div className={classes.drawerHeader}>Brand Logo</div>
             {/* <Divider /> */}
             <SidebarButtonList
-                buttonNames={["Worlds", "Explore"]}
-                icons={[<PublicIcon />, <ExploreIcon />]}
-                destinations={["/worlds", "/explore"]}
+                buttonNames={["Dashboard", "Worlds", "Explore"]}
+                icons={[<HomeIcon />, <PublicIcon />, <ExploreIcon />]}
+                destinations={["/dashboard", "/worlds", "/explore"]}
             />
             <Divider />
             <SidebarButtonList

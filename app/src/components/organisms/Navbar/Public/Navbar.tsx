@@ -30,6 +30,7 @@ const Navbar: React.FC<Props> = ({
                     {userLoggedIn ? (
                         <UserMenu
                             items={["App"]}
+                            itemDestinations={["/dashboard"]}
                             name={userName}
                             variant="button"
                             refreshLogout

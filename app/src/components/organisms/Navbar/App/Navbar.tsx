@@ -62,7 +62,8 @@ const Navbar: React.FC<Props> = ({
                 </IconButton>
                 <NavbarTitle title="The Exceptional Outliner" />
                 <UserMenu
-                    items={["App"]}
+                    items={["Settings"]}
+                    itemDestinations={["/settings"]}
                     profilePicture={userProfilePicture}
                     name={userName}
                     variant="avatar"
