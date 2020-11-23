@@ -1,8 +1,10 @@
 import authService from "../../services/auth.service";
 
+import { Context } from "../../common/types";
+
 import { LoginRequest } from "../../common/types";
 
-export function loginResolver(args: any, context: any) {
+export function loginResolver(args: any, context: Context) {
     const request: LoginRequest = {
         email: args.email,
         password: args.password,
@@ -10,7 +12,7 @@ export function loginResolver(args: any, context: any) {
     return authService.login(request, context.res);
 }
 
-export function logoutResolver(context: any) {
+export function logoutResolver(context: Context) {
     const res = context.res;
     res.clearCookie("rjid");
     return true;

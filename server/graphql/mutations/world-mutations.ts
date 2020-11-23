@@ -1,11 +1,15 @@
 import { GraphQLID, GraphQLList, GraphQLNonNull, GraphQLString } from "graphql";
 
-//import WorldType from "../typeDefs/World";
+import { Context } from "../../common/types";
+
+import authService from "../../services/auth.service";
+
+import WorldType from "../typeDefs/World";
 
 import { createWorldResolver } from "../resolvers/world-resolvers";
 
 export const createWorldMutation = {
-    type: GraphQLString,
+    type: WorldType,
     description:
         "Creates a new World and adds it to the Worlds array of the User with the given ownerId",
     args: {
@@ -14,8 +18,8 @@ export const createWorldMutation = {
         description: { type: GraphQLNonNull(GraphQLString) },
         genres: { type: GraphQLNonNull(GraphQLList(GraphQLString)) },
     },
-    resolve: async (_parent: any, args: any, context: any) => {
-        //authService.authenticateToken(context); // should throw an error if user is not authenticated
+    resolve: async (_parent: any, args: any, context: Context) => {
+        authService.authenticateToken(context); // should throw an error if user is not authenticated
         return createWorldResolver(args);
     },
 };

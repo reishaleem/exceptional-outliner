@@ -1,13 +1,16 @@
-import { GraphQLID, GraphQLString } from "graphql";
+import { GraphQLList, GraphQLString } from "graphql";
 
 import WorldType from "../typeDefs/World";
 
-export const getAllWorldsQuery = {
-    type: WorldType,
+import { getAllUserWorldsResolver } from "../resolvers/world-resolvers";
+
+export const getAllUserWorldsQuery = {
+    type: GraphQLList(WorldType),
     description: "A single World",
     args: {
         ownerId: { type: GraphQLString },
-        worldId: { type: GraphQLID },
     },
-    resolve: async () => {},
+    resolve: async (_parent: any, args: any) => {
+        return getAllUserWorldsResolver(args);
+    },
 };

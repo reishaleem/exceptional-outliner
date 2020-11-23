@@ -1,5 +1,7 @@
 import { GraphQLNonNull, GraphQLString, GraphQLBoolean } from "graphql";
 
+import { Context } from "../../common/types";
+
 import AccessToken from "../typeDefs/AccessToken";
 
 import { loginResolver, logoutResolver } from "../resolvers/auth-resolvers";
@@ -11,7 +13,7 @@ export const loginMutation = {
         email: { type: GraphQLNonNull(GraphQLString) },
         password: { type: GraphQLNonNull(GraphQLString) },
     },
-    resolve: async (_parent: any, args: any, context: any) => {
+    resolve: async (_parent: any, args: any, context: Context) => {
         return loginResolver(args, context);
     },
 };
@@ -19,7 +21,7 @@ export const loginMutation = {
 export const logoutMutation = {
     type: GraphQLBoolean,
     description: "Logs a User out by clearing the refresh token",
-    resolve: async (_parent: any, _args: any, context: any) => {
+    resolve: async (_parent: any, _args: any, context: Context) => {
         return logoutResolver(context);
     },
 };

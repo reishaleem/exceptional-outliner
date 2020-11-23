@@ -14,7 +14,7 @@ The `queries` directory contains all Queries that are used in the API. Like othe
 
 ### `resolvers`
 
-The `resolvers` directory includes resolver methods for each API request. It is split between functions, just like the services might be. These resolvers take the incoming `args` from the request and put them into an actual, typed request, before calling the proper service.
+The `resolvers` directory includes resolver methods for each API request. It is split between functions, just like the services might be. These resolvers take the incoming `args` from the request and put them into an actual, typed request, before calling the proper service. This directory probably isn't necessary, since all the resolvers are just setting up a request of some sort and then calling a service method, but at the time of making it, I hadn't separated the Queries and Mutations, and after I did, I just kept it.
 
 ### `typeDefs`
 

@@ -1,7 +1,7 @@
 import { GraphQLObjectType, GraphQLSchema } from "graphql";
 
 import { getAllUsersQuery, getSingleUserQuery } from "./queries/user-queries";
-import { getAllWorldsQuery } from "./queries/world-queries";
+import { getAllUserWorldsQuery } from "./queries/world-queries";
 
 import { loginMutation, logoutMutation } from "./mutations/auth-mutations";
 import {
@@ -17,7 +17,7 @@ const RootQuery = new GraphQLObjectType({
     fields: () => ({
         users: getAllUsersQuery,
         user: getSingleUserQuery,
-        world: getAllWorldsQuery,
+        userWorlds: getAllUserWorldsQuery,
     }),
 });
 

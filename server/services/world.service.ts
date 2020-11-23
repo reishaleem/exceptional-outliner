@@ -1,6 +1,17 @@
 import { CreateWorldRequest } from "../common/types";
 import Users from "../models/user.model";
 
+async function getAllUserWorlds(ownerId: string) {
+    let user = null;
+    try {
+        user = await Users.findById(ownerId);
+    } catch (error) {
+        throw error;
+    }
+
+    return user!.worlds;
+}
+
 async function createWorld(world: CreateWorldRequest) {
     const name = world.name;
     const genres = world.genres;
@@ -29,5 +40,6 @@ async function createWorld(world: CreateWorldRequest) {
 }
 
 export default {
+    getAllUserWorlds,
     createWorld,
 };
