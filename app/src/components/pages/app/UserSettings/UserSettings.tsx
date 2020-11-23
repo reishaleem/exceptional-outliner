@@ -124,7 +124,7 @@ const UserSettings: React.FC = () => {
                                 <Divider />
                             </Grid>
                             <Grid item md={12}>
-                                <ChangeProfileForm />
+                                Todo..
                             </Grid>
                         </Grid>
                     </TabPanel>
