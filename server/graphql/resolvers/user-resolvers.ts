@@ -19,3 +19,15 @@ export function createUserResolver(args: any) {
 
     return userService.createUser(request);
 }
+
+export function updateUserResolver(args: any) {
+    const request = {
+        id: args.id,
+        name: args.name,
+        email: args.email,
+        penName: args.penName,
+        bio: args.bio,
+    };
+
+    return userService.updateUser(request);
+}

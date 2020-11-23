@@ -53,6 +53,31 @@ async function createUser(user: CreateUserRequest) {
     }
 }
 
+async function updateUser(request: any) {
+    const email: string = request.email;
+    const name: string = request.name;
+    const penName: string = request.penName;
+    const bio: string = request.bio;
+
+    let user = null;
+    try {
+        user = await Users.findById(request.id);
+    } catch (error) {
+        throw error;
+    }
+
+    user!.email = email;
+    user!.name = name;
+    user!.penName = penName;
+    user!.bio = bio;
+
+    try {
+        return await user!.save();
+    } catch (error) {
+        throw error;
+    }
+}
+
 async function checkUsernameExists(username: string) {
     try {
         return await Users.exists({ username: username });
@@ -66,4 +91,5 @@ export default {
     checkUsernameExists,
     getAllUsers,
     getUserById,
+    updateUser,
 };

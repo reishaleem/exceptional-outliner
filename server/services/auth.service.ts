@@ -34,6 +34,7 @@ async function login(request: LoginRequest, res: Response) {
             name: user.name,
             email: user.email,
             penName: user.penName,
+            bio: user.bio,
         };
         const accessToken = generateToken(
             userDetails,
@@ -94,6 +95,7 @@ async function refreshToken(req: Request, res: Response) {
         name: user.name,
         email: user.email,
         penName: user.penName,
+        bio: user.bio,
     };
     const newAccessToken = generateToken(userDetails, process.env.JWT_SECRET!, {
         expiresIn: "2m",
