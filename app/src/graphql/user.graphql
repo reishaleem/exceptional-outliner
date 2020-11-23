@@ -15,3 +15,26 @@ mutation CreateUser($name: String!, $email: String!, $password: String!) {
         bio
     }
 }
+
+mutation UpdateUser(
+    $id: ID!
+    $name: String!
+    $email: String!
+    $penName: String!
+    $bio: String!
+) {
+    updateUser(
+        id: $id
+        name: $name
+        email: $email
+        penName: $penName
+        bio: $bio
+    ) {
+        id
+        name
+        email
+        password
+        penName
+        bio
+    }
+}

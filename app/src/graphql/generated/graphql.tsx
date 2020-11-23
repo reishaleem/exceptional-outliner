@@ -15,10 +15,10 @@ export type Scalars = {
   Float: number;
 };
 
-/** The top level query */
+/** Root query for gets */
 export type Query = {
   __typename?: 'Query';
-  /** List of users */
+  /** A list of all Users */
   users?: Maybe<Array<Maybe<User>>>;
   /** A single User */
   user?: Maybe<User>;
@@ -27,18 +27,19 @@ export type Query = {
 };
 
 
-/** The top level query */
+/** Root query for gets */
 export type QueryUserArgs = {
   id?: Maybe<Scalars['ID']>;
 };
 
 
-/** The top level query */
+/** Root query for gets */
 export type QueryWorldArgs = {
   ownerId?: Maybe<Scalars['String']>;
   worldId?: Maybe<Scalars['ID']>;
 };
 
+/** A user that uses the application */
 export type User = {
   __typename?: 'User';
   id?: Maybe<Scalars['ID']>;
@@ -52,6 +53,7 @@ export type User = {
   updatedAt?: Maybe<Scalars['String']>;
 };
 
+/** The worlds of the users' stories. Pretty much everything is associated with a World in some way, such as Pages */
 export type World = {
   __typename?: 'World';
   id?: Maybe<Scalars['ID']>;
@@ -77,13 +79,15 @@ export type Page = {
 /** Root mutation for updates, deletes, and creation */
 export type Mutation = {
   __typename?: 'Mutation';
-  /** Create a new user */
+  /** Creates a new User */
   createUser?: Maybe<User>;
-  /** Add a World to a user */
+  /** Update a user */
+  updateUser?: Maybe<User>;
+  /** Creates a new World and adds it to the Worlds array of the User with the given ownerId */
   createWorld?: Maybe<Scalars['String']>;
-  /** Log a user in, giving them a token */
+  /** Logs a User in, giving them an AccessToken */
   login?: Maybe<AccessToken>;
-  /** Log a user out */
+  /** Logs a User out by clearing the refresh token */
   logout?: Maybe<Scalars['Boolean']>;
 };
 
@@ -93,6 +97,16 @@ export type MutationCreateUserArgs = {
   name: Scalars['String'];
   email: Scalars['String'];
   password: Scalars['String'];
+};
+
+
+/** Root mutation for updates, deletes, and creation */
+export type MutationUpdateUserArgs = {
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  email: Scalars['String'];
+  penName: Scalars['String'];
+  bio: Scalars['String'];
 };
 
 
@@ -160,6 +174,23 @@ export type CreateUserMutationVariables = Exact<{
 export type CreateUserMutation = (
   { __typename?: 'Mutation' }
   & { createUser?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'name' | 'email' | 'password' | 'penName' | 'bio'>
+  )> }
+);
+
+export type UpdateUserMutationVariables = Exact<{
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  email: Scalars['String'];
+  penName: Scalars['String'];
+  bio: Scalars['String'];
+}>;
+
+
+export type UpdateUserMutation = (
+  { __typename?: 'Mutation' }
+  & { updateUser?: Maybe<(
     { __typename?: 'User' }
     & Pick<User, 'id' | 'name' | 'email' | 'password' | 'penName' | 'bio'>
   )> }
@@ -376,3 +407,63 @@ export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
 export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
 export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
+export const UpdateUserDocument = gql`
+    mutation UpdateUser($id: ID!, $name: String!, $email: String!, $penName: String!, $bio: String!) {
+  updateUser(id: $id, name: $name, email: $email, penName: $penName, bio: $bio) {
+    id
+    name
+    email
+    password
+    penName
+    bio
+  }
+}
+    `;
+export type UpdateUserMutationFn = Apollo.MutationFunction<UpdateUserMutation, UpdateUserMutationVariables>;
+export type UpdateUserComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UpdateUserMutation, UpdateUserMutationVariables>, 'mutation'>;
+
+    export const UpdateUserComponent = (props: UpdateUserComponentProps) => (
+      <ApolloReactComponents.Mutation<UpdateUserMutation, UpdateUserMutationVariables> mutation={UpdateUserDocument} {...props} />
+    );
+    
+export type UpdateUserProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: Apollo.MutationFunction<UpdateUserMutation, UpdateUserMutationVariables>
+    } & TChildProps;
+export function withUpdateUser<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UpdateUserMutation,
+  UpdateUserMutationVariables,
+  UpdateUserProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, UpdateUserMutation, UpdateUserMutationVariables, UpdateUserProps<TChildProps, TDataName>>(UpdateUserDocument, {
+      alias: 'updateUser',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useUpdateUserMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserMutation, { data, loading, error }] = useUpdateUserMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      name: // value for 'name'
+ *      email: // value for 'email'
+ *      penName: // value for 'penName'
+ *      bio: // value for 'bio'
+ *   },
+ * });
+ */
+export function useUpdateUserMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserMutation, UpdateUserMutationVariables>) {
+        return Apollo.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument, baseOptions);
+      }
+export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutation>;
+export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
+export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;

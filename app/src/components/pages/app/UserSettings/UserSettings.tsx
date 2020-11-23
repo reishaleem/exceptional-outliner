@@ -1,10 +1,11 @@
-import { Card, Grid } from "@material-ui/core";
+import { Card, Divider, Grid, Typography } from "@material-ui/core";
 import { Theme } from "@material-ui/core/styles/createMuiTheme";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Tab from "@material-ui/core/Tab/Tab";
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import React from "react";
 import TabPanel from "../../../atoms/TabPanel/TabPanel";
+import ChangeProfileForm from "../../../molecules/ChangeProfileForm/ChangeProfileForm";
 
 import MainWrapper from "../../../organisms/Wrapper/Main/MainWrapper";
 
@@ -24,6 +25,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     leftIndicator: {
         left: "0px",
+    },
+    wrapper: {
+        alignItems: "flex-start",
     },
 }));
 
@@ -55,15 +59,46 @@ const UserSettings: React.FC = () => {
                                 indicator: classes.leftIndicator,
                             }}
                         >
-                            <Tab label="Page One" {...a11yProps(0)} />
-                            <Tab label="Page Two" {...a11yProps(1)} />
-                            <Tab label="Page Three" {...a11yProps(2)} />
+                            <Tab
+                                label="Profile"
+                                {...a11yProps(0)}
+                                classes={{
+                                    wrapper: classes.wrapper,
+                                }}
+                            />
+                            <Tab
+                                label="Security"
+                                {...a11yProps(1)}
+                                classes={{
+                                    wrapper: classes.wrapper,
+                                }}
+                            />
+                            <Tab
+                                label="Delete"
+                                {...a11yProps(2)}
+                                classes={{
+                                    wrapper: classes.wrapper,
+                                }}
+                            />
                         </Tabs>
                     </Card>
                 </Grid>
                 <Grid item xs={12} sm={12} md={8}>
                     <TabPanel value={value} index={0}>
-                        hi
+                        <Grid container spacing={2}>
+                            <Grid item md={12}>
+                                <Typography variant="h3" component="h2">
+                                    Profile
+                                </Typography>
+                                <Divider />
+                            </Grid>
+                            <Grid item md={8}>
+                                <ChangeProfileForm />
+                            </Grid>
+                            <Grid item md={4}>
+                                Profile picture...
+                            </Grid>
+                        </Grid>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         there
