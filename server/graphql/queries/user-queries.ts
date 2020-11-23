@@ -1,24 +1,10 @@
-import {
-    GraphQLID,
-    GraphQLList,
-    GraphQLNonNull,
-    GraphQLObjectType,
-    GraphQLString,
-    GraphQLSchema,
-    GraphQLBoolean,
-} from "graphql";
+import { GraphQLID, GraphQLList } from "graphql";
 
 import UserType from "../typeDefs/User";
 
 import authService from "../../services/auth.service";
 
-import {
-    createUserResolver,
-    updateUserPasswordResolver,
-    updateUserResolver,
-    userResolver,
-    usersResolver,
-} from "../resolvers/user-resolvers";
+import { userResolver, usersResolver } from "../resolvers/user-resolvers";
 
 export const getAllUsersQuery = {
     type: GraphQLList(UserType),

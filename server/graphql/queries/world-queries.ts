@@ -1,12 +1,4 @@
-import {
-    GraphQLID,
-    GraphQLList,
-    GraphQLNonNull,
-    GraphQLObjectType,
-    GraphQLString,
-    GraphQLSchema,
-    GraphQLBoolean,
-} from "graphql";
+import { GraphQLID, GraphQLString } from "graphql";
 
 import WorldType from "../typeDefs/World";
 
