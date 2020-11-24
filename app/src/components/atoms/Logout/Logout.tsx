@@ -16,9 +16,9 @@ const Logout: React.FC<Props> = ({ refreshOnClick, children }: Props) => {
     const history = useHistory();
 
     async function logoutUser() {
+        await client.resetStore();
         await logout();
         AuthService.setAccessToken("");
-        await client.resetStore();
         // The refreshOnClick case is solely for if the user logs out from the home screen, because the app will
         // not re-render, which specifically means the Navbar won't update and will still show the logged in version
         // Issue here: https://github.com/reishaleem/exceptional-outliner/issues/3

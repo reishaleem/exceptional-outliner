@@ -23,7 +23,9 @@ export type Query = {
   /** A single User */
   user?: Maybe<User>;
   /** A single World */
-  world?: Maybe<World>;
+  userWorlds?: Maybe<Array<Maybe<World>>>;
+  /** A list of all a user's Pages in all their Worlds */
+  userPages?: Maybe<Array<Maybe<Page>>>;
 };
 
 
@@ -34,9 +36,14 @@ export type QueryUserArgs = {
 
 
 /** Root query for gets */
-export type QueryWorldArgs = {
+export type QueryUserWorldsArgs = {
   ownerId?: Maybe<Scalars['String']>;
-  worldId?: Maybe<Scalars['ID']>;
+};
+
+
+/** Root query for gets */
+export type QueryUserPagesArgs = {
+  ownerId?: Maybe<Scalars['String']>;
 };
 
 /** A user that uses the application */
@@ -79,6 +86,10 @@ export type Page = {
 /** Root mutation for updates, deletes, and creation */
 export type Mutation = {
   __typename?: 'Mutation';
+  /** Logs a User in, giving them an AccessToken */
+  login?: Maybe<AccessToken>;
+  /** Logs a User out by clearing the refresh token */
+  logout?: Maybe<Scalars['Boolean']>;
   /** Creates a new User */
   createUser?: Maybe<User>;
   /** Update a user */
@@ -86,11 +97,14 @@ export type Mutation = {
   /** Change a user's password */
   updateUserPassword?: Maybe<User>;
   /** Creates a new World and adds it to the Worlds array of the User with the given ownerId */
-  createWorld?: Maybe<Scalars['String']>;
-  /** Logs a User in, giving them an AccessToken */
-  login?: Maybe<AccessToken>;
-  /** Logs a User out by clearing the refresh token */
-  logout?: Maybe<Scalars['Boolean']>;
+  createWorld?: Maybe<World>;
+};
+
+
+/** Root mutation for updates, deletes, and creation */
+export type MutationLoginArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
 };
 
 
@@ -128,13 +142,6 @@ export type MutationCreateWorldArgs = {
   genres: Array<Maybe<Scalars['String']>>;
 };
 
-
-/** Root mutation for updates, deletes, and creation */
-export type MutationLoginArgs = {
-  email: Scalars['String'];
-  password: Scalars['String'];
-};
-
 /** An access token for authorization */
 export type AccessToken = {
   __typename?: 'AccessToken';
@@ -161,6 +168,19 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 export type LogoutMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'logout'>
+);
+
+export type UserPagesQueryVariables = Exact<{
+  ownerId: Scalars['String'];
+}>;
+
+
+export type UserPagesQuery = (
+  { __typename?: 'Query' }
+  & { userPages?: Maybe<Array<Maybe<(
+    { __typename?: 'Page' }
+    & Pick<Page, 'id' | 'name' | 'updatedAt'>
+  )>>> }
 );
 
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
@@ -219,6 +239,19 @@ export type UpdateUserPasswordMutation = (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'name' | 'email' | 'password' | 'penName' | 'bio'>
   )> }
+);
+
+export type UserWorldsQueryVariables = Exact<{
+  ownerId: Scalars['String'];
+}>;
+
+
+export type UserWorldsQuery = (
+  { __typename?: 'Query' }
+  & { userWorlds?: Maybe<Array<Maybe<(
+    { __typename?: 'World' }
+    & Pick<World, 'id' | 'name' | 'updatedAt'>
+  )>>> }
 );
 
 
@@ -322,6 +355,60 @@ export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<Logou
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export const UserPagesDocument = gql`
+    query UserPages($ownerId: String!) {
+  userPages(ownerId: $ownerId) {
+    id
+    name
+    updatedAt
+  }
+}
+    `;
+export type UserPagesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UserPagesQuery, UserPagesQueryVariables>, 'query'> & ({ variables: UserPagesQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const UserPagesComponent = (props: UserPagesComponentProps) => (
+      <ApolloReactComponents.Query<UserPagesQuery, UserPagesQueryVariables> query={UserPagesDocument} {...props} />
+    );
+    
+export type UserPagesProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<UserPagesQuery, UserPagesQueryVariables>
+    } & TChildProps;
+export function withUserPages<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UserPagesQuery,
+  UserPagesQueryVariables,
+  UserPagesProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, UserPagesQuery, UserPagesQueryVariables, UserPagesProps<TChildProps, TDataName>>(UserPagesDocument, {
+      alias: 'userPages',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useUserPagesQuery__
+ *
+ * To run a query within a React component, call `useUserPagesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserPagesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserPagesQuery({
+ *   variables: {
+ *      ownerId: // value for 'ownerId'
+ *   },
+ * });
+ */
+export function useUserPagesQuery(baseOptions: Apollo.QueryHookOptions<UserPagesQuery, UserPagesQueryVariables>) {
+        return Apollo.useQuery<UserPagesQuery, UserPagesQueryVariables>(UserPagesDocument, baseOptions);
+      }
+export function useUserPagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserPagesQuery, UserPagesQueryVariables>) {
+          return Apollo.useLazyQuery<UserPagesQuery, UserPagesQueryVariables>(UserPagesDocument, baseOptions);
+        }
+export type UserPagesQueryHookResult = ReturnType<typeof useUserPagesQuery>;
+export type UserPagesLazyQueryHookResult = ReturnType<typeof useUserPagesLazyQuery>;
+export type UserPagesQueryResult = Apollo.QueryResult<UserPagesQuery, UserPagesQueryVariables>;
 export const UsersDocument = gql`
     query Users {
   users {
@@ -554,3 +641,57 @@ export function useUpdateUserPasswordMutation(baseOptions?: Apollo.MutationHookO
 export type UpdateUserPasswordMutationHookResult = ReturnType<typeof useUpdateUserPasswordMutation>;
 export type UpdateUserPasswordMutationResult = Apollo.MutationResult<UpdateUserPasswordMutation>;
 export type UpdateUserPasswordMutationOptions = Apollo.BaseMutationOptions<UpdateUserPasswordMutation, UpdateUserPasswordMutationVariables>;
+export const UserWorldsDocument = gql`
+    query UserWorlds($ownerId: String!) {
+  userWorlds(ownerId: $ownerId) {
+    id
+    name
+    updatedAt
+  }
+}
+    `;
+export type UserWorldsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UserWorldsQuery, UserWorldsQueryVariables>, 'query'> & ({ variables: UserWorldsQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const UserWorldsComponent = (props: UserWorldsComponentProps) => (
+      <ApolloReactComponents.Query<UserWorldsQuery, UserWorldsQueryVariables> query={UserWorldsDocument} {...props} />
+    );
+    
+export type UserWorldsProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<UserWorldsQuery, UserWorldsQueryVariables>
+    } & TChildProps;
+export function withUserWorlds<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UserWorldsQuery,
+  UserWorldsQueryVariables,
+  UserWorldsProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, UserWorldsQuery, UserWorldsQueryVariables, UserWorldsProps<TChildProps, TDataName>>(UserWorldsDocument, {
+      alias: 'userWorlds',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useUserWorldsQuery__
+ *
+ * To run a query within a React component, call `useUserWorldsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserWorldsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserWorldsQuery({
+ *   variables: {
+ *      ownerId: // value for 'ownerId'
+ *   },
+ * });
+ */
+export function useUserWorldsQuery(baseOptions: Apollo.QueryHookOptions<UserWorldsQuery, UserWorldsQueryVariables>) {
+        return Apollo.useQuery<UserWorldsQuery, UserWorldsQueryVariables>(UserWorldsDocument, baseOptions);
+      }
+export function useUserWorldsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserWorldsQuery, UserWorldsQueryVariables>) {
+          return Apollo.useLazyQuery<UserWorldsQuery, UserWorldsQueryVariables>(UserWorldsDocument, baseOptions);
+        }
+export type UserWorldsQueryHookResult = ReturnType<typeof useUserWorldsQuery>;
+export type UserWorldsLazyQueryHookResult = ReturnType<typeof useUserWorldsLazyQuery>;
+export type UserWorldsQueryResult = Apollo.QueryResult<UserWorldsQuery, UserWorldsQueryVariables>;

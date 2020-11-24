@@ -1,0 +1,7 @@
+query UserWorlds($ownerId: String!) {
+    userWorlds(ownerId: $ownerId) {
+        id
+        name
+        updatedAt
+    }
+}
