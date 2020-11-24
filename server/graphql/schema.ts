@@ -10,6 +10,7 @@ import {
     updateUserMutation,
 } from "./mutations/user-mutations";
 import { createWorldMutation } from "./mutations/world-mutations";
+import { getAllUserPagesQuery } from "./queries/page-queries";
 
 const RootQuery = new GraphQLObjectType({
     name: "Query",
@@ -18,6 +19,7 @@ const RootQuery = new GraphQLObjectType({
         users: getAllUsersQuery,
         user: getSingleUserQuery,
         userWorlds: getAllUserWorldsQuery,
+        userPages: getAllUserPagesQuery,
     }),
 });
 

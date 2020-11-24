@@ -12,7 +12,7 @@ export const getAllUsersQuery = {
     type: GraphQLList(UserType),
     description: "A list of all Users",
     resolve: (_parent: any, _args: any, context: Context) => {
-        authService.authenticateToken(context); // should throw an error if user is not authenticated
+        //authService.authenticateToken(context); // should throw an error if user is not authenticated
         return usersResolver();
     },
 };
