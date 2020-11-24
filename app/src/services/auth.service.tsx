@@ -11,10 +11,13 @@ function setAccessToken(token: string) {
 }
 
 async function refreshAccessToken() {
-    const response = await fetch("http://localhost:5000/refresh-token", {
-        method: "POST",
-        credentials: "include",
-    });
+    const response = await fetch(
+        process.env.REACT_APP_BACKEND_URI + "/refresh-token",
+        {
+            method: "POST",
+            credentials: "include",
+        }
+    );
     const x = await response.json();
     setAccessToken(x.accessToken);
 }
