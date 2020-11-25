@@ -2,6 +2,8 @@ query UserWorlds($ownerId: String!) {
     userWorlds(ownerId: $ownerId) {
         id
         name
+        description
+        genres
         updatedAt
     }
 }
