@@ -3,6 +3,7 @@ import {
     Box,
     Button,
     Card,
+    CardActionArea,
     CardActions,
     CardContent,
     CardHeader,
@@ -55,13 +56,44 @@ const UserWorldsList: React.FC = () => {
     const [sortBy, setSortBy] = useState<string>("Most Recent");
     console.log(genreFilter);
     const worldsLoading = false;
-    const worlds = {
+    let worlds = {
         userWorlds: [
             {
                 id: "1",
                 name: "Narnia",
                 description: "",
                 genres: ["Fantasy"],
+                createdAt: "11/25/2020 at 7:58pm",
+                updatedAt: "11/25/2020 at 7:58pm",
+            },
+            {
+                id: "2",
+                name: "Earth",
+                description: "",
+                genres: ["Fantasy", "Nonfiction", "Romance"],
+                createdAt: "11/25/2020 at 7:58pm",
+                updatedAt: "11/25/2020 at 7:58pm",
+            },
+            {
+                id: "3",
+                name: "Middle Earth",
+                description:
+                    "This is a test description that is supposed to be a couple sentences long. The second line may or may not go onto the next line but if it does then no worries because I have already aligned the Avatar at the start",
+                genres: ["Fantasy"],
+                createdAt: "11/25/2020 at 7:58pm",
+                updatedAt: "11/25/2020 at 7:58pm",
+            },
+            {
+                id: "4",
+                name: "Earth2",
+                description: "",
+                genres: [
+                    "Nonfiction",
+                    "Romance",
+                    "Thriller",
+                    "Adventure",
+                    "Action",
+                ],
                 createdAt: "11/25/2020 at 7:58pm",
                 updatedAt: "11/25/2020 at 7:58pm",
             },
@@ -76,7 +108,8 @@ const UserWorldsList: React.FC = () => {
     };
 
     const onSortByChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSortBy(event.target.value);
+        const order = event.target.value;
+        setSortBy(order);
     };
 
     return (
@@ -264,93 +297,127 @@ const UserWorldsList: React.FC = () => {
                     ) : (
                         <>
                             <Grid item xs={12} sm={12} md={12}>
-                                {worlds!.userWorlds!.map((world) => {
-                                    return (
-                                        <Card
-                                            variant="outlined"
-                                            style={{
-                                                width: "100%",
-                                                marginBottom: "10px",
-                                            }}
-                                            // key={i}
-                                        >
-                                            <CardHeader
-                                                title={world.name}
-                                                action={
-                                                    <>
-                                                        <Tooltip
-                                                            title="Edit"
-                                                            placement="top"
-                                                        >
-                                                            <IconButton
-                                                                aria-label="edit"
-                                                                component={Link}
-                                                                to={`/app/worlds/${world.id}`}
-                                                            >
-                                                                <CreateIcon fontSize="small" />
-                                                            </IconButton>
-                                                        </Tooltip>
-                                                    </>
-                                                }
-                                                subheader={
-                                                    <>
-                                                        {world.description
-                                                            ? world.description
-                                                            : "No description available"}
-                                                    </>
-                                                }
-                                            />
-
-                                            <CardActions>
-                                                <Box
-                                                    display="flex"
-                                                    width="100%"
+                                <List>
+                                    {worlds!.userWorlds!.map((world, i) => {
+                                        return (
+                                            <React.Fragment key={i}>
+                                                {i ? (
+                                                    <Divider
+                                                        variant="inset"
+                                                        component="li"
+                                                    />
+                                                ) : (
+                                                    ""
+                                                )}
+                                                <ListItem
+                                                    alignItems="flex-start"
+                                                    button
+                                                    key={i}
                                                 >
-                                                    {world.genres.map(
-                                                        (genre) => {
-                                                            return (
-                                                                <Chip
-                                                                    size="small"
-                                                                    color="default"
-                                                                    label={
-                                                                        genre
-                                                                    }
-                                                                />
-                                                            );
+                                                    <ListItemAvatar>
+                                                        <Avatar
+                                                            alt={world.name}
+                                                            src="World Image"
+                                                            variant="square"
+                                                        />
+                                                    </ListItemAvatar>
+                                                    <ListItemText
+                                                        primary={
+                                                            <>
+                                                                <Box
+                                                                    display="flex"
+                                                                    alignItems="center"
+                                                                >
+                                                                    <Typography
+                                                                        component="h2"
+                                                                        variant="h5"
+                                                                        display="inline"
+                                                                        color="textPrimary"
+                                                                    >
+                                                                        {
+                                                                            world.name
+                                                                        }
+                                                                    </Typography>{" "}
+                                                                    {world.genres
+                                                                        .slice(
+                                                                            0,
+                                                                            3
+                                                                        )
+                                                                        .map(
+                                                                            (
+                                                                                genre
+                                                                            ) => {
+                                                                                return (
+                                                                                    <Chip
+                                                                                        size="small"
+                                                                                        color="default"
+                                                                                        label={
+                                                                                            genre
+                                                                                        }
+                                                                                        style={{
+                                                                                            marginLeft:
+                                                                                                "5px",
+                                                                                        }}
+                                                                                    />
+                                                                                );
+                                                                            }
+                                                                        )}
+                                                                    {world
+                                                                        .genres
+                                                                        .length >
+                                                                        3 && (
+                                                                        <Typography
+                                                                            variant="body1"
+                                                                            component="p"
+                                                                            style={{
+                                                                                marginLeft:
+                                                                                    "5px",
+                                                                            }}
+                                                                        >
+                                                                            +
+                                                                            {world
+                                                                                .genres
+                                                                                .length -
+                                                                                3}{" "}
+                                                                        </Typography>
+                                                                    )}
+                                                                </Box>
+                                                            </>
                                                         }
-                                                    )}
-
-                                                    <Typography
-                                                        variant="body2"
-                                                        style={{
-                                                            marginLeft: "auto",
-                                                        }}
-                                                    >
-                                                        Created -{" "}
-                                                        {world.createdAt} |
-                                                        Updated -{" "}
-                                                        {world.updatedAt}
-                                                        {/* Created -{" "}
-                                            {moment(universe.createdAt).format(
-                                                "h:mma [on] MMMM Do, YYYY"
-                                            )}{" "}
-                                            | Updated -{" "}
-                                            {moment(universe.updatedAt).format(
-                                                "MMMM Do, YYYY"
-                                            )} */}
-                                                    </Typography>
-
-                                                    {/* <DeleteUniverseModal
-                                            universeName={universe.name}
-                                            ownerId={currentUser.id}
-                                            universeId={universe._id}
-                                            handleSubmit={handleUniverseDelete}
-                                        /> */}
-                                                </Box>
-                                            </CardActions>
-                                        </Card>
-                                    );
-                                })}
+                                                        secondary={
+                                                            <React.Fragment>
+                                                                <Typography
+                                                                    component="span"
+                                                                    variant="body1"
+                                                                    color="textPrimary"
+                                                                    display="block"
+                                                                >
+                                                                    {world.description
+                                                                        ? world.description
+                                                                        : "No description available"}
+                                                                </Typography>
+                                                                <Typography
+                                                                    component="span"
+                                                                    variant="body2"
+                                                                    //color="textPrimary"
+                                                                >
+                                                                    Created -{" "}
+                                                                    {
+                                                                        world.createdAt
+                                                                    }{" "}
+                                                                    | Updated -{" "}
+                                                                    {
+                                                                        world.updatedAt
+                                                                    }
+                                                                </Typography>
+                                                            </React.Fragment>
+                                                        }
+                                                    />
+                                                </ListItem>
+                                            </React.Fragment>
+                                        );
+                                    })}
+                                </List>
                             </Grid>
                         </>
                     )}
