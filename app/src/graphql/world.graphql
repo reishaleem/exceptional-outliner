@@ -7,3 +7,19 @@ query UserWorlds($ownerId: String!) {
         updatedAt
     }
 }
+
+mutation CreateWorld(
+    $ownerId: ID!
+    $name: String!
+    $genres: [String]!
+    $description: String!
+) {
+    createWorld(
+        ownerId: $ownerId
+        name: $name
+        genres: $genres
+        description: $description
+    ) {
+        id
+    }
+}

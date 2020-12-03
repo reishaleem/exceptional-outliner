@@ -129,7 +129,7 @@ const UserWorldsList: React.FC = () => {
                             variant="contained"
                             color="primary"
                             component={Link}
-                            to="/app/worlds/new"
+                            to="/worlds/new"
                             style={{
                                 marginLeft: "auto",
                                 marginBlockStart: "0.83em",

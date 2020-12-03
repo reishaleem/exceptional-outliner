@@ -254,6 +254,22 @@ export type UserWorldsQuery = (
   )>>> }
 );
 
+export type CreateWorldMutationVariables = Exact<{
+  ownerId: Scalars['ID'];
+  name: Scalars['String'];
+  genres: Array<Maybe<Scalars['String']>>;
+  description: Scalars['String'];
+}>;
+
+
+export type CreateWorldMutation = (
+  { __typename?: 'Mutation' }
+  & { createWorld?: Maybe<(
+    { __typename?: 'World' }
+    & Pick<World, 'id'>
+  )> }
+);
+
 
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
@@ -697,3 +713,62 @@ export function useUserWorldsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type UserWorldsQueryHookResult = ReturnType<typeof useUserWorldsQuery>;
 export type UserWorldsLazyQueryHookResult = ReturnType<typeof useUserWorldsLazyQuery>;
 export type UserWorldsQueryResult = Apollo.QueryResult<UserWorldsQuery, UserWorldsQueryVariables>;
+export const CreateWorldDocument = gql`
+    mutation CreateWorld($ownerId: ID!, $name: String!, $genres: [String]!, $description: String!) {
+  createWorld(
+    ownerId: $ownerId
+    name: $name
+    genres: $genres
+    description: $description
+  ) {
+    id
+  }
+}
+    `;
+export type CreateWorldMutationFn = Apollo.MutationFunction<CreateWorldMutation, CreateWorldMutationVariables>;
+export type CreateWorldComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateWorldMutation, CreateWorldMutationVariables>, 'mutation'>;
+
+    export const CreateWorldComponent = (props: CreateWorldComponentProps) => (
+      <ApolloReactComponents.Mutation<CreateWorldMutation, CreateWorldMutationVariables> mutation={CreateWorldDocument} {...props} />
+    );
+    
+export type CreateWorldProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: Apollo.MutationFunction<CreateWorldMutation, CreateWorldMutationVariables>
+    } & TChildProps;
+export function withCreateWorld<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  CreateWorldMutation,
+  CreateWorldMutationVariables,
+  CreateWorldProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, CreateWorldMutation, CreateWorldMutationVariables, CreateWorldProps<TChildProps, TDataName>>(CreateWorldDocument, {
+      alias: 'createWorld',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useCreateWorldMutation__
+ *
+ * To run a mutation, you first call `useCreateWorldMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateWorldMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createWorldMutation, { data, loading, error }] = useCreateWorldMutation({
+ *   variables: {
+ *      ownerId: // value for 'ownerId'
+ *      name: // value for 'name'
+ *      genres: // value for 'genres'
+ *      description: // value for 'description'
+ *   },
+ * });
+ */
+export function useCreateWorldMutation(baseOptions?: Apollo.MutationHookOptions<CreateWorldMutation, CreateWorldMutationVariables>) {
+        return Apollo.useMutation<CreateWorldMutation, CreateWorldMutationVariables>(CreateWorldDocument, baseOptions);
+      }
+export type CreateWorldMutationHookResult = ReturnType<typeof useCreateWorldMutation>;
+export type CreateWorldMutationResult = Apollo.MutationResult<CreateWorldMutation>;
+export type CreateWorldMutationOptions = Apollo.BaseMutationOptions<CreateWorldMutation, CreateWorldMutationVariables>;

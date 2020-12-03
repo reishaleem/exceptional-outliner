@@ -11,6 +11,7 @@ import UserSettings from "./components/pages/app/UserSettings/UserSettings";
 
 import AuthService from "./services/auth.service";
 import UserWorldsList from "./components/pages/app/UserWorldList/UserWorldList";
+import CreateWorld from "./components/pages/app/CreateWorld/CreateWorld";
 
 function App() {
     const [loading, setLoading] = useState(true);
@@ -48,6 +49,9 @@ function App() {
                 </AppRoute>
                 <AppRoute path="/worlds" exact>
                     <UserWorldsList />
+                </AppRoute>
+                <AppRoute path="/worlds/new" exact>
+                    <CreateWorld />
                 </AppRoute>
             </Switch>
         </BrowserRouter>
