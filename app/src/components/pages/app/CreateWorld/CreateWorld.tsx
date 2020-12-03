@@ -19,6 +19,7 @@ import { useCreateWorldMutation } from "../../../../graphql/generated/graphql";
 import AuthService from "../../../../services/auth.service";
 
 import { genres } from "../../../../constants/WorldConstants";
+import Chip from "@material-ui/core/Chip";
 
 interface FormFields {
     name: string;
@@ -71,6 +72,12 @@ const CreateWorld: React.FC = () => {
         },
     });
 
+    const handleGenreDelete = (genreToDelete: string) => () => {
+        formik.values.genres = formik.values.genres.filter(
+            (genre) => genre !== genreToDelete
+        );
+    };
+
     async function handleSubmit(request: FormFields, setSubmitting: any) {
         const response = await createWorld({
             variables: {
@@ -121,7 +128,8 @@ const CreateWorld: React.FC = () => {
                                     fullWidth
                                     id="name"
                                     name="name"
-                                    label="Name"
+                                    label="What is your World's name?"
+                                    placeholder="e.g. Middle Earth, Narnia, Earthland, World2"
                                     value={formik.values.name}
                                     onChange={formik.handleChange}
                                     error={
@@ -132,6 +140,9 @@ const CreateWorld: React.FC = () => {
                                         formik.touched.name &&
                                         formik.errors.name
                                     }
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
                                     disabled={formik.isSubmitting}
                                 />
                             </Box>
@@ -148,6 +159,9 @@ const CreateWorld: React.FC = () => {
                                         formik.touched.name &&
                                         formik.errors.name
                                     }
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
                                     disabled={formik.isSubmitting}
                                     fullWidth
                                     select
@@ -171,21 +185,88 @@ const CreateWorld: React.FC = () => {
                                         },
                                         renderValue: (selected) => {
                                             if (
-                                                (selected as string[]).length >
-                                                1
+                                                (selected as string[])
+                                                    .length === 0
                                             ) {
-                                                return `${
-                                                    (selected as string[])[0]
-                                                } +${
-                                                    (selected as string[])
-                                                        .length - 1
-                                                }`;
+                                                return (
+                                                    <Typography
+                                                        variant="body1"
+                                                        component="p"
+                                                        style={{
+                                                            color: "grey",
+                                                        }}
+                                                    >
+                                                        Select a genre
+                                                    </Typography>
+                                                );
+                                            } else if (
+                                                (selected as string[]).length >
+                                                3
+                                            ) {
+                                                return (
+                                                    <>
+                                                        <Box
+                                                            display="flex"
+                                                            flexWrap="wrap"
+                                                            alignItems="center"
+                                                        >
+                                                            {(selected as string[])
+                                                                .slice(0, 3)
+                                                                .map(
+                                                                    (value) => (
+                                                                        <Chip
+                                                                            key={
+                                                                                value
+                                                                            }
+                                                                            label={
+                                                                                value
+                                                                            }
+                                                                            style={{
+                                                                                margin: 2,
+                                                                            }}
+                                                                        />
+                                                                    )
+                                                                )}
+
+                                                            <Typography
+                                                                variant="body1"
+                                                                component="p"
+                                                                style={{
+                                                                    marginLeft:
+                                                                        "5px",
+                                                                }}
+                                                                display="inline"
+                                                            >
+                                                                +
+                                                                {(selected as string[])
+                                                                    .length -
+                                                                    3}{" "}
+                                                            </Typography>
+                                                        </Box>
+                                                    </>
+                                                );
                                             }
 
-                                            return (selected as string[]).join(
-                                                ", "
+                                            return (
+                                                <Box
+                                                    display="flex"
+                                                    flexWrap="wrap"
+                                                >
+                                                    {(selected as string[]).map(
+                                                        (value) => (
+                                                            <Chip
+                                                                key={value}
+                                                                label={value}
+                                                                style={{
+                                                                    margin: 2,
+                                                                }}
+                                                            />
+                                                        )
+                                                    )}
+                                                </Box>
                                             );
                                         },
+                                        displayEmpty: true,
                                     }}
                                     value={formik.values.genres}
                                     onChange={formik.handleChange}
@@ -211,7 +292,8 @@ const CreateWorld: React.FC = () => {
                                     fullWidth
                                     id="description"
                                     name="description"
-                                    label="Description"
+                                    label="What is your World about? (Optional)"
+                                    placeholder="Write a short paragraph that evokes the wonderful or not so wonderful aspects of your world. A teaser of what is to come"
                                     value={formik.values.description}
                                     onChange={formik.handleChange}
                                     error={
@@ -222,6 +304,9 @@ const CreateWorld: React.FC = () => {
                                         formik.touched.description &&
                                         formik.errors.description
                                     }
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
                                     disabled={formik.isSubmitting}
                                     multiline
                                     rows={4}
