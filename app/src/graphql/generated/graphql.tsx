@@ -250,7 +250,7 @@ export type UserWorldsQuery = (
   { __typename?: 'Query' }
   & { userWorlds?: Maybe<Array<Maybe<(
     { __typename?: 'World' }
-    & Pick<World, 'id' | 'name' | 'description' | 'genres' | 'updatedAt'>
+    & Pick<World, 'id' | 'name' | 'description' | 'genres' | 'createdAt' | 'updatedAt'>
   )>>> }
 );
 
@@ -664,6 +664,7 @@ export const UserWorldsDocument = gql`
     name
     description
     genres
+    createdAt
     updatedAt
   }
 }

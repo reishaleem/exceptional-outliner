@@ -4,6 +4,7 @@ query UserWorlds($ownerId: String!) {
         name
         description
         genres
+        createdAt
         updatedAt
     }
 }

@@ -1,26 +1,24 @@
-import {
-    Box,
-    Button,
-    Checkbox,
-    Divider,
-    Grid,
-    ListItemText,
-    MenuItem,
-    TextField,
-    Typography,
-    useTheme,
-} from "@material-ui/core";
-
 import React, { useState } from "react";
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+import Checkbox from "@material-ui/core/Checkbox";
+import Divider from "@material-ui/core/Divider";
+import Grid from "@material-ui/core/Grid";
+import ListItemText from "@material-ui/core/ListItemText";
+import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import { useFormik } from "formik";
+import { useHistory } from "react-router-dom";
 
 import MainWrapper from "../../../organisms/Wrapper/Main/MainWrapper";
 import Notification from "../../../atoms/Notification/Notification";
 
 import { useCreateWorldMutation } from "../../../../graphql/generated/graphql";
+
 import AuthService from "../../../../services/auth.service";
+
 import { genres } from "../../../../constants/WorldConstants";
-import { useHistory } from "react-router-dom";
-import { useFormik } from "formik";
 
 interface FormFields {
     name: string;
@@ -245,7 +243,7 @@ const CreateWorld: React.FC = () => {
                 <Grid item xs={12} sm={12} md={1}></Grid>
 
                 <Notification
-                    message="An error occurred. Please try again."
+                    message={errorMessage}
                     severity="error"
                     open={openError}
                     setOpen={setOpenError}

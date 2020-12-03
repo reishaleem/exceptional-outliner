@@ -1,104 +1,52 @@
-import {
-    Avatar,
-    Box,
-    Button,
-    Card,
-    CardActionArea,
-    CardActions,
-    CardContent,
-    CardHeader,
-    Checkbox,
-    Chip,
-    Divider,
-    FormControl,
-    FormControlLabel,
-    Grid,
-    IconButton,
-    Input,
-    InputAdornment,
-    InputLabel,
-    List,
-    ListItem,
-    ListItemAvatar,
-    ListItemText,
-    MenuItem,
-    Select,
-    TextField,
-    Tooltip,
-    Typography,
-    useTheme,
-} from "@material-ui/core";
-import OnePiece from "../../../../images/onepieceworld.jpg";
-import CreateIcon from "@material-ui/icons/Create";
-import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
-import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import React, { useState } from "react";
+import Avatar from "@material-ui/core/Avatar";
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+import Checkbox from "@material-ui/core/Checkbox";
+import Chip from "@material-ui/core/Chip";
+import Divider from "@material-ui/core/Divider";
+import Grid from "@material-ui/core/Grid";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import ListItemText from "@material-ui/core/ListItemText";
+import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import useTheme from "@material-ui/core/styles/useTheme";
+import SearchIcon from "@material-ui/icons/Search";
+import dayjs from "dayjs";
+import { Link } from "react-router-dom";
 
 import MainWrapper from "../../../organisms/Wrapper/Main/MainWrapper";
+import Notification from "../../../atoms/Notification/Notification";
 
 import { useUserWorldsQuery } from "../../../../graphql/generated/graphql";
+
 import AuthService from "../../../../services/auth.service";
-import SearchIcon from "@material-ui/icons/Search";
+
 import { genres, sortByOptions } from "../../../../constants/WorldConstants";
-import { Link } from "react-router-dom";
+
 const UserWorldsList: React.FC = () => {
-    // const currentUser = AuthService.getCurrentUser();
-    // const {
-    //     loading: worldsLoading,
-    //     error: worldsError,
-    //     data: worlds,
-    // } = useUserWorldsQuery({
-    //     variables: {
-    //         ownerId: currentUser.id,
-    //     },
-    // });
+    const [errorMessage, setErrorMessage] = useState("");
+    const [openError, setOpenError] = useState<boolean>(false);
+    const currentUser = AuthService.getCurrentUser();
+    const { loading: worldsLoading, data: worlds } = useUserWorldsQuery({
+        variables: {
+            ownerId: currentUser.id,
+        },
+        onError: (error) => {
+            setErrorMessage(error.message);
+            setOpenError(true);
+        },
+        onCompleted: () => {
+            setErrorMessage("");
+        },
+    });
     const [genreFilter, setGenreFilter] = useState<string[]>([]);
     const [sortBy, setSortBy] = useState<string>("Most Recent");
-    console.log(genreFilter);
-    const worldsLoading = false;
-    let worlds = {
-        userWorlds: [
-            {
-                id: "1",
-                name: "Narnia",
-                description: "",
-                genres: ["Fantasy"],
-                createdAt: "11/25/2020 at 7:58pm",
-                updatedAt: "11/25/2020 at 7:58pm",
-            },
-            {
-                id: "2",
-                name: "Earth",
-                description: "",
-                genres: ["Fantasy", "Nonfiction", "Romance"],
-                createdAt: "11/25/2020 at 7:58pm",
-                updatedAt: "11/25/2020 at 7:58pm",
-            },
-            {
-                id: "3",
-                name: "Middle Earth",
-                description:
-                    "This is a test description that is supposed to be a couple sentences long. The second line may or may not go onto the next line but if it does then no worries because I have already aligned the Avatar at the start",
-                genres: ["Fantasy"],
-                createdAt: "11/25/2020 at 7:58pm",
-                updatedAt: "11/25/2020 at 7:58pm",
-            },
-            {
-                id: "4",
-                name: "Earth2",
-                description: "",
-                genres: [
-                    "Nonfiction",
-                    "Romance",
-                    "Thriller",
-                    "Adventure",
-                    "Action",
-                ],
-                createdAt: "11/25/2020 at 7:58pm",
-                updatedAt: "11/25/2020 at 7:58pm",
-            },
-        ],
-    };
+
     const theme = useTheme();
 
     const onGenreFilterChange = (
@@ -312,11 +260,13 @@ const UserWorldsList: React.FC = () => {
                                                 <ListItem
                                                     alignItems="flex-start"
                                                     button
+                                                    component={Link}
+                                                    to={`/worlds/${world!.id}`}
                                                     key={i}
                                                 >
                                                     <ListItemAvatar>
                                                         <Avatar
-                                                            alt={world.name}
+                                                            alt={world!.name!}
                                                             src="World Image"
                                                             variant="square"
                                                         />
@@ -335,11 +285,12 @@ const UserWorldsList: React.FC = () => {
                                                                         color="textPrimary"
                                                                     >
                                                                         {
-                                                                            world.name
+                                                                            world!
+                                                                                .name
                                                                         }
                                                                     </Typography>{" "}
-                                                                    {world.genres
-                                                                        .slice(
+                                                                    {world!
+                                                                        .genres!.slice(
                                                                             0,
                                                                             3
                                                                         )
@@ -362,8 +313,8 @@ const UserWorldsList: React.FC = () => {
                                                                                 );
                                                                             }
                                                                         )}
-                                                                    {world
-                                                                        .genres
+                                                                    {world!
+                                                                        .genres!
                                                                         .length >
                                                                         3 && (
                                                                         <Typography
@@ -375,8 +326,8 @@ const UserWorldsList: React.FC = () => {
                                                                             }}
                                                                         >
                                                                             +
-                                                                            {world
-                                                                                .genres
+                                                                            {world!
+                                                                                .genres!
                                                                                 .length -
                                                                                 3}{" "}
                                                                         </Typography>
@@ -392,8 +343,10 @@ const UserWorldsList: React.FC = () => {
                                                                     color="textPrimary"
                                                                     display="block"
                                                                 >
-                                                                    {world.description
-                                                                        ? world.description
+                                                                    {world!
+                                                                        .description
+                                                                        ? world!
+                                                                              .description
                                                                         : "No description available"}
                                                                 </Typography>
                                                                 <Typography
@@ -402,13 +355,23 @@ const UserWorldsList: React.FC = () => {
                                                                     //color="textPrimary"
                                                                 >
                                                                     Created -{" "}
-                                                                    {
-                                                                        world.createdAt
-                                                                    }{" "}
+                                                                    {dayjs(
+                                                                        parseInt(
+                                                                            world!
+                                                                                .createdAt!
+                                                                        )
+                                                                    ).format(
+                                                                        "MMM DD, YYYY [at] h:mma"
+                                                                    )}{" "}
                                                                     | Updated -{" "}
-                                                                    {
-                                                                        world.updatedAt
-                                                                    }
+                                                                    {dayjs(
+                                                                        parseInt(
+                                                                            world!
+                                                                                .updatedAt!
+                                                                        )
+                                                                    ).format(
+                                                                        "MMM DD, YYYY [at] h:mma"
+                                                                    )}
                                                                 </Typography>
                                                             </React.Fragment>
                                                         }
@@ -423,6 +386,12 @@ const UserWorldsList: React.FC = () => {
                     )}
                 </Grid>
                 <Grid item xs={12} sm={12} md={1}></Grid>
+                <Notification
+                    message={errorMessage}
+                    severity="error"
+                    open={openError}
+                    setOpen={setOpenError}
+                />
             </MainWrapper>
         </>
     );
