@@ -72,11 +72,11 @@ const CreateWorld: React.FC = () => {
         },
     });
 
-    const handleGenreDelete = (genreToDelete: string) => () => {
-        formik.values.genres = formik.values.genres.filter(
-            (genre) => genre !== genreToDelete
-        );
-    };
+    // const handleGenreDelete = (genreToDelete: string) => () => {
+    //     formik.values.genres = formik.values.genres.filter(
+    //         (genre) => genre !== genreToDelete
+    //     );
+    // };
 
     async function handleSubmit(request: FormFields, setSubmitting: any) {
         const response = await createWorld({
